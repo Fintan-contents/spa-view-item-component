@@ -1,0 +1,19 @@
+{
+  "antd": "5.21.0",
+  "@mui/material": "6.1.1",
+  "@mui/icons-material": "6.1.1",
+  "react-bootstrap": "2.10.4",
+  "bootstrap": "5.3.3",
+  "@types/react-bootstrap": "0.32.37",
+  "yup": "1.4.0",
+  "zod": "3.23.8",
+  "axios": "1.7.7",
+  "@tanstack/react-query": "5.56.2",
+  "@mockoon/cli": "9.0.0",
+  "orval": "7.1.1",
+  "dayjs": "1.11.13",
+  "storybook": "8.3.3",
+  "@emotion/react": "11.13.5",
+  "@emotion/styled": "11.13.5",
+  "@mui/x-date-pickers": "7.23.0"
+}

@@ -1,0 +1,152 @@
+.label {
+  display: block;
+  margin-left: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  text-align: left;
+  font-size: 90%;
+}
+
+.label .ant-tag {
+  font-size: 75%;
+  vertical-align: top;
+  margin-left: 10px;
+  padding-inline: 4px;
+}
+
+.antd-ctrl {
+  width: 90%;
+  margin-left: 10px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  min-width: 40px;
+  min-height: 45px;
+  border-color: #cccccc44;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 8px;
+  background-color: #f6f7fcbb;
+  font-size: 16px;
+  outline: none;
+}
+
+.antd-ctrl:focus {
+  background-color: white;
+  /* border-color: azure; */
+}
+
+.antd-ctrl.input-number {
+  width: 40%;
+  min-width: 80px;
+}
+
+.antd-ctrl.ant-input-number .ant-input-number-input {
+  padding: 0px;
+}
+
+.antd-ctrl.validation-error {
+  border-style: solid;
+  border-color: #f01818bf;
+  border-width: 1px;
+}
+
+.antd-ctrl.readonly {
+  background: linear-gradient(to right, #989fd920, #a6a8e040);
+}
+
+.antd-ctrl.readonly .ant-select-selector {
+  background-color: #abafb783;
+  pointer-events: none;
+}
+
+.ant-picker.antd-ctrl.fit-content.readonly {
+  pointer-events: none;
+}
+
+.readonly .ant-radio-checked .ant-radio-inner {
+  background-color: #93abe9;
+}
+
+.readonly .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #93abe9;
+}
+
+.readonly:focus {
+  background: linear-gradient(to right, #a5bed73c, #c5def75c);
+}
+
+.checkbox-item {
+  margin: 3px 5px 3px 0px;
+  /* for-antd */
+  margin-inline-start: 0px;
+  /* for-antd */
+}
+
+.fit-content {
+  width: -moz-fit-content;
+  /* Firefox */
+  width: fit-content;
+  /* other browsers */
+  min-width: 120px;
+}
+
+.fit-content.checkbox {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.fit-content.multi-checkbox {
+  max-width: 85%;
+  min-height: 27px;
+  height: fit-content;
+}
+
+/* buttonのデフォルト配置は右下 */
+.button-area {
+  padding: 3px;
+  min-height: 100%;
+  width: 100%;
+  margin-right: 10px;
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: end;
+}
+
+.button-area.top {
+  justify-content: start;
+}
+
+.button-area.left {
+  align-items: flex-start;
+}
+
+.button-area.vertical-center {
+  justify-content: center;
+}
+
+.button-area.horizontal-center {
+  align-items: center;
+}
+
+.button-alert {
+  position: absolute;
+  width: fit-content;
+  white-space: nowrap;
+  bottom: 60px;
+}
+
+.button {
+  position: relative;
+  flex-wrap: wrap;
+  width: fit-content;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

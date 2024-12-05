@@ -1,0 +1,178 @@
+openapi: 3.0.0
+info:
+  title: React CS Example
+  version: 1.0.0
+  description: OpenAPI for example of React Cost Savings Component
+  contact: {}
+tags: []
+servers:
+  - url: "http://localhost:8080"
+security:
+  - Session: []
+paths:
+  /todos:
+    get:
+      summary: List todo
+      description: List todo
+      operationId: list-todo
+      parameters:
+        - name: page
+          in: query
+          description: ページ番号
+          schema:
+            type: number
+        - name: size
+          in: query
+          description: ページサイズ
+          schema:
+            type: number
+        - name: sort
+          in: query
+          description: ソート順
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListTodoResponse"
+              examples:
+                example-1:
+                  value:
+                    number: 0
+                    size: 0
+                    sort: string
+                    numberOfElements: 0
+                    totalElements: 0
+                    totalPages: 0
+                    currentPage: 0
+                    nextPage: 1
+                    content:
+                      - id: 0
+                        title: todo1
+                        description: １件目のＴＯＤＯ
+                      - id: 1
+                        title: todo2
+                        description: ２件目のＴＯＤＯ
+                    empty: true
+                    first: true
+                    last: true
+        "400":
+          $ref: "#/components/responses/BadRequest"
+    post:
+      summary: Create todo
+      description: Create todo
+      tags:
+        - todos
+      operationId: post-todo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TodoRegistration"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todo"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+components:
+  schemas:
+    Todo:
+      title: Todo
+      type: object
+      description: Todo
+      properties:
+        id:
+          type: number
+          description: Todo Id
+        title:
+          type: string
+          description: Todo title
+        description:
+          type: string
+          description: Todo description
+      required:
+        - id
+        - title
+        - description
+    TodoRegistration:
+      title: TodoRegistration
+      type: object
+      description: TodoRegistration
+      properties:
+        title:
+          type: string
+          description: Todo title
+        description:
+          type: string
+          description: Todo description
+      required:
+        - title
+        - description
+    ListTodoResponse:
+      title: ListTodoResponse
+      type: object
+      description: ListTodoResponse
+      properties:
+        number:
+          type: number
+          description: Current page number
+        size:
+          type: number
+          description: Page size
+        sort:
+          type: string
+          description: Sort key
+        numberOfElements:
+          type: number
+          description: Number of current page elements.
+          nullable: true
+        totalElements:
+          type: number
+          description: Total elements
+        totalPages:
+          type: number
+          description: Total pages
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/Todo"
+        empty:
+          type: boolean
+          description: Whether the content is empty
+        first:
+          type: boolean
+          description: Whether this page is the first page
+        last:
+          type: boolean
+          description: Whether this page is the last page
+      required:
+        - currentPage
+        - nextPage
+    ErrorResponse:
+      title: Error
+      type: object
+      description: Error Response
+      properties:
+        code:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Error message
+      required:
+        - code
+        - message
+  responses:
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
