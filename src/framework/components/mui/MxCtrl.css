@@ -89,6 +89,10 @@
   pointer-events: none;
 }
 
+.mui-ctrl.readonly .MuiInputBase-root {
+  pointer-events: none;
+}
+
 .mui-ctrl.readonly:focus {
   background: linear-gradient(to right, #a5bed73c, #c5def75c);
 }
@@ -103,12 +107,17 @@
   margin-inline-start: 0px !important;
 }
 
+.mui-ctrl.readonly .checkbox-item  {
+  pointer-events: none;
+}
+
+.mui-ctrl .MuiSelect-select {
+  padding: 4px;
+}
+
 .mui-ctrl.textarea {
   width: 90%;
-  border-radius: 5px;
-  padding: 8px;
   max-width: calc(90%-5px);
-  border: solid 1px lightgray;
   font-size: 16px;
   outline: none;
 }

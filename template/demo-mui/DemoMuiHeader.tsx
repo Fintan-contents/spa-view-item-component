@@ -77,13 +77,23 @@ type DemoHeaderProps = {
 export const DemoHeader = (props: DemoHeaderProps) => {
   const { view } = props;
   return (
-    <div style={{ display: "flex" }}>
-      <MxSelectNumberBox showRequiredTag="none" item={view.colSize} />
-      <MxCheckBox showRequiredTag="none" item={view.readonlyCheck} />
-      <MxSelectBox showRequiredTag="none" item={view.validationTrigger} />
-      <MxRadioBox showRequiredTag="none" item={view.labelType} />
+    <div style={{ display: "block" }}>
+      <div style={{ display: "inline-block", verticalAlign: "top" }}>
+        <MxSelectNumberBox showRequiredTag="none" item={view.colSize} />
+      </div>
+      <div style={{ display: "inline-block", verticalAlign: "top" }}>
+        <MxCheckBox showRequiredTag="none" item={view.readonlyCheck} />
+      </div>
+      <div style={{ display: "inline-block", verticalAlign: "top" }}>
+        <MxSelectBox showRequiredTag="none" item={view.validationTrigger} />
+      </div>
+      <div style={{ display: "inline-block", verticalAlign: "top" }}>
+        <MxRadioBox showRequiredTag="none" item={view.labelType} />
+      </div>
       {view.labelType.value === "left" && (
-        <MxSelectNumberBox showRequiredTag="none" item={view.labelWidth} />
+        <div style={{ display: "inline-block", verticalAlign: "top" }}>
+          <MxSelectNumberBox showRequiredTag="none" item={view.labelWidth} />
+        </div>
       )}
     </div>
   );

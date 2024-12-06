@@ -17,7 +17,7 @@ export interface MxInputDateProps extends MxProps<CsInputDateItem> {
 export const MxInputDate = (props: MxInputDateProps) => {
   const { item, muiProps } = props;
   const valueDayjs = !item.value
-    ? dayjs("Invalid Date")
+    ? undefined
     : dayjs(item.value);
   return (
     <MxEditCtrl<string>
@@ -65,10 +65,10 @@ export interface MxInputDateRangeProps extends MxProps<CsInputDateRangeItem> {
 export const MxInputDateRange = (props: MxInputDateRangeProps) => {
   const { item, muiPropsLower, muiPropsUpper } = props;
   const lowerValueDayjs = !item.lowerValue
-    ? dayjs("Invalid Date")
+    ? undefined
     : dayjs(item.lowerValue);
   const upperValueDayjs = !item.upperValue
-    ? dayjs("Invalid Date")
+    ? undefined
     : dayjs(item.upperValue);
   return (
     <MxEditCtrl
