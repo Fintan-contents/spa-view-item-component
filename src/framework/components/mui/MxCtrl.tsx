@@ -519,6 +519,8 @@ export const MxCheckBox = (props: MxCheckBoxProps) => {
                     if (item.isReadonly()) return;
                     item.setValue(checked);
                   }}
+                  // Readonlyならグレーアウト、チェック済みはハイライト。イベントはCSSで無効化
+                  disabled={item.isReadonly() && !item.value}
                   {...muiProps}
                 />
               }
@@ -582,6 +584,7 @@ export const MxMultiCheckBox = (props: MxMultiCheckBoxProps) => {
                           setRefresh(true);
                         }
                       }}
+                      // Readonlyならグレーアウト、チェック済みはハイライト。イベントはCSSで無効化
                       disabled={
                         item.isReadonly() && !item.value?.includes(value)
                       }
