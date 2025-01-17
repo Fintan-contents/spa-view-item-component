@@ -4,6 +4,6 @@
 
 ## インストール実施手順
 
-本リポジトリをローカルにダウンロードし、ルートディレクトリで以下のコマンドを実行してください。引数には、省力化コンポーネントをインストールしたいプロジェクトの絶対パスを指定してください。
+以下サイトを参照してください。
 
-    installer-cli\installer-for-next.bat ＜プロジェクトのルートディレクトリの絶対パス＞
+https://fintan-contents.github.io/spa-view-item-document/docs/introduction-guide/introduction-tool
