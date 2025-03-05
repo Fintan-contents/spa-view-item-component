@@ -101,7 +101,7 @@ const createStringConstraint = (
             : item.label +
               "が短すぎます。 " +
               sRule.min +
-              "文字より長い文字列を入力してください";
+              "文字以上の文字列を入力してください";
         sz = sz.min(min, message);
       }
       if (sRule.max !== undefined) {
@@ -110,7 +110,7 @@ const createStringConstraint = (
           item.label +
             "が長すぎます。 " +
             sRule.max +
-            "文字より短い文字列を入力してください",
+            "文字以下の文字列を入力してください",
         );
       }
     }
@@ -155,7 +155,7 @@ const createNumberConstraint = (
           item.label +
             "が小さすぎます。 " +
             nRule.min +
-            "より大きい数を入力してください",
+            "以上の数を入力してください",
         );
       }
       if (nRule.max !== undefined) {
@@ -164,7 +164,7 @@ const createNumberConstraint = (
           item.label +
             "が大きすぎます。 " +
             nRule.max +
-            "より小さい数を入力してください",
+            "以下の数を入力してください",
         );
       }
     }
@@ -220,7 +220,7 @@ const createNumberArrayConstraint = (
           item.label +
             "が小さすぎます。 " +
             nRule.min +
-            "より大きい数を入力してください",
+            "以上の数を入力してください",
         );
       if (nRule.max)
         nz = nz.max(
@@ -228,7 +228,7 @@ const createNumberArrayConstraint = (
           item.label +
             "が大きすぎます。 " +
             nRule.max +
-            "より小さい数を入力してください",
+            "以下の数を入力してください",
         );
     }
     let onz;
