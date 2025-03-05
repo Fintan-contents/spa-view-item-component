@@ -47,6 +47,21 @@ export const BSxLabel = (props: BSxLabelProp) => {
   );
 };
 
+export interface BSxLabelWithTagProps extends BSxLabelProp {
+  required: boolean;
+  showRequiredTag?: "both" | "required" | "optional" | "none";
+}
+
+export const BSxLabelWithTag = (props: BSxLabelWithTagProps) => {
+  const showTag = props.showRequiredTag ?? "both";
+  return (
+    <BSxLabel
+      label={getLabelWithTag(props.label, props.required, showTag)}
+      color={props.color}
+    />
+  );
+};
+
 export const getClassName = <T,>(
   props: BSxProps<CsItem<T>>,
   add?: string,
@@ -72,8 +87,17 @@ export const getLabel = <T,>(
   item: CsItem<T>,
   showRequiredTag?: "both" | "required" | "optional" | "none",
 ): ReactNode => {
+  const label = item.label;
   const required = item.validationRule?.required ?? false;
   const showTag = showRequiredTag ?? (item.parentView ? "both" : "none");
+  return getLabelWithTag(label, required, showTag);
+};
+
+export const getLabelWithTag = (
+  label: string | ReactNode,
+  required: boolean,
+  showTag: "both" | "required" | "optional" | "none",
+): ReactNode => {
   const requiredTag = () => {
     switch (showTag) {
       case "both":
@@ -102,7 +126,7 @@ export const getLabel = <T,>(
   };
   return (
     <span>
-      {item.label}
+      {label}
       {requiredTag()}
     </span>
   );
