@@ -12,7 +12,7 @@ import {
   CsInputDateRangeItem,
   CsInputNumberRangeItem,
 } from "../../logics";
-import { AxProps, AxEditCtrl, getClassName } from "./AxCtrl";
+import { AxEditCtrl, AxProps, getClassName } from "./AxCtrl";
 
 const { RangePicker } = DatePicker;
 type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
@@ -41,15 +41,18 @@ export const AxInputDate = (props: AxInputDateProps) => {
             className={getClassName(props, ["fit-content"])}
             value={item.value ? dayjs(item.value) : undefined}
             format={item.displayFormat}
+            {...antdProps}
             onChange={(value: Dayjs, dateString: string | string[]) => {
-              if (item.isReadonly()) return;
               const newValue = value?.format(item.valueFormat);
+              if (antdProps?.onChange) {
+                antdProps.onChange(value, newValue);
+              }
+              if (item.isReadonly()) return;
               item.setValue(newValue);
               if (!item.validateWhenErrorExists(newValue ?? "")) {
                 setRefresh(true);
               }
             }}
-            {...antdProps}
           />
         </div>
       )}
@@ -74,10 +77,15 @@ export const AxInputDateRange: React.FC<AxInputDateRangeProp> = (
         <RangePicker
           picker={item.isYearMonth() ? "month" : undefined}
           className={getClassName(props, ["fit-content"])}
+          allowClear={!item.validationRule.required}
+          value={[from, to] as [dayjs.Dayjs, dayjs.Dayjs]}
+          placeholder={[
+            item.lowerPlaceholder ?? "開始日を選択してください",
+            item.upperPlaceholder ?? "終了日を選択してください",
+          ]}
+          format={item.format}
+          {...antdProps}
           onCalendarChange={(dates, _, __) => {
-            if (item.isReadonly()) {
-              return;
-            }
             const newFrom =
               dates && dates.length == 2
                 ? dates[0]?.format(item.getValueFormat())
@@ -87,6 +95,12 @@ export const AxInputDateRange: React.FC<AxInputDateRangeProp> = (
                 ? dates[1]?.format(item.getValueFormat())
                 : undefined;
             const newValue = [newFrom ?? "", newTo ?? ""];
+            if (antdProps?.onCalendarChange) {
+              antdProps.onCalendarChange(dates, [newValue[0], newValue[1]], __);
+            }
+            if (item.isReadonly()) {
+              return;
+            }
             item.setValue(newValue);
             if (!item.validateWhenErrorExists(newValue)) {
               setRefresh(true);
@@ -100,15 +114,10 @@ export const AxInputDateRange: React.FC<AxInputDateRangeProp> = (
               setRefresh(true);
             }
           }}
-          allowClear={!item.validationRule.required}
-          value={[from, to] as [dayjs.Dayjs, dayjs.Dayjs]}
-          placeholder={[
-            item.lowerPlaceholder ?? "開始日を選択してください",
-            item.upperPlaceholder ?? "終了日を選択してください",
-          ]}
-          format={item.format}
-          {...antdProps}
           onBlur={(e, info) => {
+            if (antdProps?.onBlur) {
+              antdProps.onBlur(e, info);
+            }
             if (item.parentView?.validateTrigger === "onBlur") {
               // Calendar の変更を伴わないフォーカスアウトが行われた場合のバリデーション
               // onCalendarChange のバリデーションと重複してしまうので、値が未入力の場合に限定する。
@@ -121,9 +130,6 @@ export const AxInputDateRange: React.FC<AxInputDateRangeProp> = (
               ) {
                 setRefresh(true);
               }
-            }
-            if (antdProps?.onBlur) {
-              antdProps.onBlur(e, info);
             }
           }}
         />
@@ -149,7 +155,11 @@ export const AxInputNumberRange = (props: AxInputNumberRangeProps) => {
             className={getClassName(props, ["input-number"])}
             value={item.lowerValue}
             readOnly={item.isReadonly()}
+            {...antdPropsLower}
             onChange={(value) => {
+              if (antdPropsLower?.onChange) {
+                antdPropsLower.onChange(value);
+              }
               const newValue = value ? value : undefined;
               item.setLowerValue(newValue as number);
               if (
@@ -161,7 +171,10 @@ export const AxInputNumberRange = (props: AxInputNumberRangeProps) => {
                 setRefresh(true);
               }
             }}
-            onBlur={() => {
+            onBlur={(e) => {
+              if (antdPropsLower?.onBlur) {
+                antdPropsLower.onBlur(e);
+              }
               if (!item.lowerValue) return;
               if (item.upperValue && item.upperValue < item.lowerValue) {
                 item.setUpperValue(item.lowerValue);
@@ -173,14 +186,17 @@ export const AxInputNumberRange = (props: AxInputNumberRangeProps) => {
                 setRefresh(true);
               }
             }}
-            {...antdPropsLower}
           />
           <span> ～ </span>
           <InputNumber
             className={getClassName(props, ["input-number"])}
             value={item.upperValue}
             readOnly={item.isReadonly()}
+            {...antdPropsUpper}
             onChange={(value) => {
+              if (antdPropsUpper?.onChange) {
+                antdPropsUpper.onChange(value);
+              }
               const newValue = value ? value : undefined;
               item.setUpperValue(newValue as number);
               if (
@@ -192,7 +208,10 @@ export const AxInputNumberRange = (props: AxInputNumberRangeProps) => {
                 setRefresh(true);
               }
             }}
-            onBlur={() => {
+            onBlur={(e) => {
+              if (antdPropsUpper?.onBlur) {
+                antdPropsUpper?.onBlur(e);
+              }
               if (!item.upperValue) return;
               if (item.lowerValue && item.lowerValue > item.upperValue) {
                 item.setLowerValue(item.upperValue);
@@ -204,7 +223,6 @@ export const AxInputNumberRange = (props: AxInputNumberRangeProps) => {
                 setRefresh(true);
               }
             }}
-            {...antdPropsUpper}
           />
         </div>
       )}
