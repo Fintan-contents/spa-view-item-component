@@ -58,6 +58,21 @@ export const MxLabel = (props: MxLabelProp) => {
   );
 };
 
+export interface MxLabelWithTagProps extends MxLabelProp {
+  required: boolean;
+  showRequiredTag?: "both" | "required" | "optional" | "none";
+}
+
+export const MxLabelWithTag = (props: MxLabelWithTagProps) => {
+  const showTag = props.showRequiredTag ?? "both";
+  return (
+    <MxLabel
+      label={getLabelWithTag(props.label, props.required, showTag)}
+      color={props.color}
+    />
+  );
+};
+
 export const getClassName = <T,>(
   props: MxProps<CsItem<T>>,
   add?: string,
@@ -83,8 +98,17 @@ export const getLabel = <T,>(
   item: CsItem<T>,
   showRequiredTag?: "both" | "required" | "optional" | "none",
 ): ReactNode => {
+  const label = item.label;
   const required = item.validationRule?.required ?? false;
   const showTag = showRequiredTag ?? (item.parentView ? "both" : "none");
+  return getLabelWithTag(label, required, showTag);
+};
+
+export const getLabelWithTag = (
+  label: string | ReactNode,
+  required: boolean,
+  showTag: "both" | "required" | "optional" | "none",
+): ReactNode => {
   const requiredTag = () => {
     switch (showTag) {
       case "both":
@@ -121,7 +145,7 @@ export const getLabel = <T,>(
   };
   return (
     <span>
-      {item.label}
+      {label}
       {requiredTag()}
     </span>
   );
