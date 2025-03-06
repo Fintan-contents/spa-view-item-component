@@ -85,24 +85,29 @@ const createStringConstraint = (
       ? yup.string().required(item.label + "は必須です。値を設定してください")
       : yup.string().optional();
     const min = sRule.min ?? (sRule.required ? 1 : undefined);
-    if (min !== undefined) {
-      const message =
-        min === 1 && sRule.required
-          ? item.label + "は必須です。値を設定してください"
-          : item.label +
-            "が短すぎます。 " +
-            sRule.min +
-            "文字より長い文字列を入力してください";
-      sy = sy.min(min, message);
-    }
-    if (sRule.max !== undefined) {
-      sy = sy.max(
-        sRule.max,
-        item.label +
-          "が長すぎます。 " +
-          sRule.max +
-          "文字より短い文字列を入力してください",
-      );
+    if (!!min && min === sRule.max) {
+      sy = sy.min(min, item.label + "は" + min + "文字で入力してください");
+      sy = sy.max(min, item.label + "は" + min + "文字で入力してください");
+    } else {
+      if (min !== undefined) {
+        const message =
+          min === 1 && sRule.required
+            ? item.label + "は必須です。値を設定してください"
+            : item.label +
+              "が短すぎます。 " +
+              sRule.min +
+              "文字以上の文字列を入力してください";
+        sy = sy.min(min, message);
+      }
+      if (sRule.max !== undefined) {
+        sy = sy.max(
+          sRule.max,
+          item.label +
+            "が長すぎます。 " +
+            sRule.max +
+            "文字以下の文字列を入力してください",
+        );
+      }
     }
     if (sRule.email) {
       sy = sy.email(
@@ -123,23 +128,34 @@ const createNumberConstraint = (
     let ny = nRule.required
       ? yup.number().required(item.label + "は必須です。値を設定してください")
       : yup.number().optional();
-    if (nRule.min !== undefined) {
+    if (!!nRule.min && nRule.min === nRule.max) {
       ny = ny.min(
         nRule.min,
-        item.label +
-          "が小さすぎます。 " +
-          nRule.min +
-          "より大きい数を入力してください",
+        item.label + "には" + nRule.min + "を入力してください",
       );
-    }
-    if (nRule.max !== undefined) {
       ny = ny.max(
-        nRule.max,
-        item.label +
-          "が大きすぎます。 " +
-          nRule.max +
-          "より小さい数を入力してください",
+        nRule.min,
+        item.label + "には" + nRule.min + "を入力してください",
       );
+    } else {
+      if (nRule.min !== undefined) {
+        ny = ny.min(
+          nRule.min,
+          item.label +
+            "が小さすぎます。 " +
+            nRule.min +
+            "以上の数を入力してください",
+        );
+      }
+      if (nRule.max !== undefined) {
+        ny = ny.max(
+          nRule.max,
+          item.label +
+            "が大きすぎます。 " +
+            nRule.max +
+            "以下の数を入力してください",
+        );
+      }
     }
     validationMap.set(key, ny);
   }
@@ -172,23 +188,34 @@ const createNumberArrayConstraint = (
     let ny = nRule.required
       ? yup.number().required(item.label + "は必須です。値を設定してください")
       : yup.number().optional();
-    if (nRule.min) {
+    if (!!nRule.min && nRule.min === nRule.max) {
       ny = ny.min(
         nRule.min,
-        item.label +
-          "が小さすぎます。 " +
-          nRule.min +
-          "より大きい数を入力してください",
+        item.label + "には" + nRule.min + "を入力してください",
       );
-    }
-    if (nRule.max) {
       ny = ny.max(
-        nRule.max,
-        item.label +
-          "が大きすぎます。 " +
-          nRule.max +
-          "より小さい数を入力してください",
+        nRule.min,
+        item.label + "には" + nRule.min + "を入力してください",
       );
+    } else {
+      if (nRule.min) {
+        ny = ny.min(
+          nRule.min,
+          item.label +
+            "が小さすぎます。 " +
+            nRule.min +
+            "以上の数を入力してください",
+        );
+      }
+      if (nRule.max) {
+        ny = ny.max(
+          nRule.max,
+          item.label +
+            "が大きすぎます。 " +
+            nRule.max +
+            "以下の数を入力してください",
+        );
+      }
     }
     const nay = yup.array(ny);
     validationMap.set(key, nay);
