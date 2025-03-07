@@ -43,14 +43,14 @@ export const AxInputDate = (props: AxInputDateProps) => {
             format={item.displayFormat}
             {...antdProps}
             onChange={(value: Dayjs, dateString: string | string[]) => {
-              const newValue = value?.format(item.valueFormat);
-              if (antdProps?.onChange) {
-                antdProps.onChange(value, newValue);
-              }
               if (item.isReadonly()) return;
+              const newValue = value?.format(item.valueFormat);
               item.setValue(newValue);
               if (!item.validateWhenErrorExists(newValue ?? "")) {
                 setRefresh(true);
+              }
+              if (antdProps?.onChange) {
+                antdProps.onChange(value, newValue);
               }
             }}
           />
@@ -86,6 +86,9 @@ export const AxInputDateRange: React.FC<AxInputDateRangeProp> = (
           format={item.format}
           {...antdProps}
           onCalendarChange={(dates, _, __) => {
+            if (item.isReadonly()) {
+              return;
+            }
             const newFrom =
               dates && dates.length == 2
                 ? dates[0]?.format(item.getValueFormat())
@@ -95,12 +98,6 @@ export const AxInputDateRange: React.FC<AxInputDateRangeProp> = (
                 ? dates[1]?.format(item.getValueFormat())
                 : undefined;
             const newValue = [newFrom ?? "", newTo ?? ""];
-            if (antdProps?.onCalendarChange) {
-              antdProps.onCalendarChange(dates, [newValue[0], newValue[1]], __);
-            }
-            if (item.isReadonly()) {
-              return;
-            }
             item.setValue(newValue);
             if (!item.validateWhenErrorExists(newValue)) {
               setRefresh(true);
@@ -113,11 +110,11 @@ export const AxInputDateRange: React.FC<AxInputDateRangeProp> = (
             ) {
               setRefresh(true);
             }
+            if (antdProps?.onCalendarChange) {
+              antdProps.onCalendarChange(dates, [newValue[0], newValue[1]], __);
+            }
           }}
           onBlur={(e, info) => {
-            if (antdProps?.onBlur) {
-              antdProps.onBlur(e, info);
-            }
             if (item.parentView?.validateTrigger === "onBlur") {
               // Calendar の変更を伴わないフォーカスアウトが行われた場合のバリデーション
               // onCalendarChange のバリデーションと重複してしまうので、値が未入力の場合に限定する。
@@ -130,6 +127,9 @@ export const AxInputDateRange: React.FC<AxInputDateRangeProp> = (
               ) {
                 setRefresh(true);
               }
+            }
+            if (antdProps?.onBlur) {
+              antdProps.onBlur(e, info);
             }
           }}
         />
@@ -157,9 +157,6 @@ export const AxInputNumberRange = (props: AxInputNumberRangeProps) => {
             readOnly={item.isReadonly()}
             {...antdPropsLower}
             onChange={(value) => {
-              if (antdPropsLower?.onChange) {
-                antdPropsLower.onChange(value);
-              }
               const newValue = value ? value : undefined;
               item.setLowerValue(newValue as number);
               if (
@@ -170,20 +167,23 @@ export const AxInputNumberRange = (props: AxInputNumberRangeProps) => {
               ) {
                 setRefresh(true);
               }
+              if (antdPropsLower?.onChange) {
+                antdPropsLower.onChange(value);
+              }
             }}
             onBlur={(e) => {
-              if (antdPropsLower?.onBlur) {
-                antdPropsLower.onBlur(e);
-              }
-              if (!item.lowerValue) return;
-              if (item.upperValue && item.upperValue < item.lowerValue) {
-                item.setUpperValue(item.lowerValue);
-              }
-              if (item.parentView?.validateTrigger !== "onBlur") {
-                return;
-              }
-              if (!item.validate(item.value)) {
-                setRefresh(true);
+              if (item.lowerValue) {
+                if (item.upperValue && item.upperValue < item.lowerValue) {
+                  item.setUpperValue(item.lowerValue);
+                }
+                if (item.parentView?.validateTrigger === "onBlur") {
+                  if (!item.validate(item.value)) {
+                    setRefresh(true);
+                  }
+                }
+                if (antdPropsLower?.onBlur) {
+                  antdPropsLower.onBlur(e);
+                }
               }
             }}
           />
@@ -194,9 +194,6 @@ export const AxInputNumberRange = (props: AxInputNumberRangeProps) => {
             readOnly={item.isReadonly()}
             {...antdPropsUpper}
             onChange={(value) => {
-              if (antdPropsUpper?.onChange) {
-                antdPropsUpper.onChange(value);
-              }
               const newValue = value ? value : undefined;
               item.setUpperValue(newValue as number);
               if (
@@ -207,20 +204,23 @@ export const AxInputNumberRange = (props: AxInputNumberRangeProps) => {
               ) {
                 setRefresh(true);
               }
+              if (antdPropsUpper?.onChange) {
+                antdPropsUpper.onChange(value);
+              }
             }}
             onBlur={(e) => {
-              if (antdPropsUpper?.onBlur) {
-                antdPropsUpper?.onBlur(e);
-              }
-              if (!item.upperValue) return;
-              if (item.lowerValue && item.lowerValue > item.upperValue) {
-                item.setLowerValue(item.upperValue);
-              }
-              if (item.parentView?.validateTrigger !== "onBlur") {
-                return;
-              }
-              if (!item.validate(item.value)) {
-                setRefresh(true);
+              if (item.upperValue) {
+                if (item.lowerValue && item.lowerValue > item.upperValue) {
+                  item.setLowerValue(item.upperValue);
+                }
+                if (item.parentView?.validateTrigger === "onBlur") {
+                  if (!item.validate(item.value)) {
+                    setRefresh(true);
+                  }
+                }
+                if (antdPropsUpper?.onBlur) {
+                  antdPropsUpper?.onBlur(e);
+                }
               }
             }}
           />
