@@ -181,9 +181,9 @@ export const AxInputNumberRange = (props: AxInputNumberRangeProps) => {
                     setRefresh(true);
                   }
                 }
-                if (antdPropsLower?.onBlur) {
-                  antdPropsLower.onBlur(e);
-                }
+              }
+              if (antdPropsLower?.onBlur) {
+                antdPropsLower.onBlur(e);
               }
             }}
           />
@@ -218,9 +218,9 @@ export const AxInputNumberRange = (props: AxInputNumberRangeProps) => {
                     setRefresh(true);
                   }
                 }
-                if (antdPropsUpper?.onBlur) {
-                  antdPropsUpper?.onBlur(e);
-                }
+              }
+              if (antdPropsUpper?.onBlur) {
+                antdPropsUpper?.onBlur(e);
               }
             }}
           />
