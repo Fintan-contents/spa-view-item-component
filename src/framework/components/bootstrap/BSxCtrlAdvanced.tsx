@@ -29,6 +29,7 @@ export const BSxInputDate = (props: BSxInputDateProps) => {
           className={getClassName(props, "fit-content")}
           type="date"
           value={displayValue}
+          {...bsProps}
           onChange={(e) => {
             if (item.isReadonly()) return;
             const newValue = e.target.value ? e.target.value : undefined;
@@ -39,16 +40,20 @@ export const BSxInputDate = (props: BSxInputDateProps) => {
             if (!item.validateWhenErrorExists(newValue)) {
               setRefresh(true);
             }
-          }}
-          onBlur={() => {
-            if (item.parentView?.validateTrigger !== "onBlur") {
-              return;
-            }
-            if (!item.validate(item.value)) {
-              setRefresh(true);
+            if (bsProps?.onChange) {
+              bsProps.onChange(e);
             }
           }}
-          {...bsProps}
+          onBlur={(e) => {
+            if (item.parentView?.validateTrigger === "onBlur") {
+              if (!item.validate(item.value)) {
+                setRefresh(true);
+              }
+            }
+            if (bsProps?.onBlur) {
+              bsProps.onBlur(e);
+            }
+          }}
         />
       )}
     /> // BSxEditCtrl
@@ -78,6 +83,7 @@ export const BSxInputDateRange = (props: BSxInputDateRangeProps) => {
             type="date"
             value={fromDisplayValue}
             readOnly={item.isReadonly()}
+            {...bsPropsLower}
             onChange={(e) => {
               const newValue = e.target.value ? e.target.value : undefined;
               const newDate = newValue
@@ -92,20 +98,28 @@ export const BSxInputDateRange = (props: BSxInputDateRangeProps) => {
               ) {
                 setRefresh(true);
               }
+              if (bsPropsLower?.onChange) {
+                bsPropsLower.onChange(e);
+              }
             }}
-            onBlur={() => {
-              if (!item.lowerValue) return;
-              if (item.upperValue && item.upperValue < item.lowerValue) {
+            onBlur={(e) => {
+              if (
+                item.lowerValue &&
+                item.upperValue &&
+                item.lowerValue > item.upperValue
+              ) {
+                // 下限値が上限値より大きい場合、上限値を下限値に合わせる
                 item.setUpperValue(item.lowerValue);
               }
-              if (item.parentView?.validateTrigger !== "onBlur") {
-                return;
+              if (item.parentView?.validateTrigger === "onBlur") {
+                if (!item.validate(item.value)) {
+                  setRefresh(true);
+                }
               }
-              if (!item.validate(item.value)) {
-                setRefresh(true);
+              if (bsPropsLower?.onBlur) {
+                bsPropsLower.onBlur(e);
               }
             }}
-            {...bsPropsLower}
           />
           <span
             style={{
@@ -122,6 +136,7 @@ export const BSxInputDateRange = (props: BSxInputDateRangeProps) => {
             type="date"
             value={toDisplayValue}
             readOnly={item.isReadonly()}
+            {...bsPropsUpper}
             onChange={(e) => {
               const newValue = e.target.value ? e.target.value : undefined;
               const newDate = newValue
@@ -136,20 +151,28 @@ export const BSxInputDateRange = (props: BSxInputDateRangeProps) => {
               ) {
                 setRefresh(true);
               }
+              if (bsPropsUpper?.onChange) {
+                bsPropsUpper.onChange(e);
+              }
             }}
-            onBlur={() => {
-              if (!item.upperValue) return;
-              if (item.lowerValue && item.lowerValue > item.upperValue) {
+            onBlur={(e) => {
+              if (
+                item.lowerValue &&
+                item.upperValue &&
+                item.upperValue < item.lowerValue
+              ) {
+                // 上限値が下限値より小さい場合、下限値を上限値に合わせる
                 item.setLowerValue(item.upperValue);
               }
-              if (item.parentView?.validateTrigger !== "onBlur") {
-                return;
+              if (item.parentView?.validateTrigger === "onBlur") {
+                if (!item.validate(item.value)) {
+                  setRefresh(true);
+                }
               }
-              if (!item.validate(item.value)) {
-                setRefresh(true);
+              if (bsPropsUpper?.onBlur) {
+                bsPropsUpper.onBlur(e);
               }
             }}
-            {...bsPropsUpper}
           />
         </div>
       )}
@@ -179,6 +202,7 @@ export const BSxInputNumberRange = (props: BSxInputNumberRangeProps) => {
             type="number"
             value={item.lowerValue}
             readOnly={item.isReadonly()}
+            {...bsPropsLower}
             onChange={(e) => {
               const newValue = e.target.value ? e.target.value : undefined;
               const newNumber = newValue ? Number(newValue) : undefined;
@@ -191,20 +215,28 @@ export const BSxInputNumberRange = (props: BSxInputNumberRangeProps) => {
               ) {
                 setRefresh(true);
               }
+              if (bsPropsLower?.onChange) {
+                bsPropsLower.onChange(e);
+              }
             }}
-            onBlur={() => {
-              if (!item.lowerValue) return;
-              if (item.upperValue && item.upperValue < item.lowerValue) {
+            onBlur={(e) => {
+              if (
+                item.lowerValue &&
+                item.upperValue &&
+                item.lowerValue > item.upperValue
+              ) {
+                // 下限値が上限値より大きい場合、上限値を下限値に合わせる
                 item.setUpperValue(item.lowerValue);
               }
-              if (item.parentView?.validateTrigger !== "onBlur") {
-                return;
+              if (item.parentView?.validateTrigger === "onBlur") {
+                if (!item.validate(item.value)) {
+                  setRefresh(true);
+                }
               }
-              if (!item.validate(item.value)) {
-                setRefresh(true);
+              if (bsPropsLower?.onBlur) {
+                bsPropsLower.onBlur(e);
               }
             }}
-            {...bsPropsLower}
           />
           <span
             style={{
@@ -221,6 +253,7 @@ export const BSxInputNumberRange = (props: BSxInputNumberRangeProps) => {
             type="number"
             value={item.upperValue}
             readOnly={item.isReadonly()}
+            {...bsPropsUpper}
             onChange={(e) => {
               const newValue = e.target.value ? e.target.value : undefined;
               const newNumber = newValue ? Number(newValue) : undefined;
@@ -233,20 +266,28 @@ export const BSxInputNumberRange = (props: BSxInputNumberRangeProps) => {
               ) {
                 setRefresh(true);
               }
+              if (bsPropsUpper?.onChange) {
+                bsPropsUpper.onChange(e);
+              }
             }}
-            onBlur={() => {
-              if (!item.upperValue) return;
-              if (item.lowerValue && item.lowerValue > item.upperValue) {
+            onBlur={(e) => {
+              if (
+                item.lowerValue &&
+                item.upperValue &&
+                item.upperValue < item.lowerValue
+              ) {
+                // 上限値が下限値より小さい場合、下限値を上限値に合わせる
                 item.setLowerValue(item.upperValue);
               }
-              if (item.parentView?.validateTrigger !== "onBlur") {
-                return;
+              if (item.parentView?.validateTrigger === "onBlur") {
+                if (!item.validate(item.value)) {
+                  setRefresh(true);
+                }
               }
-              if (!item.validate(item.value)) {
-                setRefresh(true);
+              if (bsPropsUpper?.onBlur) {
+                bsPropsUpper?.onBlur(e);
               }
             }}
-            {...bsPropsUpper}
           />
         </div>
       )}
