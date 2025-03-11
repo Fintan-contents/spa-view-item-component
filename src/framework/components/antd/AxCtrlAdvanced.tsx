@@ -172,14 +172,17 @@ export const AxInputNumberRange = (props: AxInputNumberRangeProps) => {
               }
             }}
             onBlur={(e) => {
-              if (item.lowerValue) {
-                if (item.upperValue && item.upperValue < item.lowerValue) {
-                  item.setUpperValue(item.lowerValue);
-                }
-                if (item.parentView?.validateTrigger === "onBlur") {
-                  if (!item.validate(item.value)) {
-                    setRefresh(true);
-                  }
+              if (
+                item.lowerValue &&
+                item.upperValue &&
+                item.lowerValue > item.upperValue
+              ) {
+                // 下限値が上限値より大きい場合、上限値を下限値に合わせる
+                item.setUpperValue(item.lowerValue);
+              }
+              if (item.parentView?.validateTrigger === "onBlur") {
+                if (!item.validate(item.value)) {
+                  setRefresh(true);
                 }
               }
               if (antdPropsLower?.onBlur) {
@@ -209,14 +212,17 @@ export const AxInputNumberRange = (props: AxInputNumberRangeProps) => {
               }
             }}
             onBlur={(e) => {
-              if (item.upperValue) {
-                if (item.lowerValue && item.lowerValue > item.upperValue) {
-                  item.setLowerValue(item.upperValue);
-                }
-                if (item.parentView?.validateTrigger === "onBlur") {
-                  if (!item.validate(item.value)) {
-                    setRefresh(true);
-                  }
+              if (
+                item.lowerValue &&
+                item.upperValue &&
+                item.upperValue < item.lowerValue
+              ) {
+                // 上限値が下限値より小さい場合、下限値を上限値に合わせる
+                item.setLowerValue(item.upperValue);
+              }
+              if (item.parentView?.validateTrigger === "onBlur") {
+                if (!item.validate(item.value)) {
+                  setRefresh(true);
                 }
               }
               if (antdPropsUpper?.onBlur) {
