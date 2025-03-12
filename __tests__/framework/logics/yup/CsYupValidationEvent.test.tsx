@@ -417,10 +417,10 @@ describe("createStringConstraintメソッド", () => {
       await userEvent.click(button);
     });
     const errorMessage = screen.getByText(
-      `Item 1が短すぎます。 ${min}文字より長い文字列を入力してください`,
+      `Item 1が短すぎます。 ${min}文字以上の文字列を入力してください`,
     ) as HTMLInputElement;
     expect(errorMessage.textContent).toBe(
-      `Item 1が短すぎます。 ${min}文字より長い文字列を入力してください`,
+      `Item 1が短すぎます。 ${min}文字以上の文字列を入力してください`,
     );
   });
 });
