@@ -208,21 +208,26 @@ export const BSxInputText = (props: BSxInputTextProps) => {
           as="input"
           value={item.value}
           readOnly={item.isReadonly()}
+          {...bsProps}
           onChange={(e) => {
             item.setValue(e.target.value);
             if (!item.validateWhenErrorExists(e.target.value)) {
               setRefresh(true);
             }
-          }}
-          onBlur={() => {
-            if (item.parentView?.validateTrigger !== "onBlur") {
-              return;
-            }
-            if (!item.validate(item.value)) {
-              setRefresh(true);
+            if (bsProps?.onChange) {
+              bsProps.onChange(e);
             }
           }}
-          {...bsProps}
+          onBlur={(e) => {
+            if (item.parentView?.validateTrigger === "onBlur") {
+              if (!item.validate(item.value)) {
+                setRefresh(true);
+              }
+            }
+            if (bsProps?.onBlur) {
+              bsProps.onBlur(e);
+            }
+          }}
         />
       )}
     /> // BSxEditCtrl
@@ -246,6 +251,7 @@ export const BSxInputNumber = (props: BSxInputNumberProps) => {
           type="number"
           value={item.value}
           readOnly={item.isReadonly()}
+          {...bsProps}
           onChange={(e) => {
             const newValue = e.target.value ? e.target.value : undefined;
             const newNumber = newValue ? Number(newValue) : undefined;
@@ -253,16 +259,20 @@ export const BSxInputNumber = (props: BSxInputNumberProps) => {
             if (!item.validateWhenErrorExists(newNumber as number)) {
               setRefresh(true);
             }
-          }}
-          onBlur={() => {
-            if (item.parentView?.validateTrigger !== "onBlur") {
-              return;
-            }
-            if (!item.validate(item.value)) {
-              setRefresh(true);
+            if (bsProps?.onChange) {
+              bsProps.onChange(e);
             }
           }}
-          {...bsProps}
+          onBlur={(e) => {
+            if (item.parentView?.validateTrigger === "onBlur") {
+              if (!item.validate(item.value)) {
+                setRefresh(true);
+              }
+            }
+            if (bsProps?.onBlur) {
+              bsProps.onBlur(e);
+            }
+          }}
         />
       )}
     /> // BSxEditCtrl
@@ -286,21 +296,26 @@ export const BSxInputPassword = (props: BSxInputPasswordProps) => {
           type="password"
           value={item.value}
           readOnly={item.isReadonly()}
+          {...bsProps}
           onChange={(e) => {
             item.setValue(e.target.value);
             if (!item.validateWhenErrorExists(e.target.value)) {
               setRefresh(true);
             }
-          }}
-          onBlur={() => {
-            if (item.parentView?.validateTrigger !== "onBlur") {
-              return;
-            }
-            if (!item.validate(item.value)) {
-              setRefresh(true);
+            if (bsProps?.onChange) {
+              bsProps.onChange(e);
             }
           }}
-          {...bsProps}
+          onBlur={(e) => {
+            if (item.parentView?.validateTrigger === "onBlur") {
+              if (!item.validate(item.value)) {
+                setRefresh(true);
+              }
+            }
+            if (bsProps?.onBlur) {
+              bsProps.onBlur(e);
+            }
+          }}
         />
       )}
     /> // BSxEditCtrl
@@ -324,21 +339,26 @@ export const BSxTextArea = (props: BSxTextAreaProps) => {
           as="textarea"
           value={item.value}
           readOnly={item.isReadonly()}
+          {...bsProps}
           onChange={(e) => {
             item.setValue(e.target.value);
             if (!item.validateWhenErrorExists(e.target.value)) {
               setRefresh(true);
             }
-          }}
-          onBlur={() => {
-            if (item.parentView?.validateTrigger !== "onBlur") {
-              return;
-            }
-            if (!item.validate(item.value)) {
-              setRefresh(true);
+            if (bsProps?.onChange) {
+              bsProps.onChange(e);
             }
           }}
-          {...bsProps}
+          onBlur={(e) => {
+            if (item.parentView?.validateTrigger === "onBlur") {
+              if (!item.validate(item.value)) {
+                setRefresh(true);
+              }
+            }
+            if (bsProps?.onBlur) {
+              bsProps.onBlur(e);
+            }
+          }}
         />
       )}
     /> // BSxEditCtrl
@@ -369,22 +389,27 @@ const BSxSelectBoxCommon = <
         <Form.Select
           className={getClassName(props, "fit-content")}
           value={item.value}
+          {...bsProps}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
             const newValue = e.target.value;
             item.setValue(toValue(newValue));
             if (!item.validateWhenErrorExists(toValue(newValue) as V)) {
               setRefresh(true);
             }
-          }}
-          onBlur={() => {
-            if (item.parentView?.validateTrigger !== "onBlur") {
-              return;
-            }
-            if (!item.validate(item.value)) {
-              setRefresh(true);
+            if (bsProps?.onChange) {
+              bsProps.onChange(e);
             }
           }}
-          {...bsProps}
+          onBlur={(e) => {
+            if (item.parentView?.validateTrigger === "onBlur") {
+              if (!item.validate(item.value)) {
+                setRefresh(true);
+              }
+            }
+            if (bsProps?.onBlur) {
+              bsProps.onBlur(e);
+            }
+          }}
         >
           {(item.value === undefined || item.value === "") && (
             <option key="" value="" disabled={true} />
@@ -469,14 +494,17 @@ export const BSxRadioBox = (props: BSxRadioBoxProps) => {
                 value={value}
                 label={label}
                 disabled={item.isReadonly() && item.value !== value}
+                checked={item.value === value}
+                {...bsProps}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   item.setValue(e.target.value);
                   if (!item.validateWhenErrorExists(e.target.value)) {
                     setRefresh(true);
                   }
+                  if (bsProps?.onChange) {
+                    bsProps.onChange(e);
+                  }
                 }}
-                checked={item.value === value}
-                {...bsProps}
               />
             );
           })}
@@ -508,17 +536,19 @@ export const BSxCheckBox = (props: BSxCheckBoxProps) => {
               setRefresh(true);
             }
           }}
-          {...bsProps}
         >
           <Form.Check
             type="checkbox"
             label={item.checkBoxText}
             defaultChecked={item.isChecked()}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              item.setValue(e.target.checked);
-            }}
             disabled={item.isReadonly()}
             {...bsProps}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              item.setValue(e.target.checked);
+              if (bsProps?.onChange) {
+                bsProps.onChange(e);
+              }
+            }}
           />
         </Form.Group>
       )}
@@ -560,6 +590,8 @@ export const BSxMultiCheckBox = (props: BSxMultiCheckBoxProps) => {
                 type="checkbox"
                 defaultChecked={item.value?.includes(value)}
                 label={text}
+                disabled={item.isReadonly() && !item.value?.includes(value)}
+                {...bsProps}
                 onChange={(e) => {
                   if (item.isReadonly()) return;
                   let newValue: string[];
@@ -574,9 +606,10 @@ export const BSxMultiCheckBox = (props: BSxMultiCheckBoxProps) => {
                   if (!item.validateWhenErrorExists(newValue)) {
                     setRefresh(true);
                   }
+                  if (bsProps?.onChange) {
+                    bsProps.onChange(e);
+                  }
                 }}
-                disabled={item.isReadonly() && !item.value?.includes(value)}
-                {...bsProps}
               />
             );
           })}
