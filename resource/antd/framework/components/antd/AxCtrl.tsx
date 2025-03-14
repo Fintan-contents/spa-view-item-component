@@ -58,6 +58,21 @@ export const AxLabel = (props: AxLabelProp) => {
   );
 };
 
+export interface AxLabelWithTagProps extends AxLabelProp {
+  required: boolean;
+  showRequiredTag?: "both" | "required" | "optional" | "none";
+}
+
+export const AxLabelWithTag = (props: AxLabelWithTagProps) => {
+  const showTag = props.showRequiredTag ?? "both";
+  return (
+    <AxLabel
+      label={getLabelWithTag(props.label, props.required, showTag)}
+      color={props.color}
+    />
+  );
+};
+
 export const getClassName = <T,>(
   props: AxProps<CsItem<T>>,
   add?: string[],
@@ -83,8 +98,17 @@ export const getLabel = <T,>(
   item: CsItem<T>,
   showRequiredTag?: "both" | "required" | "optional" | "none",
 ): ReactNode => {
+  const label = item.label;
   const required = item.validationRule?.required ?? false;
   const showTag = showRequiredTag ?? (item.parentView ? "both" : "none");
+  return getLabelWithTag(label, required, showTag);
+};
+
+export const getLabelWithTag = (
+  label: string | ReactNode,
+  required: boolean,
+  showTag: "both" | "required" | "optional" | "none",
+): ReactNode => {
   const requiredTag = () => {
     switch (showTag) {
       case "both":
@@ -101,7 +125,7 @@ export const getLabel = <T,>(
   };
   return (
     <span>
-      {item.label}
+      {label}
       {requiredTag()}
     </span>
   );
@@ -179,21 +203,26 @@ export const AxInputText = (props: AxInputTextProps) => {
           value={item.value}
           readOnly={item.isReadonly()}
           placeholder={item.placeholder}
+          {...antdProps}
           onChange={(e) => {
             item.setValue(e.target.value);
             if (!item.validateWhenErrorExists(e.target.value)) {
               setRefresh(true);
             }
-          }}
-          onBlur={() => {
-            if (item.parentView?.validateTrigger !== "onBlur") {
-              return;
-            }
-            if (!item.validate(item.value)) {
-              setRefresh(true);
+            if (antdProps?.onChange) {
+              antdProps.onChange(e);
             }
           }}
-          {...antdProps}
+          onBlur={(e) => {
+            if (item.parentView?.validateTrigger === "onBlur") {
+              if (!item.validate(item.value)) {
+                setRefresh(true);
+              }
+            }
+            if (antdProps?.onBlur) {
+              antdProps.onBlur(e);
+            }
+          }}
         />
       )}
     /> // AxEditCtrl
@@ -215,6 +244,7 @@ export const AxInputNumber = (props: AxInputNumberProps) => {
           value={item.value}
           readOnly={item.isReadonly()}
           placeholder={item.placeholder}
+          {...antdProps}
           onChange={(value: ValueType | null) => {
             if (value !== null) {
               item.setValue(Number(value));
@@ -222,16 +252,20 @@ export const AxInputNumber = (props: AxInputNumberProps) => {
                 setRefresh(true);
               }
             }
-          }}
-          onBlur={() => {
-            if (item.parentView?.validateTrigger !== "onBlur") {
-              return;
-            }
-            if (!item.validate(item.value)) {
-              setRefresh(true);
+            if (antdProps?.onChange) {
+              antdProps.onChange(value);
             }
           }}
-          {...antdProps}
+          onBlur={(e) => {
+            if (item.parentView?.validateTrigger === "onBlur") {
+              if (!item.validate(item.value)) {
+                setRefresh(true);
+              }
+            }
+            if (antdProps?.onBlur) {
+              antdProps.onBlur(e);
+            }
+          }}
         />
       )}
     /> // AxEditCtrl
@@ -253,21 +287,26 @@ export const AxInputPassword = (props: AxInputPasswordProps) => {
           value={item.value}
           readOnly={item.isReadonly()}
           placeholder={item.placeholder}
+          {...antdProps}
           onChange={(e) => {
             item.setValue(e.target.value);
             if (!item.validateWhenErrorExists(e.target.value)) {
               setRefresh(true);
             }
-          }}
-          onBlur={() => {
-            if (item.parentView?.validateTrigger !== "onBlur") {
-              return;
-            }
-            if (!item.validate(item.value)) {
-              setRefresh(true);
+            if (antdProps?.onChange) {
+              antdProps.onChange(e);
             }
           }}
-          {...antdProps}
+          onBlur={(e) => {
+            if (item.parentView?.validateTrigger === "onBlur") {
+              if (!item.validate(item.value)) {
+                setRefresh(true);
+              }
+            }
+            if (antdProps?.onBlur) {
+              antdProps.onBlur(e);
+            }
+          }}
         />
       )}
     /> // AxEditCtrl
@@ -289,21 +328,26 @@ export const AxTextArea = (props: AxTextAreaProps) => {
           value={item.value}
           readOnly={item.isReadonly()}
           placeholder={item.placeholder}
+          {...antdProps}
           onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
             item.setValue(e.target.value);
             if (!item.validateWhenErrorExists(e.target.value)) {
               setRefresh(true);
             }
-          }}
-          onBlur={() => {
-            if (item.parentView?.validateTrigger !== "onBlur") {
-              return;
-            }
-            if (!item.validate(item.value)) {
-              setRefresh(true);
+            if (antdProps?.onChange) {
+              antdProps.onChange(e);
             }
           }}
-          {...antdProps}
+          onBlur={(e) => {
+            if (item.parentView?.validateTrigger === "onBlur") {
+              if (!item.validate(item.value)) {
+                setRefresh(true);
+              }
+            }
+            if (antdProps?.onBlur) {
+              antdProps.onBlur(e);
+            }
+          }}
         />
       )}
     /> // AxEditCtrl
@@ -332,21 +376,26 @@ const AxSelectBoxCommon = <
           className={getClassName(props, ["fit-content"])}
           value={item.value}
           placeholder={item.placeholder}
+          {...antdProps}
           onChange={(value: V) => {
             item.setValue(value);
             if (!item.validateWhenErrorExists(value)) {
               setRefresh(true);
             }
-          }}
-          onBlur={() => {
-            if (item.parentView?.validateTrigger !== "onBlur") {
-              return;
-            }
-            if (!item.validate(item.value)) {
-              setRefresh(true);
+            if (antdProps?.onChange) {
+              antdProps.onChange(value, item.options);
             }
           }}
-          {...antdProps}
+          onBlur={(e) => {
+            if (item.parentView?.validateTrigger === "onBlur") {
+              if (!item.validate(item.value)) {
+                setRefresh(true);
+              }
+            }
+            if (antdProps?.onBlur) {
+              antdProps.onBlur(e);
+            }
+          }}
         >
           {item.options.map((o) => {
             return !item.isReadonly() ||
@@ -396,22 +445,27 @@ export const AxRadioBox = (props: AxRadioBoxProps) => {
         <Radio.Group
           className={getClassName(props, ["fit-content"])}
           value={item.value}
+          {...antdProps}
           onChange={(e) => {
             if (item.isReadonly()) return;
             item.setValue(e.target.value);
             if (!item.validateWhenErrorExists(e.target.value)) {
               setRefresh(true);
             }
-          }}
-          onBlur={() => {
-            if (item.parentView?.validateTrigger !== "onBlur") {
-              return;
-            }
-            if (!item.validate(item.value)) {
-              setRefresh(true);
+            if (antdProps?.onChange) {
+              antdProps.onChange(e);
             }
           }}
-          {...antdProps}
+          onBlur={(e) => {
+            if (item.parentView?.validateTrigger === "onBlur") {
+              if (!item.validate(item.value)) {
+                setRefresh(true);
+              }
+            }
+            if (antdProps?.onBlur) {
+              antdProps.onBlur(e);
+            }
+          }}
         >
           {item.options.map((o) => {
             return (
@@ -446,11 +500,14 @@ export const AxCheckBox = (props: AxCheckBoxProps) => {
           className={getClassName(props, ["fit-content", "checkbox"])}
           value={item.value}
           checked={item.value}
+          {...antdProps}
           onChange={(e) => {
             if (item.isReadonly()) return;
             item.setValue(e.target.checked);
+            if (antdProps?.onChange) {
+              antdProps.onChange(e);
+            }
           }}
-          {...antdProps}
         >
           {item.checkBoxText}
         </Checkbox>
@@ -489,6 +546,8 @@ export const AxMultiCheckBox = (props: AxMultiCheckBoxProps) => {
                 key={value}
                 value={value}
                 checked={item.value?.includes(value)}
+                disabled={item.isReadonly() && !item.value?.includes(value)}
+                {...antdProps}
                 onChange={(e) => {
                   if (item.isReadonly()) return;
                   let newValue: string[];
@@ -503,9 +562,10 @@ export const AxMultiCheckBox = (props: AxMultiCheckBoxProps) => {
                   if (!item.validateWhenErrorExists(newValue)) {
                     setRefresh(true);
                   }
+                  if (antdProps?.onChange) {
+                    antdProps.onChange(e);
+                  }
                 }}
-                disabled={item.isReadonly() && !item.value?.includes(value)}
-                {...antdProps}
               >
                 {text}
               </Checkbox>
