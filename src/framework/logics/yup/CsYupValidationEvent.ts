@@ -9,6 +9,7 @@ import {
 } from "yup";
 import {
   CsInputDateRangeItem,
+  CsInputPostalCodeItem,
   CsItem,
   CsNumberArrayItem,
   CsNumberItem,
@@ -65,6 +66,9 @@ const createValidationSchema = <T extends CsView>(instance: T) => {
     }
     if (item instanceof CsInputDateRangeItem) {
       createDateRangeConstraint(item, key, validationMap);
+    }
+    if (item instanceof CsInputPostalCodeItem) {
+      createPostalCodeConstraint(item, key, validationMap);
     }
     validateFieldMap.set(key, item.value);
     return;
@@ -231,10 +235,61 @@ const createDateRangeConstraint = (
     const saRule = item.validationRule as StringArrayValidationRule;
     const say = saRule.required
       ? yup
-        .array()
-        .of(yup.string().required(item.label + "は必須です。"))
-        .length(2, item.label + "は必須です。")
+          .array()
+          .of(yup.string().required(item.label + "は必須です。"))
+          .length(2, item.label + "は必須です。")
       : yup.array().of(yup.string().optional());
+    validationMap.set(key, say);
+  }
+};
+
+const createPostalCodeConstraint = (
+  item: CsItem<string[]>,
+  key: string,
+  validationMap: Map<string, ValueTypeYup>,
+) => {
+  if (item.validationRule instanceof StringArrayValidationRule) {
+    const saRule = item.validationRule as StringArrayValidationRule;
+    const say = saRule.required
+      ? yup
+          .array()
+          .of(yup.string().required())
+          .length(2, item.label + "の上3桁と下4桁は両方入力してください。")
+          .test(
+            "both-required",
+            item.label + "の上3桁と下4桁は両方入力してください。",
+            (value) => {
+              if (!value) return false;
+              return !(!value[0] && !value[1]);
+            },
+          )
+          .test(
+            "first-element",
+            item.label + "の1つ目の要素は3桁の数字で入力してください",
+            (value) => /^\d{3}$/.test(value?.[0] || ""),
+          )
+          .test(
+            "second-element",
+            item.label + "の2つ目の要素は4桁の数字で入力してください",
+            (value) => /^\d{4}$/.test(value?.[1] || ""),
+          )
+      : yup
+          .array()
+          .of(yup.string().optional())
+          .test(
+            "first-element",
+            item.label + "の1つ目の要素は3桁の数字で入力してください",
+            (value) =>
+              (!value?.[0] && !value?.[1]) ||
+              /^\d{3}$/.test(value?.[0] as string),
+          )
+          .test(
+            "second-element",
+            item.label + "の2つ目の要素は4桁の数字で入力してください",
+            (value) =>
+              (!value?.[0] && !value?.[1]) ||
+              /^\d{4}$/.test(value?.[1] as string),
+          );
     validationMap.set(key, say);
   }
 };

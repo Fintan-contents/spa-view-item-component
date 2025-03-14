@@ -7,6 +7,7 @@ import {
   CsInputNumberItem,
   CsInputNumberRangeItem,
   CsInputPasswordItem,
+  CsInputPostalCodeItem,
   CsInputTextItem,
   CsItemBase,
   CsMultiCheckBoxItem,
@@ -24,6 +25,7 @@ import {
   AxInputNumber,
   AxInputNumberRange,
   AxInputPassword,
+  AxInputPostalCode,
   AxInputText,
   AxMultiCheckBox,
   AxProps,
@@ -199,6 +201,15 @@ export const selectComponent = (
       labelWidth,
     };
     return <AxInputDateRange {...props} />;
+  }
+  if (item instanceof CsInputPostalCodeItem) {
+    const props: AxProps<CsInputPostalCodeItem> = {
+      item,
+      hideLabel,
+      labelPlacement,
+      labelWidth,
+    };
+    return <AxInputPostalCode {...props} />;
   }
   return <NullElement />;
 };
