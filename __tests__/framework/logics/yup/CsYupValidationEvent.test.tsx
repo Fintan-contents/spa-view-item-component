@@ -1,6 +1,10 @@
-import { AxButton, AxInputText } from "@/framework/components/antd";
 import {
-  CsInputDateRangeItem,
+  AxButton,
+  AxInputNumber,
+  AxInputNumberRange,
+  AxInputText,
+} from "@/framework/components/antd";
+import {
   CsInputNumberItem,
   CsInputNumberRangeItem,
   CsInputTextItem,
@@ -392,6 +396,20 @@ const MinValidateTestComponent = (props: MinValidateTestComponentProps) => {
         RW.Editable,
         "Item1",
       ),
+      item2: useCsInputNumberItem(
+        "Item 2",
+        useInit(1),
+        numberRule(true, min, 10),
+        RW.Editable,
+        "Item2",
+      ),
+      item3: useCsInputNumberRangeItem(
+        "Item 3",
+        useInit([1, 1]),
+        numberRule(true, min, 10),
+        RW.Editable,
+        "Item3",
+      ),
     },
     undefined,
     useCsYupValidationEvent,
@@ -399,28 +417,46 @@ const MinValidateTestComponent = (props: MinValidateTestComponentProps) => {
   return (
     <>
       <AxInputText item={view.item1} />
-      <AxButton
-        validationViews={[view]}
-        onClick={() => {
-          view.item1.validateAnytime("test");
-        }}
-      />
+      <AxInputNumber item={view.item2} />
+      <AxInputNumberRange item={view.item3} />
+      <AxButton validationViews={[view]} onClick={() => {}}>
+        テスト
+      </AxButton>
     </>
   );
 };
-describe("createStringConstraintメソッド", () => {
-  it("createStringConstraintが正しく動作すること", async () => {
+
+describe("createStringConstraint, createNumberConstraint, createNumberArrayConstraintメソッド", () => {
+  it("最小値精査が正しく動作すること", async () => {
     const min = 8;
     render(<MinValidateTestComponent min={min} />);
-    const button = screen.getByRole("button");
+    const button = screen.getByRole("button", { name: /テスト/i });
     await act(async () => {
       await userEvent.click(button);
     });
-    const errorMessage = screen.getByText(
+    const expectedErrorTexts = [
       `Item 1が短すぎます。 ${min}文字以上の文字列を入力してください`,
-    ) as HTMLInputElement;
-    expect(errorMessage.textContent).toBe(
-      `Item 1が短すぎます。 ${min}文字以上の文字列を入力してください`,
-    );
+      `Item 2が小さすぎます。 ${min}以上の数を入力してください`,
+      `Item 3が小さすぎます。 ${min}以上の数を入力してください`,
+    ];
+    expectedErrorTexts.forEach((expectedErrorText) => {
+      expect(screen.getByText(expectedErrorText)).not.toBeUndefined();
+    });
+  });
+  it("固定値精査が正しく動作すること", async () => {
+    const min = 10;
+    render(<MinValidateTestComponent min={min} />);
+    const button = screen.getByRole("button", { name: /テスト/i });
+    await act(async () => {
+      await userEvent.click(button);
+    });
+    const expectedErrorTexts = [
+      `Item 1は${min}文字で入力してください`,
+      `Item 2には${min}を入力してください`,
+      `Item 3には${min}を入力してください`,
+    ];
+    expectedErrorTexts.forEach((expectedErrorText) => {
+      expect(screen.getByText(expectedErrorText)).not.toBeUndefined();
+    });
   });
 });
