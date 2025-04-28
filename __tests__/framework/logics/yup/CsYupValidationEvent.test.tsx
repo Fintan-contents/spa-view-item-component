@@ -384,29 +384,30 @@ describe("CsYupValidationEventクラスのdoCustomValidateItemHasErrorメソッ�
 
 type MinValidateTestComponentProps = {
   min: number;
+  max: number;
 };
 const MinValidateTestComponent = (props: MinValidateTestComponentProps) => {
-  const { min } = props;
+  const { min, max } = props;
   const view = useCsView(
     {
       item1: useCsInputTextItem(
         "Item 1",
         useInit("test"),
-        stringRule(true, min, 10),
+        stringRule(true, min, max),
         RW.Editable,
         "Item1",
       ),
       item2: useCsInputNumberItem(
         "Item 2",
         useInit(1),
-        numberRule(true, min, 10),
+        numberRule(true, min, max),
         RW.Editable,
         "Item2",
       ),
       item3: useCsInputNumberRangeItem(
         "Item 3",
         useInit([1, 1]),
-        numberRule(true, min, 10),
+        numberRule(true, min, max),
         RW.Editable,
         "Item3",
       ),
@@ -427,9 +428,10 @@ const MinValidateTestComponent = (props: MinValidateTestComponentProps) => {
 };
 
 describe("createStringConstraint, createNumberConstraint, createNumberArrayConstraintメソッド", () => {
-  it("最小値精査が正しく動作すること", async () => {
+  it("最小値バリデーションが正しく動作すること", async () => {
     const min = 8;
-    render(<MinValidateTestComponent min={min} />);
+    const max = 10;
+    render(<MinValidateTestComponent min={min} max={max} />);
     const button = screen.getByRole("button", { name: /テスト/i });
     await act(async () => {
       await userEvent.click(button);
@@ -443,9 +445,10 @@ describe("createStringConstraint, createNumberConstraint, createNumberArrayConst
       expect(screen.getByText(expectedErrorText)).not.toBeUndefined();
     });
   });
-  it("固定値精査が正しく動作すること", async () => {
+  it("固定値バリデーションが正しく動作すること", async () => {
     const min = 10;
-    render(<MinValidateTestComponent min={min} />);
+    const max = 10; // maxとminは同じ値
+    render(<MinValidateTestComponent min={min} max={max} />);
     const button = screen.getByRole("button", { name: /テスト/i });
     await act(async () => {
       await userEvent.click(button);
