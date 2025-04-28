@@ -108,7 +108,7 @@ const meta: Meta<typeof MxMutateButton> = {
     },
     onAfterApiCallError: {
       control: false,
-      description: "API呼び出し失敗後(レスポンスのHTTPステータスコード400系/500系の場合)に実行する処理を指定します。",
+      description: "API呼び出し失敗後(レスポンスのHTTPステータスコード400系/500系の場合、もしくはレスポンスが無い場合)に実行する処理を指定します。",
       table: {
         type: {
           summary:
