@@ -157,7 +157,7 @@ export const AxInputNumberRange = (props: AxInputNumberRangeProps) => {
             readOnly={item.isReadonly()}
             {...antdPropsLower}
             onChange={(value) => {
-              const newValue = value ? value : undefined;
+              const newValue = value ?? undefined;
               item.setLowerValue(newValue as number);
               if (
                 !item.validateWhenErrorExists([
@@ -173,8 +173,8 @@ export const AxInputNumberRange = (props: AxInputNumberRangeProps) => {
             }}
             onBlur={(e) => {
               if (
-                item.lowerValue &&
-                item.upperValue &&
+                item.lowerValue !== undefined &&
+                item.upperValue !== undefined &&
                 item.lowerValue > item.upperValue
               ) {
                 // 下限値が上限値より大きい場合、上限値を下限値に合わせる
@@ -197,7 +197,7 @@ export const AxInputNumberRange = (props: AxInputNumberRangeProps) => {
             readOnly={item.isReadonly()}
             {...antdPropsUpper}
             onChange={(value) => {
-              const newValue = value ? value : undefined;
+              const newValue = value ?? undefined;
               item.setUpperValue(newValue as number);
               if (
                 !item.validateWhenErrorExists([
@@ -213,8 +213,8 @@ export const AxInputNumberRange = (props: AxInputNumberRangeProps) => {
             }}
             onBlur={(e) => {
               if (
-                item.lowerValue &&
-                item.upperValue &&
+                item.lowerValue !== undefined &&
+                item.upperValue !== undefined &&
                 item.upperValue < item.lowerValue
               ) {
                 // 上限値が下限値より小さい場合、下限値を上限値に合わせる

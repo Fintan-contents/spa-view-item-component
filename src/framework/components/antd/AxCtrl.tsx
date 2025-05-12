@@ -246,11 +246,10 @@ export const AxInputNumber = (props: AxInputNumberProps) => {
           placeholder={item.placeholder}
           {...antdProps}
           onChange={(value: ValueType | null) => {
-            if (value !== null) {
-              item.setValue(Number(value));
-              if (!item.validateWhenErrorExists(Number(value))) {
-                setRefresh(true);
-              }
+            const newValue = value ?? undefined;
+            item.setValue(newValue as number);
+            if (!item.validateWhenErrorExists(newValue as number)) {
+              setRefresh(true);
             }
             if (antdProps?.onChange) {
               antdProps.onChange(value);

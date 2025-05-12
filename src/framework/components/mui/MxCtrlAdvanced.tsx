@@ -205,8 +205,8 @@ export const MxInputNumberRange = (props: MxInputNumberRangeProps) => {
             }}
             onBlur={(e) => {
               if (
-                item.lowerValue &&
-                item.upperValue &&
+                item.lowerValue !== undefined &&
+                item.upperValue !== undefined &&
                 item.lowerValue > item.upperValue
               ) {
                 // 下限値が上限値より大きい場合、上限値を下限値に合わせる
@@ -263,8 +263,8 @@ export const MxInputNumberRange = (props: MxInputNumberRangeProps) => {
             }}
             onBlur={(e) => {
               if (
-                item.lowerValue &&
-                item.upperValue &&
+                item.lowerValue !== undefined &&
+                item.upperValue !== undefined &&
                 item.upperValue < item.lowerValue
               ) {
                 // 上限値が下限値より小さい場合、下限値を上限値に合わせる
