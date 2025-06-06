@@ -496,6 +496,7 @@ export const BSxRadioBox = (props: BSxRadioBoxProps) => {
                 disabled={item.isReadonly() && item.value !== value}
                 checked={item.value === value}
                 {...bsProps}
+                id={bsProps?.id + "-" + value}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   item.setValue(e.target.value);
                   if (!item.validateWhenErrorExists(e.target.value)) {
@@ -592,6 +593,7 @@ export const BSxMultiCheckBox = (props: BSxMultiCheckBoxProps) => {
                 label={text}
                 disabled={item.isReadonly() && !item.value?.includes(value)}
                 {...bsProps}
+                id={bsProps?.id + "-" + value}
                 onChange={(e) => {
                   if (item.isReadonly()) return;
                   let newValue: string[];

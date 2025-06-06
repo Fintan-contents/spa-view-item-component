@@ -397,13 +397,16 @@ const AxSelectBoxCommon = <
           }}
         >
           {item.options.map((o) => {
+            const value = o[item.optionValueKey];
+            const label = o[item.optionLabelKey];
             return !item.isReadonly() ||
-              (item.isReadonly() && item.value === o[item.optionValueKey]) ? (
+              (item.isReadonly() && item.value === value) ? (
               <Select.Option
-                key={o[item.optionValueKey]}
-                value={o[item.optionValueKey]}
+                id={antdProps?.id + "-" + value}
+                key={value}
+                value={value}
               >
-                {o[item.optionLabelKey]}
+                {label}
               </Select.Option>
             ) : null;
           })}
@@ -467,15 +470,16 @@ export const AxRadioBox = (props: AxRadioBoxProps) => {
           }}
         >
           {item.options.map((o) => {
+            const value = o[item.optionValueKey];
+            const label = o[item.optionLabelKey];
             return (
               <Radio
-                key={o[item.optionValueKey]}
-                value={o[item.optionValueKey]}
-                disabled={
-                  item.isReadonly() && item.value !== o[item.optionValueKey]
-                }
+                id={antdProps?.id + "-" + value}
+                key={value}
+                value={value}
+                disabled={item.isReadonly() && item.value !== value}
               >
-                {o[item.optionLabelKey]}
+                {label}
               </Radio>
             );
           })}
@@ -538,7 +542,7 @@ export const AxMultiCheckBox = (props: AxMultiCheckBoxProps) => {
         >
           {item.options.map((o) => {
             const value = o[item.optionValueKey];
-            const text = o[item.optionLabelKey];
+            const label = o[item.optionLabelKey];
             return (
               <Checkbox
                 className="checkbox-item"
@@ -547,6 +551,7 @@ export const AxMultiCheckBox = (props: AxMultiCheckBoxProps) => {
                 checked={item.value?.includes(value)}
                 disabled={item.isReadonly() && !item.value?.includes(value)}
                 {...antdProps}
+                id={antdProps?.id + "-" + value}
                 onChange={(e) => {
                   if (item.isReadonly()) return;
                   let newValue: string[];
@@ -566,7 +571,7 @@ export const AxMultiCheckBox = (props: AxMultiCheckBoxProps) => {
                   }
                 }}
               >
-                {text}
+                {label}
               </Checkbox>
             );
           })}

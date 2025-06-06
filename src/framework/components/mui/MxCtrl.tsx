@@ -440,13 +440,16 @@ const MxSelectBoxCommon = <
           }}
         >
           {item.options.map((o) => {
+            const value = o[item.optionValueKey];
+            const label = o[item.optionLabelKey];
             return !item.isReadonly() ||
-              (item.isReadonly() && item.value === o[item.optionValueKey]) ? (
+              (item.isReadonly() && item.value === value) ? (
               <MenuItem
-                key={o[item.optionValueKey]}
-                value={o[item.optionValueKey]}
+                id={muiProps?.id + "-" + value}
+                key={value}
+                value={value}
               >
-                {o[item.optionLabelKey]}
+                {label}
               </MenuItem>
             ) : null;
           })}
@@ -518,19 +521,22 @@ export const MxRadioBox = (props: MxRadioBoxProps) => {
             }}
           >
             {item.options.map((o) => {
-              const selected = o[item.optionValueKey] === item.value;
+              const value = o[item.optionValueKey];
+              const label = o[item.optionLabelKey];
+              const selected = value === item.value;
               return (
                 <FormControlLabel
-                  key={o[item.optionValueKey]}
-                  value={o[item.optionValueKey]}
+                  key={value}
+                  value={value}
                   control={
                     <Radio
-                      key={o[item.optionValueKey]}
+                      id={muiProps?.id + "-" + value}
+                      key={value}
                       readOnly={item.isReadonly()}
                       disabled={item.isReadonly() && !selected}
                     />
                   }
-                  label={o[item.optionLabelKey]}
+                  label={label}
                 />
               );
             })}
@@ -614,7 +620,7 @@ export const MxMultiCheckBox = (props: MxMultiCheckBoxProps) => {
           >
             {item.options.map((o) => {
               const value = o[item.optionValueKey];
-              const text = o[item.optionLabelKey];
+              const label = o[item.optionLabelKey];
               return (
                 <FormControlLabel
                   key={value}
@@ -629,6 +635,7 @@ export const MxMultiCheckBox = (props: MxMultiCheckBoxProps) => {
                         item.isReadonly() && !item.value?.includes(value)
                       }
                       {...muiProps}
+                      id={muiProps?.id + "-" + value}
                       onChange={(e, checked) => {
                         if (item.isReadonly()) return;
                         let newValue: string[];
@@ -651,7 +658,7 @@ export const MxMultiCheckBox = (props: MxMultiCheckBoxProps) => {
                       }}
                     />
                   }
-                  label={text}
+                  label={label}
                 />
               );
             })}
