@@ -16,7 +16,6 @@ import MenuItem from "@mui/material/MenuItem";
 import { SelectChangeEvent } from "@mui/material/Select";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 import React, { ReactNode, useEffect, useState } from "react";
-import { ValidationError } from "../validation/ValidationError";
 import {
   CsCheckBoxItem,
   CsHasOptionsItem,
@@ -31,6 +30,7 @@ import {
   CsSelectNumberBoxItem,
   CsTextAreaItem,
 } from "../../logics";
+import { ValidationError } from "../validation/ValidationError";
 import "./MxCtrl.css";
 
 export interface MxProps<I extends CsItemBase> {
@@ -212,6 +212,7 @@ export const MxEditCtrl = <T,>(props: MxEditCtrlProps<CsItem<T>>) => {
 
 export interface MxInputTextProps extends MxProps<CsInputTextItem> {
   muiProps?: TextFieldProps;
+  dataTestId?: string;
 }
 
 export const MxInputText = (props: MxInputTextProps) => {
@@ -223,7 +224,10 @@ export const MxInputText = (props: MxInputTextProps) => {
         <TextField
           className={getClassName(props)}
           value={item.value}
-          inputProps={{ readOnly: item.isReadonly() }}
+          inputProps={{
+            readOnly: item.isReadonly(),
+            "data-testid": props.dataTestId,
+          }}
           {...muiProps}
           onChange={(e) => {
             item.setValue(e.target.value);
@@ -252,6 +256,7 @@ export const MxInputText = (props: MxInputTextProps) => {
 
 export interface MxInputNumberProps extends MxProps<CsInputNumberItem> {
   muiProps?: TextFieldProps;
+  dataTestId?: string;
 }
 
 export const MxInputNumber = (props: MxInputNumberProps) => {
@@ -265,6 +270,7 @@ export const MxInputNumber = (props: MxInputNumberProps) => {
           value={item.value}
           inputProps={{
             readOnly: item.isReadonly(),
+            "data-testid": props.dataTestId,
           }}
           {...muiProps}
           onChange={(
@@ -302,6 +308,7 @@ export const MxInputNumber = (props: MxInputNumberProps) => {
 
 export interface MxInputPasswordProps extends MxProps<CsInputPasswordItem> {
   muiProps?: TextFieldProps;
+  dataTestId?: string;
 }
 
 export const MxInputPassword = (props: MxInputPasswordProps) => {
@@ -315,6 +322,7 @@ export const MxInputPassword = (props: MxInputPasswordProps) => {
           value={item.value}
           inputProps={{
             readOnly: item.isReadonly(),
+            "data-testid": props.dataTestId,
           }}
           type="password"
           {...muiProps}
@@ -347,6 +355,7 @@ export const MxInputPassword = (props: MxInputPasswordProps) => {
 
 export interface MxTextAreaProps extends MxProps<CsTextAreaItem> {
   muiProps?: TextFieldProps;
+  dataTestId?: string;
 }
 
 export const MxTextArea = (props: MxTextAreaProps) => {
@@ -362,6 +371,7 @@ export const MxTextArea = (props: MxTextAreaProps) => {
             readOnly: item.isReadonly(),
             // https://github.com/mui/base-ui/issues/167
             inputComponent: "textarea",
+            "data-testid": props.dataTestId,
           }}
           // Do not use multiline till this issue fixed ... https://github.com/mui/base-ui/issues/167
           // multiline
@@ -400,6 +410,7 @@ interface MxSelectBoxCommonProps<
   T extends CsHasOptionsItem<V>,
 > extends MxProps<T> {
   muiProps?: SelectProps<V>;
+  dataTestId?: string;
 }
 
 const MxSelectBoxCommon = <
@@ -417,6 +428,7 @@ const MxSelectBoxCommon = <
         <Select
           className={getClassName(props, "fit-content")}
           value={item.value}
+          data-testid={props.dataTestId}
           {...muiProps}
           onChange={(e: SelectChangeEvent<V>, child: React.ReactNode) => {
             const newValue = e.target.value ? e.target.value.toString() : "";
@@ -440,13 +452,18 @@ const MxSelectBoxCommon = <
           }}
         >
           {item.options.map((o) => {
+            const value = o[item.optionValueKey];
+            const label = o[item.optionLabelKey];
             return !item.isReadonly() ||
-              (item.isReadonly() && item.value === o[item.optionValueKey]) ? (
+              (item.isReadonly() && item.value === value) ? (
               <MenuItem
-                key={o[item.optionValueKey]}
-                value={o[item.optionValueKey]}
+                key={value}
+                value={value}
+                data-testid={
+                  props.dataTestId ? `${props.dataTestId}-${value}` : undefined
+                }
               >
-                {o[item.optionLabelKey]}
+                {label}
               </MenuItem>
             ) : null;
           })}
@@ -458,6 +475,7 @@ const MxSelectBoxCommon = <
 export interface MxSelectBoxProps
   extends MxSelectBoxCommonProps<string, CsSelectBoxItem> {
   muiProps?: SelectProps<string>;
+  dataTestId?: string;
 }
 
 export const MxSelectBox = (props: MxSelectBoxProps) => {
@@ -470,6 +488,7 @@ export const MxSelectBox = (props: MxSelectBoxProps) => {
 export interface MxSelectNumberBoxProps
   extends MxSelectBoxCommonProps<number, CsSelectNumberBoxItem> {
   muiProps?: SelectProps<number>;
+  dataTestId?: string;
 }
 
 export const MxSelectNumberBox = (props: MxSelectNumberBoxProps) => {
@@ -481,6 +500,7 @@ export const MxSelectNumberBox = (props: MxSelectNumberBoxProps) => {
 
 export interface MxRadioBoxProps extends MxProps<CsRadioBoxItem> {
   muiProps?: RadioGroupProps & React.RefAttributes<HTMLDivElement>;
+  dataTestId?: string;
 }
 
 export const MxRadioBox = (props: MxRadioBoxProps) => {
@@ -495,6 +515,7 @@ export const MxRadioBox = (props: MxRadioBoxProps) => {
             row
             value={item.value}
             name={"radio-group-" + item.key}
+            data-testid={props.dataTestId}
             {...muiProps}
             onChange={(e, value: string) => {
               if (item.isReadonly()) return;
@@ -518,19 +539,28 @@ export const MxRadioBox = (props: MxRadioBoxProps) => {
             }}
           >
             {item.options.map((o) => {
-              const selected = o[item.optionValueKey] === item.value;
+              const value = o[item.optionValueKey];
+              const label = o[item.optionLabelKey];
+              const selected = value === item.value;
               return (
                 <FormControlLabel
-                  key={o[item.optionValueKey]}
-                  value={o[item.optionValueKey]}
+                  key={value}
+                  value={value}
                   control={
                     <Radio
-                      key={o[item.optionValueKey]}
+                      key={value}
                       readOnly={item.isReadonly()}
                       disabled={item.isReadonly() && !selected}
+                      inputProps={
+                        {
+                          "data-testid": props.dataTestId
+                            ? `${props.dataTestId}-${value}`
+                            : undefined,
+                        } as React.InputHTMLAttributes<HTMLInputElement>
+                      }
                     />
                   }
-                  label={o[item.optionLabelKey]}
+                  label={label}
                 />
               );
             })}
@@ -543,6 +573,7 @@ export const MxRadioBox = (props: MxRadioBoxProps) => {
 
 export interface MxCheckBoxProps extends MxProps<CsCheckBoxItem> {
   muiProps?: CheckboxProps;
+  dataTestId?: string;
 }
 
 export const MxCheckBox = (props: MxCheckBoxProps) => {
@@ -571,6 +602,11 @@ export const MxCheckBox = (props: MxCheckBoxProps) => {
                   checked={item.value}
                   // Readonlyならグレーアウト、チェック済みはハイライト。イベントはCSSで無効化
                   disabled={item.isReadonly() && !item.value}
+                  inputProps={
+                    {
+                      "data-testid": props.dataTestId,
+                    } as React.InputHTMLAttributes<HTMLInputElement>
+                  }
                   {...muiProps}
                   onChange={(e, checked) => {
                     if (item.isReadonly()) return;
@@ -592,6 +628,7 @@ export const MxCheckBox = (props: MxCheckBoxProps) => {
 
 export interface MxMultiCheckBoxProps extends MxProps<CsMultiCheckBoxItem> {
   muiProps?: CheckboxProps;
+  dataTestId?: string;
 }
 
 export const MxMultiCheckBox = (props: MxMultiCheckBoxProps) => {
@@ -603,6 +640,7 @@ export const MxMultiCheckBox = (props: MxMultiCheckBoxProps) => {
         <div className={getClassName(props, "fit-content")}>
           <FormGroup
             className="checkbox-group"
+            data-testid={props.dataTestId}
             onBlur={() => {
               if (item.parentView?.validateTrigger !== "onBlur") {
                 return;
@@ -614,7 +652,7 @@ export const MxMultiCheckBox = (props: MxMultiCheckBoxProps) => {
           >
             {item.options.map((o) => {
               const value = o[item.optionValueKey];
-              const text = o[item.optionLabelKey];
+              const label = o[item.optionLabelKey];
               return (
                 <FormControlLabel
                   key={value}
@@ -627,6 +665,13 @@ export const MxMultiCheckBox = (props: MxMultiCheckBoxProps) => {
                       // Readonlyならグレーアウト、チェック済みはハイライト。イベントはCSSで無効化
                       disabled={
                         item.isReadonly() && !item.value?.includes(value)
+                      }
+                      inputProps={
+                        {
+                          "data-testid": props.dataTestId
+                            ? `${props.dataTestId}-${value}`
+                            : undefined,
+                        } as React.InputHTMLAttributes<HTMLInputElement>
                       }
                       {...muiProps}
                       onChange={(e, checked) => {
@@ -651,7 +696,7 @@ export const MxMultiCheckBox = (props: MxMultiCheckBoxProps) => {
                       }}
                     />
                   }
-                  label={text}
+                  label={label}
                 />
               );
             })}

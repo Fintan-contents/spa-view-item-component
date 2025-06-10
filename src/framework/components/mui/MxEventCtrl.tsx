@@ -50,6 +50,7 @@ export interface MxButtonProps extends MxEventProps {
   disabledTooltipProps?: TooltipProps;
   children?: ReactNode | undefined;
   muiProps?: ButtonProps;
+  dataTestId?: string;
   confirmOption?: ConfirmOption;
   onAfterClickSuccess?: () => void | Promise<void>;
   onAfterClickError?: () => void | Promise<void>;
@@ -148,6 +149,7 @@ export const MxButton = (props: MxButtonProps) => {
               onClickWrap();
             }}
             confirmOption={confirmOption}
+            dataTestId={props.dataTestId}
             {...muiProps}
           >
             {props.children}
@@ -177,6 +179,7 @@ export interface MxButtonWithConfrimProps {
   isLoading?: () => boolean;
   children?: ReactNode;
   muiProps?: ButtonProps;
+  dataTestId?: string;
 }
 
 export const MxButtonWithConfrim = (props: MxButtonWithConfrimProps) => {
@@ -213,6 +216,7 @@ export const MxButtonWithConfrim = (props: MxButtonWithConfrimProps) => {
           }
         }}
         disabled={disabled}
+        data-testid={props.dataTestId}
         {...muiProps}
       >
         <>
@@ -240,6 +244,7 @@ export const MxButtonWithConfrim = (props: MxButtonWithConfrimProps) => {
           setShowConfirm(true); // モーダルの表示
         }}
         disabled={disabled}
+        data-testid={props.dataTestId}
         {...muiProps}
       >
         {isLoading && isLoading() ? <CircularProgress size={"sm"} /> : null}
@@ -315,6 +320,7 @@ export interface MxMutateButtonProps<
   disabledTooltipProps?: TooltipProps;
   children?: ReactNode | undefined;
   muiProps?: ButtonProps;
+  dataTestId?: string;
   confirmOption?: ConfirmOption;
   onBeforeApiCall?:
     | ((event: CsMutateButtonClickEvent<TApiRequest, TApiResponse>) => boolean)
@@ -475,6 +481,7 @@ export const MxMutateButton = <TApiRequest = unknown, TApiResponse = unknown>(
             confirmOption={confirmOption}
             disabled={event.apiRequest === undefined}
             isLoading={() => event.isLoading}
+            dataTestId={props.dataTestId}
             {...muiProps}
           >
             {props.children}
@@ -496,6 +503,7 @@ export interface MxQueryButtonProps<TApiResponse = unknown>
   disabledTooltipProps?: TooltipProps;
   children?: ReactNode | undefined;
   muiProps?: ButtonProps;
+  dataTestId?: string;
   confirmOption?: ConfirmOption;
   onBeforeApiCall?:
     | ((event: CsQueryButtonClickEvent<TApiResponse>) => boolean)
@@ -631,6 +639,7 @@ export const MxQueryButton = <TApiResponse = unknown,>(
             onButtonClick={onClickWrap}
             confirmOption={confirmOption}
             isLoading={() => event.isLoading}
+            dataTestId={props.dataTestId}
             {...muiProps}
           >
             {props.children}
