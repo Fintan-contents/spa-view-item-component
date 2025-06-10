@@ -80,6 +80,10 @@ const meta: Meta<typeof BSxRadioBox> = {
         },
       },
     },
+    dataTestId: {
+      control: false,
+      description: `テストフレームワーク用の識別IDを指定します。`,
+    },
   },
 };
 

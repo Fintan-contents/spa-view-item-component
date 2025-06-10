@@ -99,6 +99,10 @@ const meta: Meta<typeof BSxMutateButton> = {
         type: { summary: "ButtonProps" },
       },
     },
+    dataTestId: {
+      control: false,
+      description: `テストフレームワーク用の識別IDを指定します。`,
+    },
     confirmOption: {
       control: false,
       description:

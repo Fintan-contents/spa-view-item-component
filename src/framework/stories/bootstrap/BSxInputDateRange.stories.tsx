@@ -88,6 +88,14 @@ const meta: Meta<typeof BSxInputDateRange> = {
         },
       },
     },
+    dataTestIdLower: {
+      control: false,
+      description: `下限の入力フィールドに対するテストフレームワーク用の識別IDを指定します。`,
+    },
+    dataTestIdUpper: {
+      control: false,
+      description: `上限の入力フィールドに対するテストフレームワーク用の識別IDを指定します。`,
+    },
   },
 };
 

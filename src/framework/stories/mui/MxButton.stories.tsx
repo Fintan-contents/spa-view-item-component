@@ -103,6 +103,10 @@ const meta: Meta<typeof MxButton> = {
         },
       },
     },
+    dataTestId: {
+      control: false,
+      description: `テストフレームワーク用の識別IDを指定します。`,
+    },
   },
 };
 

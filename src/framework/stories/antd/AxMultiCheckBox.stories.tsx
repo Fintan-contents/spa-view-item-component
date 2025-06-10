@@ -1,4 +1,5 @@
 // AxMultiCheckBox の Story ファイル
+import { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 import {
   AxButton,
@@ -18,7 +19,6 @@ import {
   useCsView,
   useInit,
 } from "../../logics";
-import { Meta, StoryObj } from "@storybook/react";
 
 /**
  * Ant DesignのCheckboxをラップしたコンポーネントであり、ラベル表示、バリデーション表示、イベントハンドラなどの主要な機能が内部に実装されています。
@@ -78,6 +78,10 @@ const meta: Meta<typeof AxMultiCheckBox> = {
       table: {
         type: { summary: "CheckboxProps" },
       },
+    },
+    dataTestId: {
+      control: false,
+      description: `テストフレームワーク用の識別IDを指定します。`,
     },
   },
 };

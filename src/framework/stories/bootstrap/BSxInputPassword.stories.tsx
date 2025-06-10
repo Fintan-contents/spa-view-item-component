@@ -81,6 +81,10 @@ const meta: Meta<typeof BSxInputPassword> = {
         },
       },
     },
+    dataTestId: {
+      control: false,
+      description: `テストフレームワーク用の識別IDを指定します。`,
+    },
   },
 };
 

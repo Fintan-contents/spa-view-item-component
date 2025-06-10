@@ -79,6 +79,10 @@ const meta: Meta<typeof MxTextArea> = {
         type: { summary: "TextFieldProps" },
       },
     },
+    dataTestId: {
+      control: false,
+      description: `テストフレームワーク用の識別IDを指定します。`,
+    },
   },
 };
 

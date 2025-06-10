@@ -81,6 +81,10 @@ const meta: Meta<typeof MxSelectNumberBox> = {
         type: { summary: " SelectProps<number>" },
       },
     },
+    dataTestId: {
+      control: false,
+      description: `テストフレームワーク用の識別IDを指定します。`,
+    },
   },
 };
 

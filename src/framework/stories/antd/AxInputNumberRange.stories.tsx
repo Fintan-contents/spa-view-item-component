@@ -1,4 +1,5 @@
 // AxInputNumberRange の Story ファイル
+import { Meta, StoryObj } from "@storybook/react";
 import {
   AxButton,
   AxCheckBox,
@@ -17,7 +18,6 @@ import {
   useInit,
   useRangeInit,
 } from "../../logics";
-import { Meta, StoryObj } from "@storybook/react";
 
 /**
  * Ant DesignのInputNumberをラップしたコンポーネントであり、ラベル表示、バリデーション表示、イベントハンドラなどの主要な機能が内部に実装されています。
@@ -77,6 +77,14 @@ const meta: Meta<typeof AxInputNumberRange> = {
     antdPropsUpper: {
       control: false,
       description: `数値範囲の上限の最小値・最大値の指定ができます。<br><br>定義例：\`antdPropsUpper={{min: 0, max: 100}}\``,
+    },
+    dataTestIdLower: {
+      control: false,
+      description: `下限の入力フィールドに対するテストフレームワーク用の識別IDを指定します。`,
+    },
+    dataTestIdUpper: {
+      control: false,
+      description: `上限の入力フィールドに対するテストフレームワーク用の識別IDを指定します。`,
     },
   },
 };

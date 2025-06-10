@@ -77,6 +77,10 @@ const meta: Meta<typeof MxInputText> = {
         type: { summary: "TextFieldProps" },
       },
     },
+    dataTestId: {
+      control: false,
+      description: `テストフレームワーク用の識別IDを指定します。`,
+    },
   },
 };
 

@@ -77,6 +77,10 @@ const meta: Meta<typeof AxInputText> = {
         type: { summary: "InputProps & React.RefAttributes<InputRef>" },
       },
     },
+    dataTestId: {
+      control: false,
+      description: `テストフレームワーク用の識別IDを指定します。`,
+    },
   },
 };
 

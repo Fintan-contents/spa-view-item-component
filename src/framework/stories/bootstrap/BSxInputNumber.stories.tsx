@@ -80,6 +80,10 @@ const meta: Meta<typeof BSxInputNumber> = {
         },
       },
     },
+    dataTestId: {
+      control: false,
+      description: `テストフレームワーク用の識別IDを指定します。`,
+    },
   },
 };
 

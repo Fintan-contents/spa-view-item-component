@@ -81,6 +81,10 @@ const meta: Meta<typeof MxQueryButton> = {
         type: { summary: "ButtonProps" },
       },
     },
+    dataTestId: {
+      control: false,
+      description: `テストフレームワーク用の識別IDを指定します。`,
+    },
     confirmOption: {
       control: false,
       description:
