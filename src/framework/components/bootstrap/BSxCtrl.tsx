@@ -195,6 +195,7 @@ export interface BSxInputTextProps extends BSxProps<CsInputTextItem> {
   bsProps?: React.PropsWithChildren<
     ReplaceProps<"input", BsPrefixProps<"input"> & FormControlProps>
   >;
+  dataTestId?: string;
 }
 
 export const BSxInputText = (props: BSxInputTextProps) => {
@@ -208,6 +209,7 @@ export const BSxInputText = (props: BSxInputTextProps) => {
           as="input"
           value={item.value}
           readOnly={item.isReadonly()}
+          data-testid={props.dataTestId}
           {...bsProps}
           onChange={(e) => {
             item.setValue(e.target.value);
@@ -238,6 +240,7 @@ export interface BSxInputNumberProps extends BSxProps<CsInputNumberItem> {
   bsProps?: React.PropsWithChildren<
     ReplaceProps<"input", BsPrefixProps<"input"> & FormControlProps>
   >;
+  dataTestId?: string;
 }
 
 export const BSxInputNumber = (props: BSxInputNumberProps) => {
@@ -251,6 +254,7 @@ export const BSxInputNumber = (props: BSxInputNumberProps) => {
           type="number"
           value={item.value}
           readOnly={item.isReadonly()}
+          data-testid={props.dataTestId}
           {...bsProps}
           onChange={(e) => {
             const newValue = e.target.value ? e.target.value : undefined;
@@ -283,6 +287,7 @@ export interface BSxInputPasswordProps extends BSxProps<CsInputPasswordItem> {
   bsProps?: React.PropsWithChildren<
     ReplaceProps<"input", BsPrefixProps<"input"> & FormControlProps>
   >;
+  dataTestId?: string;
 }
 
 export const BSxInputPassword = (props: BSxInputPasswordProps) => {
@@ -296,6 +301,7 @@ export const BSxInputPassword = (props: BSxInputPasswordProps) => {
           type="password"
           value={item.value}
           readOnly={item.isReadonly()}
+          data-testid={props.dataTestId}
           {...bsProps}
           onChange={(e) => {
             item.setValue(e.target.value);
@@ -326,6 +332,7 @@ export interface BSxTextAreaProps extends BSxProps<CsTextAreaItem> {
   bsProps?: React.PropsWithChildren<
     ReplaceProps<"input", BsPrefixProps<"input"> & FormControlProps>
   >;
+  dataTestId?: string;
 }
 
 export const BSxTextArea = (props: BSxTextAreaProps) => {
@@ -339,6 +346,7 @@ export const BSxTextArea = (props: BSxTextAreaProps) => {
           as="textarea"
           value={item.value}
           readOnly={item.isReadonly()}
+          data-testid={props.dataTestId}
           {...bsProps}
           onChange={(e) => {
             item.setValue(e.target.value);
@@ -372,6 +380,7 @@ interface BSxSelectBoxCommonProps<
   bsProps?: React.PropsWithChildren<
     ReplaceProps<"select", BsPrefixProps<"select"> & FormSelectProps>
   >;
+  dataTestId?: string;
 }
 
 const BSxSelectBoxCommon = <
@@ -389,6 +398,7 @@ const BSxSelectBoxCommon = <
         <Form.Select
           className={getClassName(props, "fit-content")}
           value={item.value}
+          data-testid={props.dataTestId}
           {...bsProps}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
             const newValue = e.target.value;
@@ -435,6 +445,7 @@ export interface BSxSelectBoxProps
   bsProps?: React.PropsWithChildren<
     ReplaceProps<"select", BsPrefixProps<"select"> & FormSelectProps>
   >;
+  dataTestId?: string;
 }
 
 export const BSxSelectBox = (props: BSxSelectBoxProps) => {
@@ -449,6 +460,7 @@ export interface BSxSelectNumberBoxProps
   bsProps?: React.PropsWithChildren<
     ReplaceProps<"select", BsPrefixProps<"select"> & FormSelectProps>
   >;
+  dataTestId?: string;
 }
 
 export const BSxSelectNumberBox = (props: BSxSelectNumberBoxProps) => {
@@ -462,6 +474,7 @@ export interface BSxRadioBoxProps extends BSxProps<CsRadioBoxItem> {
   bsProps?: React.PropsWithChildren<
     ReplaceProps<"input", BsPrefixProps<"input"> & FormCheckProps>
   >;
+  dataTestId?: string;
 }
 
 export const BSxRadioBox = (props: BSxRadioBoxProps) => {
@@ -472,6 +485,7 @@ export const BSxRadioBox = (props: BSxRadioBoxProps) => {
       renderCtrl={(setRefresh) => (
         <Form.Group
           className={getClassName(props, "fit-content checkbox-area")}
+          data-testid={props.dataTestId}
           {...bsProps}
           defaultValue={item.value}
           onBlur={() => {
@@ -495,6 +509,9 @@ export const BSxRadioBox = (props: BSxRadioBoxProps) => {
                 label={label}
                 disabled={item.isReadonly() && item.value !== value}
                 checked={item.value === value}
+                data-testid={
+                  props.dataTestId ? `${props.dataTestId}-${value}` : undefined
+                }
                 {...bsProps}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   item.setValue(e.target.value);
@@ -518,6 +535,7 @@ export interface BSxCheckBoxProps extends BSxProps<CsCheckBoxItem> {
   bsProps?: React.PropsWithChildren<
     ReplaceProps<"input", BsPrefixProps<"input"> & FormCheckProps>
   >;
+  dataTestId?: string;
 }
 
 export const BSxCheckBox = (props: BSxCheckBoxProps) => {
@@ -542,6 +560,7 @@ export const BSxCheckBox = (props: BSxCheckBoxProps) => {
             label={item.checkBoxText}
             defaultChecked={item.isChecked()}
             disabled={item.isReadonly()}
+            data-testid={props.dataTestId}
             {...bsProps}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               item.setValue(e.target.checked);
@@ -560,6 +579,7 @@ export interface BSxMultiCheckBoxProps extends BSxProps<CsMultiCheckBoxItem> {
   bsProps?: React.PropsWithChildren<
     ReplaceProps<"input", BsPrefixProps<"input"> & FormCheckProps>
   >;
+  dataTestId?: string;
 }
 
 export const BSxMultiCheckBox = (props: BSxMultiCheckBoxProps) => {
@@ -570,6 +590,7 @@ export const BSxMultiCheckBox = (props: BSxMultiCheckBoxProps) => {
       renderCtrl={(setRefresh) => (
         <Form.Group
           className={getClassName(props, "fit-content checkbox-area")}
+          data-testid={props.dataTestId}
           onBlur={() => {
             if (item.parentView?.validateTrigger !== "onBlur") {
               return;
@@ -591,6 +612,9 @@ export const BSxMultiCheckBox = (props: BSxMultiCheckBoxProps) => {
                 defaultChecked={item.value?.includes(value)}
                 label={text}
                 disabled={item.isReadonly() && !item.value?.includes(value)}
+                data-testid={
+                  props.dataTestId ? `${props.dataTestId}-${value}` : undefined
+                }
                 {...bsProps}
                 onChange={(e) => {
                   if (item.isReadonly()) return;

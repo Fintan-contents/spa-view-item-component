@@ -50,6 +50,7 @@ export interface BSxButtonProps extends BSxEventProps {
   disabledTooltipProps?: TooltipProps;
   children?: ReactNode | undefined;
   bsProps?: ButtonProps;
+  dataTestId?: string;
   confirmOption?: ConfirmOption;
   onAfterClickSuccess?: () => void | Promise<void>;
   onAfterClickError?: () => void | Promise<void>;
@@ -151,6 +152,7 @@ export const BSxButton = (props: BSxButtonProps) => {
               onClickWrap();
             }}
             confirmOption={confirmOption}
+            dataTestId={props.dataTestId}
             bsProps={bsProps}
           >
             {props.children}
@@ -180,6 +182,7 @@ export interface BSxButtonWithConfrimProps {
   isLoading?: () => boolean;
   children?: ReactNode;
   bsProps?: ButtonProps;
+  dataTestId?: string;
 }
 
 export const BSxButtonWithConfrim = (props: BSxButtonWithConfrimProps) => {
@@ -216,6 +219,7 @@ export const BSxButtonWithConfrim = (props: BSxButtonWithConfrimProps) => {
           }
         }}
         disabled={disabled}
+        data-testid={props.dataTestId}
         {...bsProps}
       >
         <>
@@ -243,6 +247,7 @@ export const BSxButtonWithConfrim = (props: BSxButtonWithConfrimProps) => {
           setShowConfirm(true); // モーダルの表示
         }}
         disabled={disabled}
+        data-testid={props.dataTestId}
         {...bsProps}
       >
         {isLoading && isLoading() ? <Spinner size="sm" /> : null}
@@ -295,6 +300,7 @@ export interface BSxMutateButtonProps<
   disabledTooltipProps?: TooltipProps;
   children?: ReactNode | undefined;
   bsProps?: ButtonProps;
+  dataTestId?: string;
   confirmOption?: ConfirmOption;
   onBeforeApiCall?:
     | ((event: CsMutateButtonClickEvent<TApiRequest, TApiResponse>) => boolean)
@@ -458,6 +464,7 @@ export const BSxMutateButton = <TApiRequest = unknown, TApiResponse = unknown>(
             confirmOption={confirmOption}
             disabled={event.apiRequest === undefined}
             isLoading={() => event.isLoading}
+            dataTestId={props.dataTestId}
             bsProps={bsProps}
           >
             {props.children}
@@ -479,6 +486,7 @@ export interface BSxQueryButtonProps<TApiResponse = unknown>
   disabledTooltipProps?: TooltipProps;
   children?: ReactNode | undefined;
   bsProps?: ButtonProps;
+  dataTestId?: string;
   confirmOption?: ConfirmOption;
   onBeforeApiCall?:
     | ((event: CsQueryButtonClickEvent<TApiResponse>) => boolean)
@@ -617,6 +625,7 @@ export const BSxQueryButton = <TApiResponse = unknown,>(
             onButtonClick={onClickWrap}
             confirmOption={confirmOption}
             isLoading={() => event.isLoading}
+            dataTestId={props.dataTestId}
             bsProps={bsProps}
           >
             {props.children}

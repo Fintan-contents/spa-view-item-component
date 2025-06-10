@@ -14,6 +14,7 @@ export interface BSxInputDateProps extends BSxProps<CsInputDateItem> {
   bsProps?: React.PropsWithChildren<
     ReplaceProps<"input", BsPrefixProps<"input"> & FormControlProps>
   >;
+  dataTestId?: string;
 }
 
 export const BSxInputDate = (props: BSxInputDateProps) => {
@@ -29,6 +30,7 @@ export const BSxInputDate = (props: BSxInputDateProps) => {
           className={getClassName(props, "fit-content")}
           type="date"
           value={displayValue}
+          data-testid={props.dataTestId}
           {...bsProps}
           onChange={(e) => {
             if (item.isReadonly()) return;
@@ -67,6 +69,8 @@ export interface BSxInputDateRangeProps extends BSxProps<CsInputDateRangeItem> {
   bsPropsUpper?: React.PropsWithChildren<
     ReplaceProps<"input", BsPrefixProps<"input"> & FormControlProps>
   >;
+  dataTestIdLower?: string;
+  dataTestIdUpper?: string;
 }
 
 export const BSxInputDateRange = (props: BSxInputDateRangeProps) => {
@@ -83,6 +87,7 @@ export const BSxInputDateRange = (props: BSxInputDateRangeProps) => {
             type="date"
             value={fromDisplayValue}
             readOnly={item.isReadonly()}
+            data-testid={props.dataTestIdLower}
             {...bsPropsLower}
             onChange={(e) => {
               const newValue = e.target.value ? e.target.value : undefined;
@@ -136,6 +141,7 @@ export const BSxInputDateRange = (props: BSxInputDateRangeProps) => {
             type="date"
             value={toDisplayValue}
             readOnly={item.isReadonly()}
+            data-testid={props.dataTestIdUpper}
             {...bsPropsUpper}
             onChange={(e) => {
               const newValue = e.target.value ? e.target.value : undefined;
@@ -188,6 +194,8 @@ export interface BSxInputNumberRangeProps
   bsPropsUpper?: React.PropsWithChildren<
     ReplaceProps<"input", BsPrefixProps<"input"> & FormControlProps>
   >;
+  dataTestIdLower?: string;
+  dataTestIdUpper?: string;
 }
 
 export const BSxInputNumberRange = (props: BSxInputNumberRangeProps) => {
@@ -202,6 +210,7 @@ export const BSxInputNumberRange = (props: BSxInputNumberRangeProps) => {
             type="number"
             value={item.lowerValue}
             readOnly={item.isReadonly()}
+            data-testid={props.dataTestIdLower}
             {...bsPropsLower}
             onChange={(e) => {
               const newValue = e.target.value ? e.target.value : undefined;
@@ -253,6 +262,7 @@ export const BSxInputNumberRange = (props: BSxInputNumberRangeProps) => {
             type="number"
             value={item.upperValue}
             readOnly={item.isReadonly()}
+            data-testid={props.dataTestIdUpper}
             {...bsPropsUpper}
             onChange={(e) => {
               const newValue = e.target.value ? e.target.value : undefined;
