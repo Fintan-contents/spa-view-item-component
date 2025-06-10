@@ -40,6 +40,7 @@ export interface AxButtonProps extends AxEventProps {
   disabledTooltipProps?: TooltipProps;
   children?: ReactNode | undefined;
   antdProps?: ButtonProps;
+  dataTestId?: string;
   confirmOption?: ConfirmOption;
   onAfterClickSuccess?: () => void | Promise<void>;
   onAfterClickError?: () => void | Promise<void>;
@@ -153,6 +154,7 @@ export const AxButton = (props: AxButtonProps) => {
           onClick={() => {
             onClickWrap();
           }}
+          data-testid={props.dataTestId}
           {...antdProps}
         >
           {props.children}
@@ -185,6 +187,7 @@ export interface AxMutateButtonProps<
   disabledTooltipProps?: TooltipProps;
   children?: ReactNode | undefined;
   antdProps?: ButtonProps;
+  dataTestId?: string;
   confirmOption?: ConfirmOption;
   onBeforeApiCall?:
     | ((event: CsMutateButtonClickEvent<TApiRequest, TApiResponse>) => boolean)
@@ -359,6 +362,7 @@ export const AxMutateButton = <TApiRequest = unknown, TApiResponse = unknown>(
             onClick();
           }}
           disabled={event.apiRequest === undefined}
+          data-testid={props.dataTestId}
           {...antdProps}
         >
           {props.children}
@@ -380,6 +384,7 @@ export interface AxQueryButtonProps<TApiResponse = unknown>
   disabledTooltipProps?: TooltipProps;
   children?: ReactNode | undefined;
   antdProps?: ButtonProps;
+  dataTestId?: string;
   confirmOption?: ConfirmOption;
   onBeforeApiCall?:
     | ((event: CsQueryButtonClickEvent<TApiResponse>) => boolean)
@@ -530,6 +535,7 @@ export const AxQueryButton = <TApiResponse = unknown,>(
           onClick={() => {
             onClick();
           }}
+          data-testid={props.dataTestId}
           {...antdProps}
         >
           {props.children}

@@ -19,6 +19,7 @@ type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
 
 export interface AxInputDateProps extends AxProps<CsInputDateItem> {
   antdProps?: DatePickerProps;
+  dataTestId?: string;
 }
 
 export const AxInputDate = (props: AxInputDateProps) => {
@@ -41,6 +42,7 @@ export const AxInputDate = (props: AxInputDateProps) => {
             className={getClassName(props, ["fit-content"])}
             value={item.value ? dayjs(item.value) : undefined}
             format={item.displayFormat}
+            data-testid={props.dataTestId}
             {...antdProps}
             onChange={(value: Dayjs, dateString: string | string[]) => {
               if (item.isReadonly()) return;
@@ -62,6 +64,7 @@ export const AxInputDate = (props: AxInputDateProps) => {
 
 export interface AxInputDateRangeProp extends AxProps<CsInputDateRangeItem> {
   antdProps?: RangePickerProps;
+  dataTestId?: string;
 }
 
 export const AxInputDateRange: React.FC<AxInputDateRangeProp> = (
@@ -84,6 +87,7 @@ export const AxInputDateRange: React.FC<AxInputDateRangeProp> = (
             item.upperPlaceholder ?? "終了日を選択してください",
           ]}
           format={item.format}
+          data-testid={props.dataTestId}
           {...antdProps}
           onCalendarChange={(dates, _, __) => {
             if (item.isReadonly()) {
@@ -142,6 +146,8 @@ export interface AxInputNumberRangeProps
   extends AxProps<CsInputNumberRangeItem> {
   antdPropsLower?: InputNumberProps;
   antdPropsUpper?: InputNumberProps;
+  dataTestIdLower?: string;
+  dataTestIdUpper?: string;
 }
 
 export const AxInputNumberRange = (props: AxInputNumberRangeProps) => {
@@ -155,6 +161,7 @@ export const AxInputNumberRange = (props: AxInputNumberRangeProps) => {
             className={getClassName(props, ["input-number"])}
             value={item.lowerValue}
             readOnly={item.isReadonly()}
+            data-testid={props.dataTestIdLower}
             {...antdPropsLower}
             onChange={(value) => {
               const newValue = value ?? undefined;
@@ -195,6 +202,7 @@ export const AxInputNumberRange = (props: AxInputNumberRangeProps) => {
             className={getClassName(props, ["input-number"])}
             value={item.upperValue}
             readOnly={item.isReadonly()}
+            data-testid={props.dataTestIdUpper}
             {...antdPropsUpper}
             onChange={(value) => {
               const newValue = value ?? undefined;

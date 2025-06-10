@@ -190,6 +190,7 @@ export const AxEditCtrl = <T,>(props: AxEditCtrlProps<CsItem<T>>) => {
 };
 export interface AxInputTextProps extends AxProps<CsInputTextItem> {
   antdProps?: InputProps & React.RefAttributes<InputRef>;
+  dataTestId?: string;
 }
 
 export const AxInputText = (props: AxInputTextProps) => {
@@ -203,6 +204,7 @@ export const AxInputText = (props: AxInputTextProps) => {
           value={item.value}
           readOnly={item.isReadonly()}
           placeholder={item.placeholder}
+          data-testid={props.dataTestId}
           {...antdProps}
           onChange={(e) => {
             item.setValue(e.target.value);
@@ -231,6 +233,7 @@ export const AxInputText = (props: AxInputTextProps) => {
 
 export interface AxInputNumberProps extends AxProps<CsInputNumberItem> {
   antdProps?: InputNumberProps;
+  dataTestId?: string;
 }
 
 export const AxInputNumber = (props: AxInputNumberProps) => {
@@ -244,6 +247,7 @@ export const AxInputNumber = (props: AxInputNumberProps) => {
           value={item.value}
           readOnly={item.isReadonly()}
           placeholder={item.placeholder}
+          data-testid={props.dataTestId}
           {...antdProps}
           onChange={(value: ValueType | null) => {
             const newValue = value ?? undefined;
@@ -273,6 +277,7 @@ export const AxInputNumber = (props: AxInputNumberProps) => {
 
 export interface AxInputPasswordProps extends AxProps<CsInputPasswordItem> {
   antdProps?: InputProps & React.RefAttributes<InputRef>;
+  dataTestId?: string;
 }
 
 export const AxInputPassword = (props: AxInputPasswordProps) => {
@@ -286,6 +291,7 @@ export const AxInputPassword = (props: AxInputPasswordProps) => {
           value={item.value}
           readOnly={item.isReadonly()}
           placeholder={item.placeholder}
+          data-testid={props.dataTestId}
           {...antdProps}
           onChange={(e) => {
             item.setValue(e.target.value);
@@ -314,6 +320,7 @@ export const AxInputPassword = (props: AxInputPasswordProps) => {
 
 export interface AxTextAreaProps extends AxProps<CsTextAreaItem> {
   antdProps?: TextAreaProps & React.RefAttributes<TextAreaRef>;
+  dataTestId?: string;
 }
 
 export const AxTextArea = (props: AxTextAreaProps) => {
@@ -327,6 +334,7 @@ export const AxTextArea = (props: AxTextAreaProps) => {
           value={item.value}
           readOnly={item.isReadonly()}
           placeholder={item.placeholder}
+          data-testid={props.dataTestId}
           {...antdProps}
           onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
             item.setValue(e.target.value);
@@ -358,6 +366,7 @@ interface AxSelectBoxCommonProps<
   T extends CsHasOptionsItem<V>,
 > extends AxProps<T> {
   antdProps?: SelectProps;
+  dataTestId?: string;
 }
 
 const AxSelectBoxCommon = <
@@ -375,6 +384,7 @@ const AxSelectBoxCommon = <
           className={getClassName(props, ["fit-content"])}
           value={item.value}
           placeholder={item.placeholder}
+          data-testid={props.dataTestId}
           {...antdProps}
           onChange={(value: V) => {
             item.setValue(value);
@@ -397,13 +407,18 @@ const AxSelectBoxCommon = <
           }}
         >
           {item.options.map((o) => {
+            const value = o[item.optionValueKey];
+            const label = o[item.optionLabelKey];
             return !item.isReadonly() ||
-              (item.isReadonly() && item.value === o[item.optionValueKey]) ? (
+              (item.isReadonly() && item.value === value) ? (
               <Select.Option
-                key={o[item.optionValueKey]}
-                value={o[item.optionValueKey]}
+                key={value}
+                value={value}
+                data-testid={
+                  props.dataTestId ? `${props.dataTestId}-${value}` : undefined
+                }
               >
-                {o[item.optionLabelKey]}
+                {label}
               </Select.Option>
             ) : null;
           })}
@@ -416,6 +431,7 @@ const AxSelectBoxCommon = <
 export interface AxSelectBoxProps
   extends AxSelectBoxCommonProps<string, CsSelectBoxItem> {
   antdProps?: SelectProps;
+  dataTestId?: string;
 }
 
 export const AxSelectBox = (props: AxSelectBoxProps) => {
@@ -425,6 +441,7 @@ export const AxSelectBox = (props: AxSelectBoxProps) => {
 export interface AxSelectNumberBoxProps
   extends AxSelectBoxCommonProps<number, CsSelectNumberBoxItem> {
   antdProps?: SelectProps;
+  dataTestId?: string;
 }
 
 export const AxSelectNumberBox = (props: AxSelectNumberBoxProps) => {
@@ -433,6 +450,7 @@ export const AxSelectNumberBox = (props: AxSelectNumberBoxProps) => {
 
 export interface AxRadioBoxProps extends AxProps<CsRadioBoxItem> {
   antdProps?: RadioGroupProps;
+  dataTestId?: string;
 }
 
 export const AxRadioBox = (props: AxRadioBoxProps) => {
@@ -444,6 +462,7 @@ export const AxRadioBox = (props: AxRadioBoxProps) => {
         <Radio.Group
           className={getClassName(props, ["fit-content"])}
           value={item.value}
+          data-testid={props.dataTestId}
           {...antdProps}
           onChange={(e) => {
             if (item.isReadonly()) return;
@@ -467,15 +486,18 @@ export const AxRadioBox = (props: AxRadioBoxProps) => {
           }}
         >
           {item.options.map((o) => {
+            const value = o[item.optionValueKey];
+            const label = o[item.optionLabelKey];
             return (
               <Radio
-                key={o[item.optionValueKey]}
-                value={o[item.optionValueKey]}
-                disabled={
-                  item.isReadonly() && item.value !== o[item.optionValueKey]
+                key={value}
+                value={value}
+                disabled={item.isReadonly() && item.value !== value}
+                data-testid={
+                  props.dataTestId ? `${props.dataTestId}-${value}` : undefined
                 }
               >
-                {o[item.optionLabelKey]}
+                {label}
               </Radio>
             );
           })}
@@ -487,6 +509,7 @@ export const AxRadioBox = (props: AxRadioBoxProps) => {
 
 export interface AxCheckBoxProps extends AxProps<CsCheckBoxItem> {
   antdProps?: CheckboxProps;
+  dataTestId?: string;
 }
 
 export const AxCheckBox = (props: AxCheckBoxProps) => {
@@ -499,6 +522,7 @@ export const AxCheckBox = (props: AxCheckBoxProps) => {
           className={getClassName(props, ["fit-content", "checkbox"])}
           value={item.value}
           checked={item.value}
+          data-testid={props.dataTestId}
           {...antdProps}
           onChange={(e) => {
             if (item.isReadonly()) return;
@@ -517,6 +541,7 @@ export const AxCheckBox = (props: AxCheckBoxProps) => {
 
 export interface AxMultiCheckBoxProps extends AxProps<CsMultiCheckBoxItem> {
   antdProps?: CheckboxProps;
+  dataTestId?: string;
 }
 
 export const AxMultiCheckBox = (props: AxMultiCheckBoxProps) => {
@@ -527,6 +552,7 @@ export const AxMultiCheckBox = (props: AxMultiCheckBoxProps) => {
       renderCtrl={(setRefresh) => (
         <div
           className={getClassName(props, ["fit-content", "multi-checkbox"])}
+          data-testid={props.dataTestId}
           onBlur={() => {
             if (item.parentView?.validateTrigger !== "onBlur") {
               return;
@@ -538,7 +564,7 @@ export const AxMultiCheckBox = (props: AxMultiCheckBoxProps) => {
         >
           {item.options.map((o) => {
             const value = o[item.optionValueKey];
-            const text = o[item.optionLabelKey];
+            const label = o[item.optionLabelKey];
             return (
               <Checkbox
                 className="checkbox-item"
@@ -546,6 +572,9 @@ export const AxMultiCheckBox = (props: AxMultiCheckBoxProps) => {
                 value={value}
                 checked={item.value?.includes(value)}
                 disabled={item.isReadonly() && !item.value?.includes(value)}
+                data-testid={
+                  props.dataTestId ? `${props.dataTestId}-${value}` : undefined
+                }
                 {...antdProps}
                 onChange={(e) => {
                   if (item.isReadonly()) return;
@@ -566,7 +595,7 @@ export const AxMultiCheckBox = (props: AxMultiCheckBoxProps) => {
                   }
                 }}
               >
-                {text}
+                {label}
               </Checkbox>
             );
           })}
