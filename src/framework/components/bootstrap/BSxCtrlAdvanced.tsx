@@ -14,7 +14,6 @@ export interface BSxInputDateProps extends BSxProps<CsInputDateItem> {
   bsProps?: React.PropsWithChildren<
     ReplaceProps<"input", BsPrefixProps<"input"> & FormControlProps>
   >;
-  dataTestId?: string;
 }
 
 export const BSxInputDate = (props: BSxInputDateProps) => {
@@ -62,7 +61,8 @@ export const BSxInputDate = (props: BSxInputDateProps) => {
   );
 };
 
-export interface BSxInputDateRangeProps extends BSxProps<CsInputDateRangeItem> {
+export interface BSxInputDateRangeProps
+  extends Omit<BSxProps<CsInputDateRangeItem>, "dataTestId"> {
   bsPropsLower?: React.PropsWithChildren<
     ReplaceProps<"input", BsPrefixProps<"input"> & FormControlProps>
   >;
@@ -187,7 +187,7 @@ export const BSxInputDateRange = (props: BSxInputDateRangeProps) => {
 };
 
 export interface BSxInputNumberRangeProps
-  extends BSxProps<CsInputNumberRangeItem> {
+  extends Omit<BSxProps<CsInputNumberRangeItem>, "dataTestId"> {
   bsPropsLower?: React.PropsWithChildren<
     ReplaceProps<"input", BsPrefixProps<"input"> & FormControlProps>
   >;

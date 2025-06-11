@@ -19,7 +19,6 @@ type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
 
 export interface AxInputDateProps extends AxProps<CsInputDateItem> {
   antdProps?: DatePickerProps;
-  dataTestId?: string;
 }
 
 export const AxInputDate = (props: AxInputDateProps) => {
@@ -64,7 +63,6 @@ export const AxInputDate = (props: AxInputDateProps) => {
 
 export interface AxInputDateRangeProp extends AxProps<CsInputDateRangeItem> {
   antdProps?: RangePickerProps;
-  dataTestId?: string;
 }
 
 export const AxInputDateRange: React.FC<AxInputDateRangeProp> = (
@@ -143,7 +141,7 @@ export const AxInputDateRange: React.FC<AxInputDateRangeProp> = (
 };
 
 export interface AxInputNumberRangeProps
-  extends AxProps<CsInputNumberRangeItem> {
+  extends Omit<AxProps<CsInputNumberRangeItem>, "dataTestId"> {
   antdPropsLower?: InputNumberProps;
   antdPropsUpper?: InputNumberProps;
   dataTestIdLower?: string;

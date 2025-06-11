@@ -20,6 +20,7 @@ import {
 
 export interface MxEventProps {
   addClassNames?: string[];
+  dataTestId?: string;
 }
 
 const getClassName = (props: MxEventProps, base: string): string => {
@@ -50,7 +51,6 @@ export interface MxButtonProps extends MxEventProps {
   disabledTooltipProps?: TooltipProps;
   children?: ReactNode | undefined;
   muiProps?: ButtonProps;
-  dataTestId?: string;
   confirmOption?: ConfirmOption;
   onAfterClickSuccess?: () => void | Promise<void>;
   onAfterClickError?: () => void | Promise<void>;
@@ -320,7 +320,6 @@ export interface MxMutateButtonProps<
   disabledTooltipProps?: TooltipProps;
   children?: ReactNode | undefined;
   muiProps?: ButtonProps;
-  dataTestId?: string;
   confirmOption?: ConfirmOption;
   onBeforeApiCall?:
     | ((event: CsMutateButtonClickEvent<TApiRequest, TApiResponse>) => boolean)
@@ -503,7 +502,6 @@ export interface MxQueryButtonProps<TApiResponse = unknown>
   disabledTooltipProps?: TooltipProps;
   children?: ReactNode | undefined;
   muiProps?: ButtonProps;
-  dataTestId?: string;
   confirmOption?: ConfirmOption;
   onBeforeApiCall?:
     | ((event: CsQueryButtonClickEvent<TApiResponse>) => boolean)

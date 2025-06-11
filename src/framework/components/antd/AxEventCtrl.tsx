@@ -10,6 +10,7 @@ import "./AxCtrl.css";
 
 export interface AxEventProps {
   addClassNames?: string[];
+  dataTestId?: string;
 }
 
 const getClassName = (props: AxEventProps, base: string): string => {
@@ -40,7 +41,6 @@ export interface AxButtonProps extends AxEventProps {
   disabledTooltipProps?: TooltipProps;
   children?: ReactNode | undefined;
   antdProps?: ButtonProps;
-  dataTestId?: string;
   confirmOption?: ConfirmOption;
   onAfterClickSuccess?: () => void | Promise<void>;
   onAfterClickError?: () => void | Promise<void>;
@@ -187,7 +187,6 @@ export interface AxMutateButtonProps<
   disabledTooltipProps?: TooltipProps;
   children?: ReactNode | undefined;
   antdProps?: ButtonProps;
-  dataTestId?: string;
   confirmOption?: ConfirmOption;
   onBeforeApiCall?:
     | ((event: CsMutateButtonClickEvent<TApiRequest, TApiResponse>) => boolean)
@@ -384,7 +383,6 @@ export interface AxQueryButtonProps<TApiResponse = unknown>
   disabledTooltipProps?: TooltipProps;
   children?: ReactNode | undefined;
   antdProps?: ButtonProps;
-  dataTestId?: string;
   confirmOption?: ConfirmOption;
   onBeforeApiCall?:
     | ((event: CsQueryButtonClickEvent<TApiResponse>) => boolean)

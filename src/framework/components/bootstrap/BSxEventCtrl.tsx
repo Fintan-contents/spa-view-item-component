@@ -20,6 +20,7 @@ import {
 
 export interface BSxEventProps {
   addClassNames?: string[];
+  dataTestId?: string;
 }
 
 const getClassName = (props: BSxEventProps, base: string): string => {
@@ -50,7 +51,6 @@ export interface BSxButtonProps extends BSxEventProps {
   disabledTooltipProps?: TooltipProps;
   children?: ReactNode | undefined;
   bsProps?: ButtonProps;
-  dataTestId?: string;
   confirmOption?: ConfirmOption;
   onAfterClickSuccess?: () => void | Promise<void>;
   onAfterClickError?: () => void | Promise<void>;
@@ -300,7 +300,6 @@ export interface BSxMutateButtonProps<
   disabledTooltipProps?: TooltipProps;
   children?: ReactNode | undefined;
   bsProps?: ButtonProps;
-  dataTestId?: string;
   confirmOption?: ConfirmOption;
   onBeforeApiCall?:
     | ((event: CsMutateButtonClickEvent<TApiRequest, TApiResponse>) => boolean)
@@ -486,7 +485,6 @@ export interface BSxQueryButtonProps<TApiResponse = unknown>
   disabledTooltipProps?: TooltipProps;
   children?: ReactNode | undefined;
   bsProps?: ButtonProps;
-  dataTestId?: string;
   confirmOption?: ConfirmOption;
   onBeforeApiCall?:
     | ((event: CsQueryButtonClickEvent<TApiResponse>) => boolean)

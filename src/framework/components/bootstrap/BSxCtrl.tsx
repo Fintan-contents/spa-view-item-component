@@ -31,6 +31,7 @@ export interface BSxProps<I extends CsItemBase> {
   labelWidth?: 5 | 10 | 15 | 20 | 25 | 30 | 35 | 40 | 45 | 50;
   showRequiredTag?: "both" | "required" | "optional" | "none";
   addClassNames?: string[];
+  dataTestId?: string;
 }
 
 interface BSxLabelProp {
@@ -195,7 +196,6 @@ export interface BSxInputTextProps extends BSxProps<CsInputTextItem> {
   bsProps?: React.PropsWithChildren<
     ReplaceProps<"input", BsPrefixProps<"input"> & FormControlProps>
   >;
-  dataTestId?: string;
 }
 
 export const BSxInputText = (props: BSxInputTextProps) => {
@@ -240,7 +240,6 @@ export interface BSxInputNumberProps extends BSxProps<CsInputNumberItem> {
   bsProps?: React.PropsWithChildren<
     ReplaceProps<"input", BsPrefixProps<"input"> & FormControlProps>
   >;
-  dataTestId?: string;
 }
 
 export const BSxInputNumber = (props: BSxInputNumberProps) => {
@@ -287,7 +286,6 @@ export interface BSxInputPasswordProps extends BSxProps<CsInputPasswordItem> {
   bsProps?: React.PropsWithChildren<
     ReplaceProps<"input", BsPrefixProps<"input"> & FormControlProps>
   >;
-  dataTestId?: string;
 }
 
 export const BSxInputPassword = (props: BSxInputPasswordProps) => {
@@ -332,7 +330,6 @@ export interface BSxTextAreaProps extends BSxProps<CsTextAreaItem> {
   bsProps?: React.PropsWithChildren<
     ReplaceProps<"input", BsPrefixProps<"input"> & FormControlProps>
   >;
-  dataTestId?: string;
 }
 
 export const BSxTextArea = (props: BSxTextAreaProps) => {
@@ -380,7 +377,6 @@ interface BSxSelectBoxCommonProps<
   bsProps?: React.PropsWithChildren<
     ReplaceProps<"select", BsPrefixProps<"select"> & FormSelectProps>
   >;
-  dataTestId?: string;
 }
 
 const BSxSelectBoxCommon = <
@@ -445,7 +441,6 @@ export interface BSxSelectBoxProps
   bsProps?: React.PropsWithChildren<
     ReplaceProps<"select", BsPrefixProps<"select"> & FormSelectProps>
   >;
-  dataTestId?: string;
 }
 
 export const BSxSelectBox = (props: BSxSelectBoxProps) => {
@@ -460,7 +455,6 @@ export interface BSxSelectNumberBoxProps
   bsProps?: React.PropsWithChildren<
     ReplaceProps<"select", BsPrefixProps<"select"> & FormSelectProps>
   >;
-  dataTestId?: string;
 }
 
 export const BSxSelectNumberBox = (props: BSxSelectNumberBoxProps) => {
@@ -474,7 +468,6 @@ export interface BSxRadioBoxProps extends BSxProps<CsRadioBoxItem> {
   bsProps?: React.PropsWithChildren<
     ReplaceProps<"input", BsPrefixProps<"input"> & FormCheckProps>
   >;
-  dataTestId?: string;
 }
 
 export const BSxRadioBox = (props: BSxRadioBoxProps) => {
@@ -535,7 +528,6 @@ export interface BSxCheckBoxProps extends BSxProps<CsCheckBoxItem> {
   bsProps?: React.PropsWithChildren<
     ReplaceProps<"input", BsPrefixProps<"input"> & FormCheckProps>
   >;
-  dataTestId?: string;
 }
 
 export const BSxCheckBox = (props: BSxCheckBoxProps) => {
@@ -579,7 +571,6 @@ export interface BSxMultiCheckBoxProps extends BSxProps<CsMultiCheckBoxItem> {
   bsProps?: React.PropsWithChildren<
     ReplaceProps<"input", BsPrefixProps<"input"> & FormCheckProps>
   >;
-  dataTestId?: string;
 }
 
 export const BSxMultiCheckBox = (props: BSxMultiCheckBoxProps) => {

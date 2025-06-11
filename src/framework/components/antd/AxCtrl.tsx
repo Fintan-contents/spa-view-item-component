@@ -42,6 +42,7 @@ export interface AxProps<I extends CsItemBase> {
   labelWidth?: 5 | 10 | 15 | 20 | 25 | 30 | 35 | 40 | 45 | 50;
   showRequiredTag?: "both" | "required" | "optional" | "none";
   addClassNames?: string[];
+  dataTestId?: string;
 }
 
 interface AxLabelProp {
@@ -190,7 +191,6 @@ export const AxEditCtrl = <T,>(props: AxEditCtrlProps<CsItem<T>>) => {
 };
 export interface AxInputTextProps extends AxProps<CsInputTextItem> {
   antdProps?: InputProps & React.RefAttributes<InputRef>;
-  dataTestId?: string;
 }
 
 export const AxInputText = (props: AxInputTextProps) => {
@@ -233,7 +233,6 @@ export const AxInputText = (props: AxInputTextProps) => {
 
 export interface AxInputNumberProps extends AxProps<CsInputNumberItem> {
   antdProps?: InputNumberProps;
-  dataTestId?: string;
 }
 
 export const AxInputNumber = (props: AxInputNumberProps) => {
@@ -277,7 +276,6 @@ export const AxInputNumber = (props: AxInputNumberProps) => {
 
 export interface AxInputPasswordProps extends AxProps<CsInputPasswordItem> {
   antdProps?: InputProps & React.RefAttributes<InputRef>;
-  dataTestId?: string;
 }
 
 export const AxInputPassword = (props: AxInputPasswordProps) => {
@@ -320,7 +318,6 @@ export const AxInputPassword = (props: AxInputPasswordProps) => {
 
 export interface AxTextAreaProps extends AxProps<CsTextAreaItem> {
   antdProps?: TextAreaProps & React.RefAttributes<TextAreaRef>;
-  dataTestId?: string;
 }
 
 export const AxTextArea = (props: AxTextAreaProps) => {
@@ -366,7 +363,6 @@ interface AxSelectBoxCommonProps<
   T extends CsHasOptionsItem<V>,
 > extends AxProps<T> {
   antdProps?: SelectProps;
-  dataTestId?: string;
 }
 
 const AxSelectBoxCommon = <
@@ -431,7 +427,6 @@ const AxSelectBoxCommon = <
 export interface AxSelectBoxProps
   extends AxSelectBoxCommonProps<string, CsSelectBoxItem> {
   antdProps?: SelectProps;
-  dataTestId?: string;
 }
 
 export const AxSelectBox = (props: AxSelectBoxProps) => {
@@ -441,7 +436,6 @@ export const AxSelectBox = (props: AxSelectBoxProps) => {
 export interface AxSelectNumberBoxProps
   extends AxSelectBoxCommonProps<number, CsSelectNumberBoxItem> {
   antdProps?: SelectProps;
-  dataTestId?: string;
 }
 
 export const AxSelectNumberBox = (props: AxSelectNumberBoxProps) => {
@@ -450,7 +444,6 @@ export const AxSelectNumberBox = (props: AxSelectNumberBoxProps) => {
 
 export interface AxRadioBoxProps extends AxProps<CsRadioBoxItem> {
   antdProps?: RadioGroupProps;
-  dataTestId?: string;
 }
 
 export const AxRadioBox = (props: AxRadioBoxProps) => {
@@ -509,7 +502,6 @@ export const AxRadioBox = (props: AxRadioBoxProps) => {
 
 export interface AxCheckBoxProps extends AxProps<CsCheckBoxItem> {
   antdProps?: CheckboxProps;
-  dataTestId?: string;
 }
 
 export const AxCheckBox = (props: AxCheckBoxProps) => {
@@ -541,7 +533,6 @@ export const AxCheckBox = (props: AxCheckBoxProps) => {
 
 export interface AxMultiCheckBoxProps extends AxProps<CsMultiCheckBoxItem> {
   antdProps?: CheckboxProps;
-  dataTestId?: string;
 }
 
 export const AxMultiCheckBox = (props: AxMultiCheckBoxProps) => {

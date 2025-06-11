@@ -10,7 +10,8 @@ import React from "react";
 import { CsInputDateItem, CsInputDateRangeItem, CsInputNumberRangeItem } from "../../logics";
 import { getClassName, MxEditCtrl, MxProps } from "./MxCtrl";
 
-export interface MxInputDateProps extends MxProps<CsInputDateItem> {
+export interface MxInputDateProps
+  extends Omit<MxProps<CsInputDateItem>, "dataTestId"> {
   muiProps?: DatePickerProps<dayjs.Dayjs>;
 }
 
@@ -60,7 +61,8 @@ export const MxInputDate = (props: MxInputDateProps) => {
   );
 };
 
-export interface MxInputDateRangeProps extends MxProps<CsInputDateRangeItem> {
+export interface MxInputDateRangeProps
+  extends Omit<MxProps<CsInputDateRangeItem>, "dataTestId"> {
   muiPropsLower?: DatePickerProps<dayjs.Dayjs>;
   muiPropsUpper?: DatePickerProps<dayjs.Dayjs>;
 }
@@ -160,9 +162,8 @@ export const MxInputDateRange = (props: MxInputDateRangeProps) => {
   );
 };
 
-
 export interface MxInputNumberRangeProps
-  extends MxProps<CsInputNumberRangeItem> {
+  extends Omit<MxProps<CsInputNumberRangeItem>, "dataTestId"> {
   muiPropsLower?: TextFieldProps;
   muiPropsUpper?: TextFieldProps;
   dataTestIdLower?: string;

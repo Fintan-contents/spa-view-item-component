@@ -40,6 +40,7 @@ export interface MxProps<I extends CsItemBase> {
   labelWidth?: 5 | 10 | 15 | 20 | 25 | 30 | 35 | 40 | 45 | 50;
   showRequiredTag?: "both" | "required" | "optional" | "none";
   addClassNames?: string[];
+  dataTestId?: string;
 }
 
 interface MxLabelProp {
@@ -212,7 +213,6 @@ export const MxEditCtrl = <T,>(props: MxEditCtrlProps<CsItem<T>>) => {
 
 export interface MxInputTextProps extends MxProps<CsInputTextItem> {
   muiProps?: TextFieldProps;
-  dataTestId?: string;
 }
 
 export const MxInputText = (props: MxInputTextProps) => {
@@ -256,7 +256,6 @@ export const MxInputText = (props: MxInputTextProps) => {
 
 export interface MxInputNumberProps extends MxProps<CsInputNumberItem> {
   muiProps?: TextFieldProps;
-  dataTestId?: string;
 }
 
 export const MxInputNumber = (props: MxInputNumberProps) => {
@@ -308,7 +307,6 @@ export const MxInputNumber = (props: MxInputNumberProps) => {
 
 export interface MxInputPasswordProps extends MxProps<CsInputPasswordItem> {
   muiProps?: TextFieldProps;
-  dataTestId?: string;
 }
 
 export const MxInputPassword = (props: MxInputPasswordProps) => {
@@ -355,7 +353,6 @@ export const MxInputPassword = (props: MxInputPasswordProps) => {
 
 export interface MxTextAreaProps extends MxProps<CsTextAreaItem> {
   muiProps?: TextFieldProps;
-  dataTestId?: string;
 }
 
 export const MxTextArea = (props: MxTextAreaProps) => {
@@ -410,7 +407,6 @@ interface MxSelectBoxCommonProps<
   T extends CsHasOptionsItem<V>,
 > extends MxProps<T> {
   muiProps?: SelectProps<V>;
-  dataTestId?: string;
 }
 
 const MxSelectBoxCommon = <
@@ -475,7 +471,6 @@ const MxSelectBoxCommon = <
 export interface MxSelectBoxProps
   extends MxSelectBoxCommonProps<string, CsSelectBoxItem> {
   muiProps?: SelectProps<string>;
-  dataTestId?: string;
 }
 
 export const MxSelectBox = (props: MxSelectBoxProps) => {
@@ -488,7 +483,6 @@ export const MxSelectBox = (props: MxSelectBoxProps) => {
 export interface MxSelectNumberBoxProps
   extends MxSelectBoxCommonProps<number, CsSelectNumberBoxItem> {
   muiProps?: SelectProps<number>;
-  dataTestId?: string;
 }
 
 export const MxSelectNumberBox = (props: MxSelectNumberBoxProps) => {
@@ -500,7 +494,6 @@ export const MxSelectNumberBox = (props: MxSelectNumberBoxProps) => {
 
 export interface MxRadioBoxProps extends MxProps<CsRadioBoxItem> {
   muiProps?: RadioGroupProps & React.RefAttributes<HTMLDivElement>;
-  dataTestId?: string;
 }
 
 export const MxRadioBox = (props: MxRadioBoxProps) => {
@@ -573,7 +566,6 @@ export const MxRadioBox = (props: MxRadioBoxProps) => {
 
 export interface MxCheckBoxProps extends MxProps<CsCheckBoxItem> {
   muiProps?: CheckboxProps;
-  dataTestId?: string;
 }
 
 export const MxCheckBox = (props: MxCheckBoxProps) => {
@@ -628,7 +620,6 @@ export const MxCheckBox = (props: MxCheckBoxProps) => {
 
 export interface MxMultiCheckBoxProps extends MxProps<CsMultiCheckBoxItem> {
   muiProps?: CheckboxProps;
-  dataTestId?: string;
 }
 
 export const MxMultiCheckBox = (props: MxMultiCheckBoxProps) => {
