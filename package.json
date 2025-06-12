@@ -1,6 +1,6 @@
 {
-  "name": "dev-react-cs-component",
-  "version": "1.0.0",
+  "name": "spa-view-component",
+  "version": "1.1.0",
   "description": "省力化コンポーネントの導入用リポジトリです",
   "scripts": {
     "dev": "next dev",
