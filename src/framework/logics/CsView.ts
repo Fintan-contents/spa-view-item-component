@@ -150,7 +150,7 @@ export const useCsView = <
     readonly: options.readonly ?? false,
     validateTrigger: options.validationTrigger,
     get isLoading() {
-      for (let value of Object.values(definitions)) {
+      for (const value of Object.values(definitions)) {
         if (value instanceof CsLoadEvent) {
           const event = value as CsLoadEvent;
           if (event.isLoading) {

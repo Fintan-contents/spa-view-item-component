@@ -309,7 +309,7 @@ export class CsYupValidationEvent extends CsValidationEvent {
       hasError = true;
       if (error instanceof ValidationError) {
         const yupError = error as ValidationError;
-        let message =
+        const message =
           yupError.path?.split("[")[0] === item.key ? yupError.message : "";
         if (item.setValidationMessage) {
           item.setValidationMessage(message);
