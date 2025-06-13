@@ -41,7 +41,7 @@ export const AxInputDate = (props: AxInputDateProps) => {
             className={getClassName(props, ["fit-content"])}
             value={item.value ? dayjs(item.value) : undefined}
             format={item.displayFormat}
-            data-testid={props.dataTestId}
+            data-testid={item.dataTestId}
             {...antdProps}
             onChange={(value: Dayjs, dateString: string | string[]) => {
               if (item.isReadonly()) return;
@@ -85,7 +85,7 @@ export const AxInputDateRange: React.FC<AxInputDateRangeProp> = (
             item.upperPlaceholder ?? "終了日を選択してください",
           ]}
           format={item.format}
-          data-testid={props.dataTestId}
+          data-testid={item.dataTestId}
           {...antdProps}
           onCalendarChange={(dates, _, __) => {
             if (item.isReadonly()) {
@@ -141,11 +141,9 @@ export const AxInputDateRange: React.FC<AxInputDateRangeProp> = (
 };
 
 export interface AxInputNumberRangeProps
-  extends Omit<AxProps<CsInputNumberRangeItem>, "dataTestId"> {
+  extends AxProps<CsInputNumberRangeItem> {
   antdPropsLower?: InputNumberProps;
   antdPropsUpper?: InputNumberProps;
-  dataTestIdLower?: string;
-  dataTestIdUpper?: string;
 }
 
 export const AxInputNumberRange = (props: AxInputNumberRangeProps) => {
@@ -159,7 +157,9 @@ export const AxInputNumberRange = (props: AxInputNumberRangeProps) => {
             className={getClassName(props, ["input-number"])}
             value={item.lowerValue}
             readOnly={item.isReadonly()}
-            data-testid={props.dataTestIdLower}
+            data-testid={
+              item.dataTestId ? `${item.dataTestId}-lower` : undefined
+            }
             {...antdPropsLower}
             onChange={(value) => {
               const newValue = value ?? undefined;
@@ -200,7 +200,9 @@ export const AxInputNumberRange = (props: AxInputNumberRangeProps) => {
             className={getClassName(props, ["input-number"])}
             value={item.upperValue}
             readOnly={item.isReadonly()}
-            data-testid={props.dataTestIdUpper}
+            data-testid={
+              item.dataTestId ? `${item.dataTestId}-upper` : undefined
+            }
             {...antdPropsUpper}
             onChange={(value) => {
               const newValue = value ?? undefined;

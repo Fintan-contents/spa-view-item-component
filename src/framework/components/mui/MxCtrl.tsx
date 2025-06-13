@@ -40,7 +40,6 @@ export interface MxProps<I extends CsItemBase> {
   labelWidth?: 5 | 10 | 15 | 20 | 25 | 30 | 35 | 40 | 45 | 50;
   showRequiredTag?: "both" | "required" | "optional" | "none";
   addClassNames?: string[];
-  dataTestId?: string;
 }
 
 interface MxLabelProp {
@@ -226,7 +225,7 @@ export const MxInputText = (props: MxInputTextProps) => {
           value={item.value}
           inputProps={{
             readOnly: item.isReadonly(),
-            "data-testid": props.dataTestId,
+            "data-testid": item.dataTestId,
           }}
           {...muiProps}
           onChange={(e) => {
@@ -269,7 +268,7 @@ export const MxInputNumber = (props: MxInputNumberProps) => {
           value={item.value}
           inputProps={{
             readOnly: item.isReadonly(),
-            "data-testid": props.dataTestId,
+            "data-testid": item.dataTestId,
           }}
           {...muiProps}
           onChange={(
@@ -320,7 +319,7 @@ export const MxInputPassword = (props: MxInputPasswordProps) => {
           value={item.value}
           inputProps={{
             readOnly: item.isReadonly(),
-            "data-testid": props.dataTestId,
+            "data-testid": item.dataTestId,
           }}
           type="password"
           {...muiProps}
@@ -368,7 +367,7 @@ export const MxTextArea = (props: MxTextAreaProps) => {
             readOnly: item.isReadonly(),
             // https://github.com/mui/base-ui/issues/167
             inputComponent: "textarea",
-            "data-testid": props.dataTestId,
+            "data-testid": item.dataTestId,
           }}
           // Do not use multiline till this issue fixed ... https://github.com/mui/base-ui/issues/167
           // multiline
@@ -424,7 +423,7 @@ const MxSelectBoxCommon = <
         <Select
           className={getClassName(props, "fit-content")}
           value={item.value}
-          data-testid={props.dataTestId}
+          data-testid={item.dataTestId}
           {...muiProps}
           onChange={(e: SelectChangeEvent<V>, child: React.ReactNode) => {
             const newValue = e.target.value ? e.target.value.toString() : "";
@@ -456,7 +455,7 @@ const MxSelectBoxCommon = <
                 key={value}
                 value={value}
                 data-testid={
-                  props.dataTestId ? `${props.dataTestId}-${value}` : undefined
+                  item.dataTestId ? `${item.dataTestId}-${value}` : undefined
                 }
               >
                 {label}
@@ -508,7 +507,7 @@ export const MxRadioBox = (props: MxRadioBoxProps) => {
             row
             value={item.value}
             name={"radio-group-" + item.key}
-            data-testid={props.dataTestId}
+            data-testid={item.dataTestId}
             {...muiProps}
             onChange={(e, value: string) => {
               if (item.isReadonly()) return;
@@ -546,8 +545,8 @@ export const MxRadioBox = (props: MxRadioBoxProps) => {
                       disabled={item.isReadonly() && !selected}
                       inputProps={
                         {
-                          "data-testid": props.dataTestId
-                            ? `${props.dataTestId}-${value}`
+                          "data-testid": item.dataTestId
+                            ? `${item.dataTestId}-${value}`
                             : undefined,
                         } as React.InputHTMLAttributes<HTMLInputElement>
                       }
@@ -596,7 +595,7 @@ export const MxCheckBox = (props: MxCheckBoxProps) => {
                   disabled={item.isReadonly() && !item.value}
                   inputProps={
                     {
-                      "data-testid": props.dataTestId,
+                      "data-testid": item.dataTestId,
                     } as React.InputHTMLAttributes<HTMLInputElement>
                   }
                   {...muiProps}
@@ -631,7 +630,7 @@ export const MxMultiCheckBox = (props: MxMultiCheckBoxProps) => {
         <div className={getClassName(props, "fit-content")}>
           <FormGroup
             className="checkbox-group"
-            data-testid={props.dataTestId}
+            data-testid={item.dataTestId}
             onBlur={() => {
               if (item.parentView?.validateTrigger !== "onBlur") {
                 return;
@@ -659,8 +658,8 @@ export const MxMultiCheckBox = (props: MxMultiCheckBoxProps) => {
                       }
                       inputProps={
                         {
-                          "data-testid": props.dataTestId
-                            ? `${props.dataTestId}-${value}`
+                          "data-testid": item.dataTestId
+                            ? `${item.dataTestId}-${value}`
                             : undefined,
                         } as React.InputHTMLAttributes<HTMLInputElement>
                       }

@@ -42,7 +42,6 @@ export interface AxProps<I extends CsItemBase> {
   labelWidth?: 5 | 10 | 15 | 20 | 25 | 30 | 35 | 40 | 45 | 50;
   showRequiredTag?: "both" | "required" | "optional" | "none";
   addClassNames?: string[];
-  dataTestId?: string;
 }
 
 interface AxLabelProp {
@@ -204,7 +203,7 @@ export const AxInputText = (props: AxInputTextProps) => {
           value={item.value}
           readOnly={item.isReadonly()}
           placeholder={item.placeholder}
-          data-testid={props.dataTestId}
+          data-testid={item.dataTestId}
           {...antdProps}
           onChange={(e) => {
             item.setValue(e.target.value);
@@ -246,7 +245,7 @@ export const AxInputNumber = (props: AxInputNumberProps) => {
           value={item.value}
           readOnly={item.isReadonly()}
           placeholder={item.placeholder}
-          data-testid={props.dataTestId}
+          data-testid={item.dataTestId}
           {...antdProps}
           onChange={(value: ValueType | null) => {
             const newValue = value ?? undefined;
@@ -289,7 +288,7 @@ export const AxInputPassword = (props: AxInputPasswordProps) => {
           value={item.value}
           readOnly={item.isReadonly()}
           placeholder={item.placeholder}
-          data-testid={props.dataTestId}
+          data-testid={item.dataTestId}
           {...antdProps}
           onChange={(e) => {
             item.setValue(e.target.value);
@@ -331,7 +330,7 @@ export const AxTextArea = (props: AxTextAreaProps) => {
           value={item.value}
           readOnly={item.isReadonly()}
           placeholder={item.placeholder}
-          data-testid={props.dataTestId}
+          data-testid={item.dataTestId}
           {...antdProps}
           onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
             item.setValue(e.target.value);
@@ -380,7 +379,7 @@ const AxSelectBoxCommon = <
           className={getClassName(props, ["fit-content"])}
           value={item.value}
           placeholder={item.placeholder}
-          data-testid={props.dataTestId}
+          data-testid={item.dataTestId}
           {...antdProps}
           onChange={(value: V) => {
             item.setValue(value);
@@ -411,7 +410,7 @@ const AxSelectBoxCommon = <
                 key={value}
                 value={value}
                 data-testid={
-                  props.dataTestId ? `${props.dataTestId}-${value}` : undefined
+                  item.dataTestId ? `${item.dataTestId}-${value}` : undefined
                 }
               >
                 {label}
@@ -455,7 +454,7 @@ export const AxRadioBox = (props: AxRadioBoxProps) => {
         <Radio.Group
           className={getClassName(props, ["fit-content"])}
           value={item.value}
-          data-testid={props.dataTestId}
+          data-testid={item.dataTestId}
           {...antdProps}
           onChange={(e) => {
             if (item.isReadonly()) return;
@@ -487,7 +486,7 @@ export const AxRadioBox = (props: AxRadioBoxProps) => {
                 value={value}
                 disabled={item.isReadonly() && item.value !== value}
                 data-testid={
-                  props.dataTestId ? `${props.dataTestId}-${value}` : undefined
+                  item.dataTestId ? `${item.dataTestId}-${value}` : undefined
                 }
               >
                 {label}
@@ -514,7 +513,7 @@ export const AxCheckBox = (props: AxCheckBoxProps) => {
           className={getClassName(props, ["fit-content", "checkbox"])}
           value={item.value}
           checked={item.value}
-          data-testid={props.dataTestId}
+          data-testid={item.dataTestId}
           {...antdProps}
           onChange={(e) => {
             if (item.isReadonly()) return;
@@ -543,7 +542,7 @@ export const AxMultiCheckBox = (props: AxMultiCheckBoxProps) => {
       renderCtrl={(setRefresh) => (
         <div
           className={getClassName(props, ["fit-content", "multi-checkbox"])}
-          data-testid={props.dataTestId}
+          data-testid={item.dataTestId}
           onBlur={() => {
             if (item.parentView?.validateTrigger !== "onBlur") {
               return;
@@ -564,7 +563,7 @@ export const AxMultiCheckBox = (props: AxMultiCheckBoxProps) => {
                 checked={item.value?.includes(value)}
                 disabled={item.isReadonly() && !item.value?.includes(value)}
                 data-testid={
-                  props.dataTestId ? `${props.dataTestId}-${value}` : undefined
+                  item.dataTestId ? `${item.dataTestId}-${value}` : undefined
                 }
                 {...antdProps}
                 onChange={(e) => {

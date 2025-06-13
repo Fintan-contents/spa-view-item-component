@@ -10,8 +10,7 @@ import React from "react";
 import { CsInputDateItem, CsInputDateRangeItem, CsInputNumberRangeItem } from "../../logics";
 import { getClassName, MxEditCtrl, MxProps } from "./MxCtrl";
 
-export interface MxInputDateProps
-  extends Omit<MxProps<CsInputDateItem>, "dataTestId"> {
+export interface MxInputDateProps extends MxProps<CsInputDateItem> {
   muiProps?: DatePickerProps<dayjs.Dayjs>;
 }
 
@@ -61,8 +60,7 @@ export const MxInputDate = (props: MxInputDateProps) => {
   );
 };
 
-export interface MxInputDateRangeProps
-  extends Omit<MxProps<CsInputDateRangeItem>, "dataTestId"> {
+export interface MxInputDateRangeProps extends MxProps<CsInputDateRangeItem> {
   muiPropsLower?: DatePickerProps<dayjs.Dayjs>;
   muiPropsUpper?: DatePickerProps<dayjs.Dayjs>;
 }
@@ -162,12 +160,9 @@ export const MxInputDateRange = (props: MxInputDateRangeProps) => {
   );
 };
 
-export interface MxInputNumberRangeProps
-  extends Omit<MxProps<CsInputNumberRangeItem>, "dataTestId"> {
+export interface MxInputNumberRangeProps extends MxProps<CsInputNumberRangeItem> {
   muiPropsLower?: TextFieldProps;
   muiPropsUpper?: TextFieldProps;
-  dataTestIdLower?: string;
-  dataTestIdUpper?: string;
 }
 
 export const MxInputNumberRange = (props: MxInputNumberRangeProps) => {
@@ -182,7 +177,7 @@ export const MxInputNumberRange = (props: MxInputNumberRangeProps) => {
             value={item.lowerValue}
             inputProps={{
               readOnly: item.isReadonly(),
-              "data-testid": props.dataTestIdLower,
+              "data-testid": item.dataTestId ? `${item.dataTestId}-lower` : undefined
             }}
             {...muiPropsLower}
             onChange={(
@@ -241,7 +236,7 @@ export const MxInputNumberRange = (props: MxInputNumberRangeProps) => {
             value={item.upperValue}
             inputProps={{
               readOnly: item.isReadonly(),
-              "data-testid": props.dataTestIdUpper,
+              "data-testid": item.dataTestId ? `${item.dataTestId}-upper` : undefined,
             }}
             {...muiPropsUpper}
             onChange={(
