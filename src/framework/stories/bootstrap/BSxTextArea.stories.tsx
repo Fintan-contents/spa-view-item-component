@@ -81,10 +81,6 @@ const meta: Meta<typeof BSxTextArea> = {
         },
       },
     },
-    dataTestId: {
-      control: false,
-      description: `テストフレームワーク用の識別IDを指定します。`,
-    },
   },
 };
 

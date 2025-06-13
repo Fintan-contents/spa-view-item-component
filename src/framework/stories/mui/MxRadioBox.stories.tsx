@@ -78,10 +78,6 @@ const meta: Meta<typeof MxRadioBox> = {
         type: { summary: "RadioGroupProps & RefAttributes<HTMLDivElement>" },
       },
     },
-    dataTestId: {
-      control: false,
-      description: `テストフレームワーク用の識別IDを指定します。`,
-    },
   },
 };
 

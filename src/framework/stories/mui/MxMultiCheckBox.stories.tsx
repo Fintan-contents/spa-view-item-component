@@ -79,10 +79,6 @@ const meta: Meta<typeof MxMultiCheckBox> = {
         type: { summary: "CheckboxProps" },
       },
     },
-    dataTestId: {
-      control: false,
-      description: `テストフレームワーク用の識別IDを指定します。`,
-    },
   },
 };
 

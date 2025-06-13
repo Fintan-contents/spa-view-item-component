@@ -1,5 +1,4 @@
 // AxSelectNumberBox の Story ファイル
-import { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 import {
   AxButton,
@@ -21,6 +20,7 @@ import {
   useCsView,
   useInit,
 } from "../../logics";
+import { Meta, StoryObj } from "@storybook/react";
 
 /**
  * Ant DesignのSelectをラップしたコンポーネントであり、ラベル表示、バリデーション表示、イベントハンドラなどの主要な機能が内部に実装されています。
@@ -80,10 +80,6 @@ const meta: Meta<typeof AxSelectNumberBox> = {
       table: {
         type: { summary: "SelectProps<any, DefaultOptionType>" },
       },
-    },
-    dataTestId: {
-      control: false,
-      description: `テストフレームワーク用の識別IDを指定します。`,
     },
   },
 };

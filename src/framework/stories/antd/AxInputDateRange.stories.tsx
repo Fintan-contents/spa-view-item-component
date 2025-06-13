@@ -1,5 +1,4 @@
 // AxInputDateRange の Story ファイル
-import { Meta, StoryObj } from "@storybook/react";
 import {
   AxButton,
   AxCheckBox,
@@ -17,6 +16,7 @@ import {
   useCsView,
   useInit,
 } from "../../logics";
+import { Meta, StoryObj } from "@storybook/react";
 
 /**
  * Ant DesignのDatePickerをラップしたコンポーネントであり、ラベル表示、バリデーション表示、イベントハンドラなどの主要な機能が内部に実装されています。
@@ -78,10 +78,6 @@ const meta: Meta<typeof AxInputDateRange> = {
           summary: `Omit<RangePickerProps<dayjs.Dayjs>, "locale" | "generateConfig" | "hideHeader">`,
         },
       },
-    },
-    dataTestId: {
-      control: false,
-      description: `テストフレームワーク用の識別IDを指定します。`,
     },
   },
 };
@@ -169,7 +165,7 @@ const CustomizeItemParameters = () => {
       <AxInputDateRange item={init} />
       <AxCheckBox item={required} />
       <AxCheckBox item={readOnly} />
-      <AxButton type="primary" validationViews={[view]} onClick={() => {}}>
+      <AxButton type="primary" validationViews={[view]} onClick={() => { }}>
         バリデーションを実行する
       </AxButton>
     </>

@@ -83,10 +83,6 @@ const meta: Meta<typeof BSxSelectNumberBox> = {
         },
       },
     },
-    dataTestId: {
-      control: false,
-      description: `テストフレームワーク用の識別IDを指定します。`,
-    },
   },
 };
 

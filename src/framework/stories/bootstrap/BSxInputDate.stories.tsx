@@ -78,10 +78,6 @@ const meta: Meta<typeof BSxInputDate> = {
         },
       },
     },
-    dataTestId: {
-      control: false,
-      description: `テストフレームワーク用の識別IDを指定します。`,
-    },
   },
 };
 
