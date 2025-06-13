@@ -42,7 +42,7 @@ export const AxInputDate = (props: AxInputDateProps) => {
             value={item.value ? dayjs(item.value) : undefined}
             format={item.displayFormat}
             {...antdProps}
-            onChange={(value: Dayjs, dateString: string | string[]) => {
+            onChange={(value: Dayjs, _dateString: string | string[]) => {
               if (item.isReadonly()) return;
               const newValue = value?.format(item.valueFormat);
               item.setValue(newValue);

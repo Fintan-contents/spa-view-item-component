@@ -51,7 +51,7 @@ export type CustomValidationRules = {
 export const createRegExpValidator = (
   pattern: RegExp,
 ): CustomValidator<string> => {
-  return (newValue: string | undefined, item: CsItem<string>) =>
+  return (newValue: string | undefined, _item: CsItem<string>) =>
     pattern.test(newValue ?? "");
 };
 

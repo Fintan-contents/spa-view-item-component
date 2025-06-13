@@ -319,7 +319,7 @@ export class CsYupValidationEvent extends CsValidationEvent {
     return hasError;
   };
 
-  validationErrorMessage(item: CsItem<unknown>): string {
+  validationErrorMessage(_item: CsItem<unknown>): string {
     return ""; //this.yupError?.issues?.find(i => (i.path.includes(item.key)))?.message ?? ""
   }
 
