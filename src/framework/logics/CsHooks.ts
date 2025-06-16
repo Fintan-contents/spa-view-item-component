@@ -83,10 +83,12 @@ export function booleanRule(required: boolean, customRuleName?: string) {
 }
 
 export class SelectOptions {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   options: any[];
   optionValueKey: string = "value";
   optionLabelKey: string = "label";
   constructor(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     options: any[],
     optionValueKey: string = "value",
     optionLabelKey: string = "label",
@@ -98,6 +100,7 @@ export class SelectOptions {
 }
 
 export function selectOptions(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   options: any[],
   optionValueKey: string = "value",
   optionLabelKey: string = "label",
