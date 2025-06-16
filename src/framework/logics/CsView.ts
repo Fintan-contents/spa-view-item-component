@@ -18,6 +18,7 @@ export abstract class CsView {
 
 export abstract class CsValidationEvent {
   private customRules?: { [key: string]: CustomValidationRule<string> };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(customRules?: { [key: string]: CustomValidationRule<any> }) {
     this.customRules = customRules;
   }
@@ -73,6 +74,7 @@ export abstract class CsValidationEvent {
       }
       return true;
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const rule: CustomValidationRule<any> | undefined =
       this.customRules[customRuleName];
     if (!rule) {

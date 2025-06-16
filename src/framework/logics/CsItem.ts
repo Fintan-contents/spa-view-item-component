@@ -24,16 +24,19 @@ type CustomValidateMessage<T> =
 export class CustomValidationRule<T> {
   validator: CustomValidator<T>;
   message: CustomValidateMessage<T>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apply: (value: any) => boolean;
   constructor(
     validator: CustomValidator<T>,
     message: CustomValidateMessage<T>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     apply: (value: any) => boolean,
   ) {
     this.validator = validator;
     this.message = message;
     this.apply = apply;
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   canApplyValue(value: any) {
     return this.apply(value);
   }
