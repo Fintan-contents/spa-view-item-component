@@ -39,6 +39,7 @@ export abstract class CsValidationEvent {
     item: CsItem<T>,
   ): boolean;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   abstract validationErrorMessage(item: CsItem<any>): string;
 
   abstract resetError(name?: string): void;
