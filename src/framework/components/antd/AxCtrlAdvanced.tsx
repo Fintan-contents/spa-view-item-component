@@ -41,6 +41,7 @@ export const AxInputDate = (props: AxInputDateProps) => {
             className={getClassName(props, ["fit-content"])}
             value={item.value ? dayjs(item.value) : undefined}
             format={item.displayFormat}
+            data-testid={item.dataTestId}
             {...antdProps}
             onChange={(value: Dayjs, dateString: string | string[]) => {
               if (item.isReadonly()) return;
@@ -84,6 +85,7 @@ export const AxInputDateRange: React.FC<AxInputDateRangeProp> = (
             item.upperPlaceholder ?? "終了日を選択してください",
           ]}
           format={item.format}
+          data-testid={item.dataTestId}
           {...antdProps}
           onCalendarChange={(dates, _, __) => {
             if (item.isReadonly()) {
@@ -155,6 +157,9 @@ export const AxInputNumberRange = (props: AxInputNumberRangeProps) => {
             className={getClassName(props, ["input-number"])}
             value={item.lowerValue}
             readOnly={item.isReadonly()}
+            data-testid={
+              item.dataTestId ? `${item.dataTestId}-lower` : undefined
+            }
             {...antdPropsLower}
             onChange={(value) => {
               const newValue = value ?? undefined;
@@ -195,6 +200,9 @@ export const AxInputNumberRange = (props: AxInputNumberRangeProps) => {
             className={getClassName(props, ["input-number"])}
             value={item.upperValue}
             readOnly={item.isReadonly()}
+            data-testid={
+              item.dataTestId ? `${item.dataTestId}-upper` : undefined
+            }
             {...antdPropsUpper}
             onChange={(value) => {
               const newValue = value ?? undefined;
