@@ -36,7 +36,7 @@ type ValueTypeZod =
   | ZodArray<ZodOptional<ZodString>, "many">;
 
 const createValidationSchema = <T extends CsView>(instance: T) => {
-  const validateFieldMap = new Map<string, any>();
+  const validateFieldMap = new Map<string, string | number | string[] | number[] | undefined>();
   const validationMap = new Map<string, ValueTypeZod>();
   const keys = Object.keys(instance);
   keys.forEach((key) => {
@@ -257,7 +257,7 @@ const createDateRangeConstraint = (
 export class CsZodValidationEvent extends CsValidationEvent {
   parentView: CsView;
   validationSchemaObj: ZodObject<{ [k: string]: ValueTypeZod }>;
-  validateFieldMap: Map<string, string | number | string[] | undefined>;
+  validateFieldMap: Map<string, string | number | string[] | number[] | undefined>;
   zodError?: ZodError;
 
   constructor(
@@ -265,7 +265,7 @@ export class CsZodValidationEvent extends CsValidationEvent {
     validationSchemaObj: ZodObject<{
       [k: string]: ValueTypeZod;
     }>,
-    validateFieldMap: Map<string, string | number | string[] | undefined>,
+    validateFieldMap: Map<string, string | number | string[] | number[] | undefined>,
     customValidationRules?: CustomValidationRules,
   ) {
     super(customValidationRules);

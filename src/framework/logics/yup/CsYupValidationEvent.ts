@@ -33,7 +33,7 @@ type ValueTypeYup =
   | ArraySchema<(number | undefined)[] | undefined, AnyObject, undefined, "">;
 
 const createValidationSchema = <T extends CsView>(instance: T) => {
-  const validateFieldMap = new Map<string, any>();
+  const validateFieldMap = new Map<string, string | number | string[] | number[] | undefined>();
   const validationMap = new Map<string, ValueTypeYup>();
   const keys = Object.keys(instance);
   keys.forEach((key) => {
@@ -258,13 +258,13 @@ type YupObject = ObjectSchema<
 export class CsYupValidationEvent extends CsValidationEvent {
   parentView: CsView;
   validationSchemaObj: YupObject;
-  validateFieldMap: Map<string, string | number | string[] | undefined>;
+  validateFieldMap: Map<string, string | number | string[] | number[] | undefined>;
   yupError?: ValidationError;
 
   constructor(
     view: CsView,
     validationSchemaObj: YupObject,
-    validateFieldMap: Map<string, string | number | string[] | undefined>,
+    validateFieldMap: Map<string, string | number | string[] | number[] | undefined>,
     customValidationRules?: CustomValidationRules,
   ) {
     super(customValidationRules);
