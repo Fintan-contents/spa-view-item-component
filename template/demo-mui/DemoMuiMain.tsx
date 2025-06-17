@@ -1,46 +1,8 @@
 import {
-  CsView,
-  CsInputTextItem,
-  CsInputPasswordItem,
-  CsRadioBoxItem,
-  CsInputDateItem,
-  CsSelectBoxItem,
-  CsInputNumberItem,
-  CsInputDateRangeItem,
-  CsInputNumberRangeItem,
-  CsMultiCheckBoxItem,
-  CsCheckBoxItem,
-  CsTextAreaItem,
-  useCsView,
-  useCsInputTextItem,
-  useInit,
-  stringRule,
-  useCsInputPasswordItem,
-  useCsRadioBoxItem,
-  selectOptionStrings,
-  useCsInputDateItem,
-  RW,
-  useCsSelectBoxItem,
-  useCsInputNumberItem,
-  numberRule,
-  useCsInputDateRangeItem,
-  useCsInputNumberRangeItem,
-  useRangeInit,
-  useCsMultiCheckBoxItem,
-  stringArrayRule,
-  selectOptions,
-  useCsCheckBoxItem,
-  useCsTextAreaItem,
-  CustomValidationRules,
-  stringCustomValidationRule,
-  createRegExpValidator,
-} from "@{{COPY_ROOT_PATH}}/framework/logics";
-import { buildInCustomValidationRules } from "@{{COPY_ROOT_PATH}}/framework/validation-rules/buildInCustomValidationRules";
-import { HeaderView } from "./DemoMuiHeader";
-import {
   MxButton,
   MxCheckBox,
   MxInputDate,
+  MxInputDateRange,
   MxInputNumber,
   MxInputNumberRange,
   MxInputPassword,
@@ -51,6 +13,45 @@ import {
   MxTableLayout,
   MxTextArea,
 } from "@{{COPY_ROOT_PATH}}/framework/components/mui";
+import {
+  createRegExpValidator,
+  CsCheckBoxItem,
+  CsInputDateItem,
+  CsInputDateRangeItem,
+  CsInputNumberItem,
+  CsInputNumberRangeItem,
+  CsInputPasswordItem,
+  CsInputTextItem,
+  CsMultiCheckBoxItem,
+  CsRadioBoxItem,
+  CsSelectBoxItem,
+  CsTextAreaItem,
+  CsView,
+  CustomValidationRules,
+  numberRule,
+  RW,
+  selectOptions,
+  selectOptionStrings,
+  stringArrayRule,
+  stringCustomValidationRule,
+  stringRule,
+  useCsCheckBoxItem,
+  useCsInputDateItem,
+  useCsInputDateRangeItem,
+  useCsInputNumberItem,
+  useCsInputNumberRangeItem,
+  useCsInputPasswordItem,
+  useCsInputTextItem,
+  useCsMultiCheckBoxItem,
+  useCsRadioBoxItem,
+  useCsSelectBoxItem,
+  useCsTextAreaItem,
+  useCsView,
+  useInit,
+  useRangeInit,
+} from "@{{COPY_ROOT_PATH}}/framework/logics";
+import { buildInCustomValidationRules } from "@{{COPY_ROOT_PATH}}/framework/validation-rules/buildInCustomValidationRules";
+import { HeaderView } from "./DemoMuiHeader";
 
 // メインのViewタイプ定義
 type RegisterUserView = CsView & {
@@ -78,50 +79,78 @@ const useRegisterUserView = (
         "ユーザー名",
         useInit(""),
         stringRule(true, 3, 30, "nameRule"),
+        RW.Editable,
+        "山田 太郎",
+        "user-name-input",
       ),
       password: useCsInputPasswordItem(
         "パスワード",
         useInit(""),
         stringRule(true, 8, 16, "passwordRule"),
+        RW.Editable,
+        undefined,
+        "password-input",
       ),
       mailAddress: useCsInputTextItem(
         "メールアドレス",
         useInit(""),
-        stringRule(true, 8, 20, "半角英数字"),
+        stringRule(true, 8, 20, "半角英数字記号"),
+        RW.Editable,
+        "abc@example.com",
+        "mail-address-input",
       ),
       gender: useCsRadioBoxItem(
         "性別",
         useInit(""),
         stringRule(true),
         selectOptionStrings(["男性", "女性", "回答しない"]),
+        RW.Editable,
+        "gender-radio",
       ),
       birthDay: useCsInputDateItem(
         "生年月日",
         useInit(""),
         stringRule(true),
         RW.Editable,
-        "日付を選択",
+        undefined,
+        // WARNING: MxInputDateにはdataTestIdを指定できない
+        // "birthday-input",
       ),
       country: useCsSelectBoxItem(
         "国籍",
         useInit(""),
         stringRule(true),
         selectOptionStrings(["日本", "アメリカ", "イギリス", "中国", "その他"]),
+        RW.Editable,
+        undefined,
+        "country-select",
       ),
       terminalNum: useCsInputNumberItem(
         "利用端末数",
         useInit(),
         numberRule(true, 1, 10),
+        RW.Editable,
+        "1",
+        "terminal-num-input",
       ),
       subscriptionPeriod: useCsInputDateRangeItem(
         "購読期間",
-        useInit(["2020-01-01", "2020-12-31"]),
+        useRangeInit<string>(),
         stringArrayRule(true),
+        RW.Editable,
+        undefined,
+        undefined,
+        // WARNING: MxInputDateRangeにはdataTestIdを指定できない
+        // "subscription-period-input",
       ),
       budgetRange: useCsInputNumberRangeItem(
         "予算範囲",
         useRangeInit<number>(),
         numberRule(false, 1, 100000),
+        RW.Editable,
+        "1000",
+        "5000",
+        "budget-range-input",
       ),
       interests: useCsMultiCheckBoxItem(
         "興味のある分野",
@@ -145,12 +174,24 @@ const useRegisterUserView = (
           "key",
           "name",
         ),
+        RW.Editable,
+        "interests-checkbox",
       ),
-      newsOk: useCsCheckBoxItem("お知らせを受け取る", useInit(), "受け取る"),
+      newsOk: useCsCheckBoxItem(
+        "お知らせを受け取る",
+        useInit(),
+        "受け取る",
+        RW.Editable,
+        undefined,
+        "news-ok-checkbox",
+      ),
       freeText: useCsTextAreaItem(
         "自由記述欄",
         useInit(""),
         stringRule(false, 0, 2000),
+        RW.Editable,
+        undefined,
+        "free-text-area",
       ),
     },
     {
@@ -172,7 +213,7 @@ const customValidationRules: CustomValidationRules = {
   ),
   // 複雑なルール
   passwordRule: stringCustomValidationRule(
-    (newValue, item) => {
+    (newValue) => {
       if (!newValue) {
         return true;
       }
@@ -191,7 +232,7 @@ const customValidationRules: CustomValidationRules = {
       }
       return count >= 4;
     },
-    (label, newValue, item) => {
+    (label, newValue) => {
       let requireds = ["大文字", "小文字", "数字", "記号"];
       if (/[A-Z]/.test(newValue)) {
         requireds = requireds.filter((e) => "大文字" !== e);
@@ -288,9 +329,14 @@ const DemoMain = (props: DemoMainProps) => {
               <MxInputNumberRange item={view.budgetRange} />
             </div>
           </div>
-          {/* FIXME: コンポーネント自体がない 作成され次第追加*/}
-          {/* <MxInputDateRange item={view.subscriptionPeriod} /> */}
-          <MxTextArea item={view.freeText} />
+          <div style={{ display: "flex" }}>
+            <div style={{ width: "50%" }}>
+              <MxInputDateRange item={view.subscriptionPeriod} />
+            </div>
+            <div style={{ width: "50%" }}>
+              <MxTextArea item={view.freeText} />
+            </div>
+          </div>
         </>
       )}
       <div
@@ -303,8 +349,9 @@ const DemoMain = (props: DemoMainProps) => {
         <MxButton
           type="contained"
           validationViews={[view]}
-          onClick={() => { }}
+          onClick={() => {}}
           addClassNames={["right"]}
+          dataTestId="validation-button"
         >
           バリデーション
         </MxButton>
