@@ -81,6 +81,10 @@ const meta: Meta<typeof MxMutateButton> = {
         type: { summary: "ButtonProps" },
       },
     },
+    dataTestId: {
+      control: false,
+      description: `テストフレームワーク用の識別IDを指定します。`,
+    },
     confirmOption: {
       control: false,
       description:
@@ -98,7 +102,7 @@ const meta: Meta<typeof MxMutateButton> = {
     },
     onAfterApiCallSuccess: {
       control: false,
-      description: "API呼び出し成功後に実行する処理を指定します。",
+      description: "API呼び出し成功後(レスポンスのHTTPステータスコード200系の場合)に実行する処理を指定します。",
       table: {
         type: {
           summary:
@@ -108,7 +112,7 @@ const meta: Meta<typeof MxMutateButton> = {
     },
     onAfterApiCallError: {
       control: false,
-      description: "API呼び出し失敗後に実行する処理を指定します。",
+      description: "API呼び出し失敗後(レスポンスのHTTPステータスコード400系/500系の場合、もしくはレスポンスが無い場合)に実行する処理を指定します。",
       table: {
         type: {
           summary:

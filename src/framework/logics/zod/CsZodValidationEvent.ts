@@ -36,6 +36,7 @@ type ValueTypeZod =
   | ZodArray<ZodOptional<ZodString>, "many">;
 
 const createValidationSchema = <T extends CsView>(instance: T) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const validateFieldMap = new Map<string, any>();
   const validationMap = new Map<string, ValueTypeZod>();
   const keys = Object.keys(instance);
@@ -90,24 +91,29 @@ const createStringConstraint = (
         })
       : z.string();
     const min = sRule.min ?? (sRule.required ? 1 : undefined);
-    if (min !== undefined) {
-      const message =
-        min === 1 && sRule.required
-          ? item.label + "は必須です。値を設定してください"
-          : item.label +
-            "が短すぎます。 " +
-            sRule.min +
-            "文字より長い文字列を入力してください";
-      sz = sz.min(min, message);
-    }
-    if (sRule.max !== undefined) {
-      sz = sz.max(
-        sRule.max,
-        item.label +
-          "が長すぎます。 " +
-          sRule.max +
-          "文字より短い文字列を入力してください",
-      );
+    if (!!min && min === sRule.max) {
+      sz = sz.min(min, item.label + "は" + min + "文字で入力してください");
+      sz = sz.max(min, item.label + "は" + min + "文字で入力してください");
+    } else {
+      if (min !== undefined) {
+        const message =
+          min === 1 && sRule.required
+            ? item.label + "は必須です。値を設定してください"
+            : item.label +
+              "が短すぎます。 " +
+              sRule.min +
+              "文字以上の文字列を入力してください";
+        sz = sz.min(min, message);
+      }
+      if (sRule.max !== undefined) {
+        sz = sz.max(
+          sRule.max,
+          item.label +
+            "が長すぎます。 " +
+            sRule.max +
+            "文字以下の文字列を入力してください",
+        );
+      }
     }
     if (sRule.email) {
       sz = sz.email(
@@ -134,23 +140,34 @@ const createNumberConstraint = (
           required_error: item.label + "は必須です。値を設定してください",
         })
       : z.number();
-    if (nRule.min !== undefined) {
+    if (!!nRule.min && nRule.min === nRule.max) {
       nz = nz.min(
         nRule.min,
-        item.label +
-          "が小さすぎます。 " +
-          nRule.min +
-          "より大きい数を入力してください",
+        item.label + "には" + nRule.min + "を入力してください",
       );
-    }
-    if (nRule.max !== undefined) {
       nz = nz.max(
-        nRule.max,
-        item.label +
-          "が大きすぎます。 " +
-          nRule.max +
-          "より小さい数を入力してください",
+        nRule.min,
+        item.label + "には" + nRule.min + "を入力してください",
       );
+    } else {
+      if (nRule.min !== undefined) {
+        nz = nz.min(
+          nRule.min,
+          item.label +
+            "が小さすぎます。 " +
+            nRule.min +
+            "以上の数を入力してください",
+        );
+      }
+      if (nRule.max !== undefined) {
+        nz = nz.max(
+          nRule.max,
+          item.label +
+            "が大きすぎます。 " +
+            nRule.max +
+            "以下の数を入力してください",
+        );
+      }
     }
     let onz;
     if (!nRule.required) {
@@ -188,22 +205,33 @@ const createNumberArrayConstraint = (
           required_error: item.label + "は必須です。値を設定してください",
         })
       : z.number();
-    if (nRule.min)
+    if (!!nRule.min && nRule.min === nRule.max) {
       nz = nz.min(
         nRule.min,
-        item.label +
-          "が小さすぎます。 " +
-          nRule.min +
-          "より大きい数を入力してください",
+        item.label + "には" + nRule.min + "を入力してください",
       );
-    if (nRule.max)
       nz = nz.max(
-        nRule.max,
-        item.label +
-          "が大きすぎます。 " +
-          nRule.max +
-          "より小さい数を入力してください",
+        nRule.min,
+        item.label + "には" + nRule.min + "を入力してください",
       );
+    } else {
+      if (nRule.min)
+        nz = nz.min(
+          nRule.min,
+          item.label +
+            "が小さすぎます。 " +
+            nRule.min +
+            "以上の数を入力してください",
+        );
+      if (nRule.max)
+        nz = nz.max(
+          nRule.max,
+          item.label +
+            "が大きすぎます。 " +
+            nRule.max +
+            "以下の数を入力してください",
+        );
+    }
     let onz;
     if (!nRule.required) onz = nz.optional();
     const naz = z.array(onz ?? nz);
@@ -230,7 +258,8 @@ const createDateRangeConstraint = (
 export class CsZodValidationEvent extends CsValidationEvent {
   parentView: CsView;
   validationSchemaObj: ZodObject<{ [k: string]: ValueTypeZod }>;
-  validateFieldMap: Map<string, string | number | string[] | undefined>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  validateFieldMap: Map<string, any>;
   zodError?: ZodError;
 
   constructor(
@@ -238,7 +267,8 @@ export class CsZodValidationEvent extends CsValidationEvent {
     validationSchemaObj: ZodObject<{
       [k: string]: ValueTypeZod;
     }>,
-    validateFieldMap: Map<string, string | number | string[] | undefined>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    validateFieldMap: Map<string, any>,
     customValidationRules?: CustomValidationRules,
   ) {
     super(customValidationRules);

@@ -12,7 +12,7 @@ import {
   CsInputDateRangeItem,
   CsInputNumberRangeItem,
 } from "../../logics";
-import { AxProps, AxEditCtrl, getClassName } from "./AxCtrl";
+import { AxEditCtrl, AxProps, getClassName } from "./AxCtrl";
 
 const { RangePicker } = DatePicker;
 type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
@@ -41,15 +41,19 @@ export const AxInputDate = (props: AxInputDateProps) => {
             className={getClassName(props, ["fit-content"])}
             value={item.value ? dayjs(item.value) : undefined}
             format={item.displayFormat}
-            onChange={(value: Dayjs, dateString: string | string[]) => {
+            data-testid={item.dataTestId}
+            {...antdProps}
+            onChange={(value: Dayjs, _dateString: string | string[]) => {
               if (item.isReadonly()) return;
               const newValue = value?.format(item.valueFormat);
               item.setValue(newValue);
               if (!item.validateWhenErrorExists(newValue ?? "")) {
                 setRefresh(true);
               }
+              if (antdProps?.onChange) {
+                antdProps.onChange(value, newValue);
+              }
             }}
-            {...antdProps}
           />
         </div>
       )}
@@ -74,6 +78,15 @@ export const AxInputDateRange: React.FC<AxInputDateRangeProp> = (
         <RangePicker
           picker={item.isYearMonth() ? "month" : undefined}
           className={getClassName(props, ["fit-content"])}
+          allowClear={!item.validationRule.required}
+          value={[from, to] as [dayjs.Dayjs, dayjs.Dayjs]}
+          placeholder={[
+            item.lowerPlaceholder ?? "開始日を選択してください",
+            item.upperPlaceholder ?? "終了日を選択してください",
+          ]}
+          format={item.format}
+          data-testid={item.dataTestId}
+          {...antdProps}
           onCalendarChange={(dates, _, __) => {
             if (item.isReadonly()) {
               return;
@@ -99,15 +112,10 @@ export const AxInputDateRange: React.FC<AxInputDateRangeProp> = (
             ) {
               setRefresh(true);
             }
+            if (antdProps?.onCalendarChange) {
+              antdProps.onCalendarChange(dates, [newValue[0], newValue[1]], __);
+            }
           }}
-          allowClear={!item.validationRule.required}
-          value={[from, to] as [dayjs.Dayjs, dayjs.Dayjs]}
-          placeholder={[
-            item.lowerPlaceholder ?? "開始日を選択してください",
-            item.upperPlaceholder ?? "終了日を選択してください",
-          ]}
-          format={item.format}
-          {...antdProps}
           onBlur={(e, info) => {
             if (item.parentView?.validateTrigger === "onBlur") {
               // Calendar の変更を伴わないフォーカスアウトが行われた場合のバリデーション
@@ -149,8 +157,12 @@ export const AxInputNumberRange = (props: AxInputNumberRangeProps) => {
             className={getClassName(props, ["input-number"])}
             value={item.lowerValue}
             readOnly={item.isReadonly()}
+            data-testid={
+              item.dataTestId ? `${item.dataTestId}-lower` : undefined
+            }
+            {...antdPropsLower}
             onChange={(value) => {
-              const newValue = value ? value : undefined;
+              const newValue = value ?? undefined;
               item.setLowerValue(newValue as number);
               if (
                 !item.validateWhenErrorExists([
@@ -160,28 +172,40 @@ export const AxInputNumberRange = (props: AxInputNumberRangeProps) => {
               ) {
                 setRefresh(true);
               }
+              if (antdPropsLower?.onChange) {
+                antdPropsLower.onChange(value);
+              }
             }}
-            onBlur={() => {
-              if (!item.lowerValue) return;
-              if (item.upperValue && item.upperValue < item.lowerValue) {
+            onBlur={(e) => {
+              if (
+                item.lowerValue !== undefined &&
+                item.upperValue !== undefined &&
+                item.lowerValue > item.upperValue
+              ) {
+                // 下限値が上限値より大きい場合、上限値を下限値に合わせる
                 item.setUpperValue(item.lowerValue);
               }
-              if (item.parentView?.validateTrigger !== "onBlur") {
-                return;
+              if (item.parentView?.validateTrigger === "onBlur") {
+                if (!item.validate(item.value)) {
+                  setRefresh(true);
+                }
               }
-              if (!item.validate(item.value)) {
-                setRefresh(true);
+              if (antdPropsLower?.onBlur) {
+                antdPropsLower.onBlur(e);
               }
             }}
-            {...antdPropsLower}
           />
           <span> ～ </span>
           <InputNumber
             className={getClassName(props, ["input-number"])}
             value={item.upperValue}
             readOnly={item.isReadonly()}
+            data-testid={
+              item.dataTestId ? `${item.dataTestId}-upper` : undefined
+            }
+            {...antdPropsUpper}
             onChange={(value) => {
-              const newValue = value ? value : undefined;
+              const newValue = value ?? undefined;
               item.setUpperValue(newValue as number);
               if (
                 !item.validateWhenErrorExists([
@@ -191,20 +215,28 @@ export const AxInputNumberRange = (props: AxInputNumberRangeProps) => {
               ) {
                 setRefresh(true);
               }
+              if (antdPropsUpper?.onChange) {
+                antdPropsUpper.onChange(value);
+              }
             }}
-            onBlur={() => {
-              if (!item.upperValue) return;
-              if (item.lowerValue && item.lowerValue > item.upperValue) {
+            onBlur={(e) => {
+              if (
+                item.lowerValue !== undefined &&
+                item.upperValue !== undefined &&
+                item.upperValue < item.lowerValue
+              ) {
+                // 上限値が下限値より小さい場合、下限値を上限値に合わせる
                 item.setLowerValue(item.upperValue);
               }
-              if (item.parentView?.validateTrigger !== "onBlur") {
-                return;
+              if (item.parentView?.validateTrigger === "onBlur") {
+                if (!item.validate(item.value)) {
+                  setRefresh(true);
+                }
               }
-              if (!item.validate(item.value)) {
-                setRefresh(true);
+              if (antdPropsUpper?.onBlur) {
+                antdPropsUpper?.onBlur(e);
               }
             }}
-            {...antdPropsUpper}
           />
         </div>
       )}

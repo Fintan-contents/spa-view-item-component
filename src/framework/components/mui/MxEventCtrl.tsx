@@ -20,6 +20,7 @@ import {
 
 export interface MxEventProps {
   addClassNames?: string[];
+  dataTestId?: string;
 }
 
 const getClassName = (props: MxEventProps, base: string): string => {
@@ -31,6 +32,7 @@ const getClassName = (props: MxEventProps, base: string): string => {
 };
 
 // Promise型かどうかを判定する関数
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isPromise = (obj: any): obj is Promise<any> => {
   return (
     !!obj &&
@@ -148,6 +150,7 @@ export const MxButton = (props: MxButtonProps) => {
               onClickWrap();
             }}
             confirmOption={confirmOption}
+            dataTestId={props.dataTestId}
             {...muiProps}
           >
             {props.children}
@@ -177,6 +180,7 @@ export interface MxButtonWithConfrimProps {
   isLoading?: () => boolean;
   children?: ReactNode;
   muiProps?: ButtonProps;
+  dataTestId?: string;
 }
 
 export const MxButtonWithConfrim = (props: MxButtonWithConfrimProps) => {
@@ -213,6 +217,7 @@ export const MxButtonWithConfrim = (props: MxButtonWithConfrimProps) => {
           }
         }}
         disabled={disabled}
+        data-testid={props.dataTestId}
         {...muiProps}
       >
         <>
@@ -240,6 +245,7 @@ export const MxButtonWithConfrim = (props: MxButtonWithConfrimProps) => {
           setShowConfirm(true); // モーダルの表示
         }}
         disabled={disabled}
+        data-testid={props.dataTestId}
         {...muiProps}
       >
         {isLoading && isLoading() ? <CircularProgress size={"sm"} /> : null}
@@ -475,6 +481,7 @@ export const MxMutateButton = <TApiRequest = unknown, TApiResponse = unknown>(
             confirmOption={confirmOption}
             disabled={event.apiRequest === undefined}
             isLoading={() => event.isLoading}
+            dataTestId={props.dataTestId}
             {...muiProps}
           >
             {props.children}
@@ -631,6 +638,7 @@ export const MxQueryButton = <TApiResponse = unknown,>(
             onButtonClick={onClickWrap}
             confirmOption={confirmOption}
             isLoading={() => event.isLoading}
+            dataTestId={props.dataTestId}
             {...muiProps}
           >
             {props.children}

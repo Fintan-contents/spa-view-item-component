@@ -4,7 +4,7 @@ import inquirer from "inquirer";
 import inquirerFileTreeSelection from "inquirer-file-tree-selection-prompt";
 import { FileUtil } from "./file-util";
 import { PackageInstaller } from "./package-installer";
-import packageVersions from "./package-versions/package-versions-1.0.0.json";
+import packageVersions from "./package-versions/package-versions-1.1.0.json";
 import {
   AnswerType,
   ApiGenerationLibraryType,
@@ -341,10 +341,6 @@ export class App {
       packages.push({
         packageName: `bootstrap@${packageVersions["bootstrap"]}`,
         isDev: false,
-      });
-      packages.push({
-        packageName: `@types/react-bootstrap@${packageVersions["@types/react-bootstrap"]}`,
-        isDev: true,
       });
     }
 

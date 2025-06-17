@@ -16,7 +16,6 @@ import MenuItem from "@mui/material/MenuItem";
 import { SelectChangeEvent } from "@mui/material/Select";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 import React, { ReactNode, useEffect, useState } from "react";
-import { ValidationError } from "../validation/ValidationError";
 import {
   CsCheckBoxItem,
   CsHasOptionsItem,
@@ -31,6 +30,7 @@ import {
   CsSelectNumberBoxItem,
   CsTextAreaItem,
 } from "../../logics";
+import { ValidationError } from "../validation/ValidationError";
 import "./MxCtrl.css";
 
 export interface MxProps<I extends CsItemBase> {
@@ -55,6 +55,21 @@ export const MxLabel = (props: MxLabelProp) => {
         {props.label}
       </Typography>
     </div>
+  );
+};
+
+export interface MxLabelWithTagProps extends MxLabelProp {
+  required: boolean;
+  showRequiredTag?: "both" | "required" | "optional" | "none";
+}
+
+export const MxLabelWithTag = (props: MxLabelWithTagProps) => {
+  const showTag = props.showRequiredTag ?? "both";
+  return (
+    <MxLabel
+      label={getLabelWithTag(props.label, props.required, showTag)}
+      color={props.color}
+    />
   );
 };
 
@@ -83,8 +98,17 @@ export const getLabel = <T,>(
   item: CsItem<T>,
   showRequiredTag?: "both" | "required" | "optional" | "none",
 ): ReactNode => {
+  const label = item.label;
   const required = item.validationRule?.required ?? false;
   const showTag = showRequiredTag ?? (item.parentView ? "both" : "none");
+  return getLabelWithTag(label, required, showTag);
+};
+
+export const getLabelWithTag = (
+  label: string | ReactNode,
+  required: boolean,
+  showTag: "both" | "required" | "optional" | "none",
+): ReactNode => {
   const requiredTag = () => {
     switch (showTag) {
       case "both":
@@ -121,7 +145,7 @@ export const getLabel = <T,>(
   };
   return (
     <span>
-      {item.label}
+      {label}
       {requiredTag()}
     </span>
   );
@@ -199,22 +223,30 @@ export const MxInputText = (props: MxInputTextProps) => {
         <TextField
           className={getClassName(props)}
           value={item.value}
-          inputProps={{ readOnly: item.isReadonly() }}
-          onChange={(e: any) => {
+          inputProps={{
+            readOnly: item.isReadonly(),
+            "data-testid": item.dataTestId,
+          }}
+          {...muiProps}
+          onChange={(e) => {
             item.setValue(e.target.value);
             if (!item.validateWhenErrorExists(e.target.value)) {
               setRefresh(true);
             }
-          }}
-          onBlur={() => {
-            if (item.parentView?.validateTrigger !== "onBlur") {
-              return;
-            }
-            if (!item.validate(item.value)) {
-              setRefresh(true);
+            if (muiProps?.onChange) {
+              muiProps.onChange(e);
             }
           }}
-          {...muiProps}
+          onBlur={(e) => {
+            if (item.parentView?.validateTrigger === "onBlur") {
+              if (!item.validate(item.value)) {
+                setRefresh(true);
+              }
+            }
+            if (muiProps?.onBlur) {
+              muiProps.onBlur(e);
+            }
+          }}
         />
       )}
     /> // MxEditCtrl
@@ -236,7 +268,9 @@ export const MxInputNumber = (props: MxInputNumberProps) => {
           value={item.value}
           inputProps={{
             readOnly: item.isReadonly(),
+            "data-testid": item.dataTestId,
           }}
+          {...muiProps}
           onChange={(
             e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
           ) => {
@@ -250,16 +284,20 @@ export const MxInputNumber = (props: MxInputNumberProps) => {
                 setRefresh(true);
               }
             }
-          }}
-          onBlur={() => {
-            if (item.parentView?.validateTrigger !== "onBlur") {
-              return;
-            }
-            if (!item.validate(item.value)) {
-              setRefresh(true);
+            if (muiProps?.onChange) {
+              muiProps.onChange(e);
             }
           }}
-          {...muiProps}
+          onBlur={(e) => {
+            if (item.parentView?.validateTrigger === "onBlur") {
+              if (!item.validate(item.value)) {
+                setRefresh(true);
+              }
+            }
+            if (muiProps?.onBlur) {
+              muiProps.onBlur(e);
+            }
+          }}
         />
       )}
     /> // MxEditCtrl
@@ -281,8 +319,10 @@ export const MxInputPassword = (props: MxInputPasswordProps) => {
           value={item.value}
           inputProps={{
             readOnly: item.isReadonly(),
+            "data-testid": item.dataTestId,
           }}
           type="password"
+          {...muiProps}
           onChange={(
             e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
           ) => {
@@ -290,16 +330,20 @@ export const MxInputPassword = (props: MxInputPasswordProps) => {
             if (!item.validateWhenErrorExists(e.target.value)) {
               setRefresh(true);
             }
-          }}
-          onBlur={() => {
-            if (item.parentView?.validateTrigger !== "onBlur") {
-              return;
-            }
-            if (!item.validate(item.value)) {
-              setRefresh(true);
+            if (muiProps?.onChange) {
+              muiProps.onChange(e);
             }
           }}
-          {...muiProps}
+          onBlur={(e) => {
+            if (item.parentView?.validateTrigger === "onBlur") {
+              if (!item.validate(item.value)) {
+                setRefresh(true);
+              }
+            }
+            if (muiProps?.onBlur) {
+              muiProps.onBlur(e);
+            }
+          }}
         />
       )}
     /> // MxEditCtrl
@@ -323,11 +367,13 @@ export const MxTextArea = (props: MxTextAreaProps) => {
             readOnly: item.isReadonly(),
             // https://github.com/mui/base-ui/issues/167
             inputComponent: "textarea",
+            "data-testid": item.dataTestId,
           }}
           // Do not use multiline till this issue fixed ... https://github.com/mui/base-ui/issues/167
           // multiline
           // minRows={4}
           variant="outlined"
+          {...muiProps}
           onChange={(
             e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
           ) => {
@@ -335,16 +381,20 @@ export const MxTextArea = (props: MxTextAreaProps) => {
             if (!item.validateWhenErrorExists(e.target.value)) {
               setRefresh(true);
             }
-          }}
-          onBlur={() => {
-            if (item.parentView?.validateTrigger !== "onBlur") {
-              return;
-            }
-            if (!item.validate(item.value)) {
-              setRefresh(true);
+            if (muiProps?.onChange) {
+              muiProps.onChange(e);
             }
           }}
-          {...muiProps}
+          onBlur={(e) => {
+            if (item.parentView?.validateTrigger === "onBlur") {
+              if (!item.validate(item.value)) {
+                setRefresh(true);
+              }
+            }
+            if (muiProps?.onBlur) {
+              muiProps.onBlur(e);
+            }
+          }}
         />
       )}
     /> // MxEditCtrl
@@ -373,31 +423,42 @@ const MxSelectBoxCommon = <
         <Select
           className={getClassName(props, "fit-content")}
           value={item.value}
-          onChange={(e: SelectChangeEvent<V>) => {
+          data-testid={item.dataTestId}
+          {...muiProps}
+          onChange={(e: SelectChangeEvent<V>, child: React.ReactNode) => {
             const newValue = e.target.value ? e.target.value.toString() : "";
             item.setValue(toValue(newValue));
             if (!item.validateWhenErrorExists(toValue(newValue) as V)) {
               setRefresh(true);
             }
-          }}
-          onBlur={() => {
-            if (item.parentView?.validateTrigger !== "onBlur") {
-              return;
-            }
-            if (!item.validate(item.value)) {
-              setRefresh(true);
+            if (muiProps?.onChange) {
+              muiProps.onChange(e, child);
             }
           }}
-          {...muiProps}
+          onBlur={(e) => {
+            if (item.parentView?.validateTrigger === "onBlur") {
+              if (!item.validate(item.value)) {
+                setRefresh(true);
+              }
+            }
+            if (muiProps?.onBlur) {
+              muiProps.onBlur(e);
+            }
+          }}
         >
           {item.options.map((o) => {
+            const value = o[item.optionValueKey];
+            const label = o[item.optionLabelKey];
             return !item.isReadonly() ||
-              (item.isReadonly() && item.value === o[item.optionValueKey]) ? (
+              (item.isReadonly() && item.value === value) ? (
               <MenuItem
-                key={o[item.optionValueKey]}
-                value={o[item.optionValueKey]}
+                key={value}
+                value={value}
+                data-testid={
+                  item.dataTestId ? `${item.dataTestId}-${value}` : undefined
+                }
               >
-                {o[item.optionLabelKey]}
+                {label}
               </MenuItem>
             ) : null;
           })}
@@ -446,37 +507,52 @@ export const MxRadioBox = (props: MxRadioBoxProps) => {
             row
             value={item.value}
             name={"radio-group-" + item.key}
+            data-testid={item.dataTestId}
+            {...muiProps}
             onChange={(e, value: string) => {
               if (item.isReadonly()) return;
               item.setValue(value);
               if (!item.validateWhenErrorExists(value)) {
                 setRefresh(true);
               }
-            }}
-            onBlur={() => {
-              if (item.parentView?.validateTrigger !== "onBlur") {
-                return;
-              }
-              if (!item.validate(item.value)) {
-                setRefresh(true);
+              if (muiProps?.onChange) {
+                muiProps.onChange(e, value);
               }
             }}
-            {...muiProps}
+            onBlur={(e) => {
+              if (item.parentView?.validateTrigger === "onBlur") {
+                if (!item.validate(item.value)) {
+                  setRefresh(true);
+                }
+              }
+              if (muiProps?.onBlur) {
+                muiProps.onBlur(e);
+              }
+            }}
           >
             {item.options.map((o) => {
-              const selected = o[item.optionValueKey] === item.value;
+              const value = o[item.optionValueKey];
+              const label = o[item.optionLabelKey];
+              const selected = value === item.value;
               return (
                 <FormControlLabel
-                  key={o[item.optionValueKey]}
-                  value={o[item.optionValueKey]}
+                  key={value}
+                  value={value}
                   control={
                     <Radio
-                      key={o[item.optionValueKey]}
+                      key={value}
                       readOnly={item.isReadonly()}
                       disabled={item.isReadonly() && !selected}
+                      inputProps={
+                        {
+                          "data-testid": item.dataTestId
+                            ? `${item.dataTestId}-${value}`
+                            : undefined,
+                        } as React.InputHTMLAttributes<HTMLInputElement>
+                      }
                     />
                   }
-                  label={o[item.optionLabelKey]}
+                  label={label}
                 />
               );
             })}
@@ -515,13 +591,21 @@ export const MxCheckBox = (props: MxCheckBoxProps) => {
                   className="checkbox-item"
                   value={item.value}
                   checked={item.value}
+                  // Readonlyならグレーアウト、チェック済みはハイライト。イベントはCSSで無効化
+                  disabled={item.isReadonly() && !item.value}
+                  inputProps={
+                    {
+                      "data-testid": item.dataTestId,
+                    } as React.InputHTMLAttributes<HTMLInputElement>
+                  }
+                  {...muiProps}
                   onChange={(e, checked) => {
                     if (item.isReadonly()) return;
                     item.setValue(checked);
+                    if (muiProps?.onChange) {
+                      muiProps.onChange(e, checked);
+                    }
                   }}
-                  // Readonlyならグレーアウト、チェック済みはハイライト。イベントはCSSで無効化
-                  disabled={item.isReadonly() && !item.value}
-                  {...muiProps}
                 />
               }
               label={item.checkBoxText}
@@ -546,6 +630,7 @@ export const MxMultiCheckBox = (props: MxMultiCheckBoxProps) => {
         <div className={getClassName(props, "fit-content")}>
           <FormGroup
             className="checkbox-group"
+            data-testid={item.dataTestId}
             onBlur={() => {
               if (item.parentView?.validateTrigger !== "onBlur") {
                 return;
@@ -557,7 +642,7 @@ export const MxMultiCheckBox = (props: MxMultiCheckBoxProps) => {
           >
             {item.options.map((o) => {
               const value = o[item.optionValueKey];
-              const text = o[item.optionLabelKey];
+              const label = o[item.optionLabelKey];
               return (
                 <FormControlLabel
                   key={value}
@@ -567,6 +652,18 @@ export const MxMultiCheckBox = (props: MxMultiCheckBoxProps) => {
                       key={value}
                       value={value}
                       checked={item.value?.includes(value)}
+                      // Readonlyならグレーアウト、チェック済みはハイライト。イベントはCSSで無効化
+                      disabled={
+                        item.isReadonly() && !item.value?.includes(value)
+                      }
+                      inputProps={
+                        {
+                          "data-testid": item.dataTestId
+                            ? `${item.dataTestId}-${value}`
+                            : undefined,
+                        } as React.InputHTMLAttributes<HTMLInputElement>
+                      }
+                      {...muiProps}
                       onChange={(e, checked) => {
                         if (item.isReadonly()) return;
                         let newValue: string[];
@@ -583,15 +680,13 @@ export const MxMultiCheckBox = (props: MxMultiCheckBoxProps) => {
                         if (!item.validateWhenErrorExists(newValue)) {
                           setRefresh(true);
                         }
+                        if (muiProps?.onChange) {
+                          muiProps.onChange(e, checked);
+                        }
                       }}
-                      // Readonlyならグレーアウト、チェック済みはハイライト。イベントはCSSで無効化
-                      disabled={
-                        item.isReadonly() && !item.value?.includes(value)
-                      }
-                      {...muiProps}
                     />
                   }
-                  label={text}
+                  label={label}
                 />
               );
             })}

@@ -38,7 +38,8 @@ export const MxInputDate = (props: MxInputDateProps) => {
               className={getClassName(props, "fit-content")}
               value={valueDayjs}
               format={CsInputDateItem.dateDisplayFormat}
-              onChange={(value: dayjs.Dayjs | null) => {
+              {...muiProps}
+              onChange={(value: dayjs.Dayjs | null, context) => {
                 const newValue =
                   !value || !value.isValid()
                     ? undefined
@@ -47,8 +48,10 @@ export const MxInputDate = (props: MxInputDateProps) => {
                 if (!item.validateWhenErrorExists(newValue as string)) {
                   setRefresh(true);
                 }
+                if (muiProps?.onChange) {
+                  muiProps.onChange(value, context);
+                }
               }}
-              {...muiProps}
             />
           </LocalizationProvider>
         </div>
@@ -74,14 +77,17 @@ export const MxInputDateRange = (props: MxInputDateRangeProps) => {
     <MxEditCtrl
       mxProps={props}
       renderCtrl={(setRefresh) => (
-        <div style={{ display: "inline-block" }} onBlur={() => {
-          if (item.parentView?.validateTrigger !== "onBlur") {
-            return;
-          }
-          if (!item.validateDateRange()) {
-            setRefresh(true);
-          }
-        }}>
+        <div
+          style={{ display: "inline-block" }}
+          onBlur={() => {
+            if (item.parentView?.validateTrigger !== "onBlur") {
+              return;
+            }
+            if (!item.validateDateRange()) {
+              setRefresh(true);
+            }
+          }}
+        >
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               className={getClassName(props, "fit-content")}
@@ -89,7 +95,8 @@ export const MxInputDateRange = (props: MxInputDateRangeProps) => {
               format={CsInputDateItem.dateDisplayFormat}
               maxDate={upperValueDayjs}
               readOnly={item.isReadonly()}
-              onChange={(value: dayjs.Dayjs | null) => {
+              {...muiPropsLower}
+              onChange={(value: dayjs.Dayjs | null, context) => {
                 const newValue =
                   !value || !value.isValid()
                     ? undefined
@@ -103,8 +110,10 @@ export const MxInputDateRange = (props: MxInputDateRangeProps) => {
                 if (!item.validateWhenErrorExists([newValue as string, newUpper as string])) {
                   setRefresh(true);
                 }
+                if (muiPropsLower?.onChange) {
+                  muiPropsLower.onChange(value, context);
+                }
               }}
-              {...muiPropsLower}
             />
             <div
               style={{
@@ -116,15 +125,16 @@ export const MxInputDateRange = (props: MxInputDateRangeProps) => {
               {" "}
               ～{" "}
             </div>
-            </LocalizationProvider>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
+          </LocalizationProvider>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               className={getClassName(props, "fit-content")}
               value={upperValueDayjs}
               format={CsInputDateItem.dateDisplayFormat}
               minDate={lowerValueDayjs}
               readOnly={item.isReadonly()}
-              onChange={(value: dayjs.Dayjs | null) => {
+              {...muiPropsUpper}
+              onChange={(value: dayjs.Dayjs | null, context) => {
                 const newValue =
                   !value || !value.isValid()
                     ? undefined
@@ -138,8 +148,10 @@ export const MxInputDateRange = (props: MxInputDateRangeProps) => {
                 if (!item.validateWhenErrorExists([newLower as string, newValue as string])) {
                   setRefresh(true);
                 }
+                if (muiPropsUpper?.onChange) {
+                  muiPropsUpper.onChange(value, context);
+                }
               }}
-              {...muiPropsUpper}
             />
           </LocalizationProvider>
         </div>
@@ -148,9 +160,7 @@ export const MxInputDateRange = (props: MxInputDateRangeProps) => {
   );
 };
 
-
-export interface MxInputNumberRangeProps
-  extends MxProps<CsInputNumberRangeItem> {
+export interface MxInputNumberRangeProps extends MxProps<CsInputNumberRangeItem> {
   muiPropsLower?: TextFieldProps;
   muiPropsUpper?: TextFieldProps;
 }
@@ -167,7 +177,9 @@ export const MxInputNumberRange = (props: MxInputNumberRangeProps) => {
             value={item.lowerValue}
             inputProps={{
               readOnly: item.isReadonly(),
+              "data-testid": item.dataTestId ? `${item.dataTestId}-lower` : undefined
             }}
+            {...muiPropsLower}
             onChange={(
               e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
             ) => {
@@ -186,20 +198,28 @@ export const MxInputNumberRange = (props: MxInputNumberRangeProps) => {
                   setRefresh(true);
                 }
               }
+              if (muiPropsLower?.onChange) {
+                muiPropsLower.onChange(e);
+              }
             }}
-            onBlur={() => {
-              if (!item.lowerValue) return;
-              if (item.upperValue && item.upperValue < item.lowerValue) {
+            onBlur={(e) => {
+              if (
+                item.lowerValue !== undefined &&
+                item.upperValue !== undefined &&
+                item.lowerValue > item.upperValue
+              ) {
+                // 下限値が上限値より大きい場合、上限値を下限値に合わせる
                 item.setUpperValue(item.lowerValue);
               }
-              if (item.parentView?.validateTrigger !== "onBlur") {
-                return;
+              if (item.parentView?.validateTrigger === "onBlur") {
+                if (!item.validate(item.value)) {
+                  setRefresh(true);
+                }
               }
-              if (!item.validate(item.value)) {
-                setRefresh(true);
+              if (muiPropsLower?.onBlur) {
+                muiPropsLower.onBlur(e);
               }
             }}
-            {...muiPropsLower}
           />
           <div
             style={{
@@ -216,7 +236,9 @@ export const MxInputNumberRange = (props: MxInputNumberRangeProps) => {
             value={item.upperValue}
             inputProps={{
               readOnly: item.isReadonly(),
+              "data-testid": item.dataTestId ? `${item.dataTestId}-upper` : undefined,
             }}
+            {...muiPropsUpper}
             onChange={(
               e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
             ) => {
@@ -235,20 +257,28 @@ export const MxInputNumberRange = (props: MxInputNumberRangeProps) => {
                   setRefresh(true);
                 }
               }
+              if (muiPropsUpper?.onChange) {
+                muiPropsUpper.onChange(e);
+              }
             }}
-            onBlur={() => {
-              if (!item.upperValue) return;
-              if (item.lowerValue && item.lowerValue > item.upperValue) {
+            onBlur={(e) => {
+              if (
+                item.lowerValue !== undefined &&
+                item.upperValue !== undefined &&
+                item.upperValue < item.lowerValue
+              ) {
+                // 上限値が下限値より小さい場合、下限値を上限値に合わせる
                 item.setLowerValue(item.upperValue);
               }
-              if (item.parentView?.validateTrigger !== "onBlur") {
-                return;
+              if (item.parentView?.validateTrigger === "onBlur") {
+                if (!item.validate(item.value)) {
+                  setRefresh(true);
+                }
               }
-              if (!item.validate(item.value)) {
-                setRefresh(true);
+              if (muiPropsUpper?.onBlur) {
+                muiPropsUpper?.onBlur(e);
               }
             }}
-            {...muiPropsUpper}
           />
         </div>
       )}
