@@ -63,10 +63,10 @@ export const AxTableLayout = (props: AxTableLayoutProps) => {
   let k = 0;
   return (
     <div>
-      {rows.map((row) => {
+      {rows.map(() => {
         return (
           <Row key={j++}>
-            {cols.map((col) => {
+            {cols.map(() => {
               return (
                 <Col key={k++} span={colSpan}>
                   <SelectComponent

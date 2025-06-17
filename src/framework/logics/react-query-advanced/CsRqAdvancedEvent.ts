@@ -13,7 +13,7 @@ type RqAdvancedMutationResult<
   TApiRequest = unknown,
   TContext = unknown,
 > = UseMutationResult<
-  AxiosResponse<TApiResponse, any>,
+  AxiosResponse<TApiResponse, unknown>,
   TApiError,
   TApiRequest,
   TContext
@@ -75,7 +75,7 @@ export class CsRqAdvancedMutateButtonClickEvent<
 export type RqAdvancedQueryResult<
   TApiResponse,
   TApiError = unknown,
-> = UseQueryResult<AxiosResponse<TApiResponse, any>, TApiError> & {
+> = UseQueryResult<AxiosResponse<TApiResponse, unknown>, TApiError> & {
   queryKey: QueryKey;
 };
 

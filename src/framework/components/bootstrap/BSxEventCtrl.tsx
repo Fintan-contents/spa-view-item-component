@@ -32,6 +32,7 @@ const getClassName = (props: BSxEventProps, base: string): string => {
 };
 
 // Promise型かどうかを判定する関数
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isPromise = (obj: any): obj is Promise<any> => {
   return (
     !!obj &&

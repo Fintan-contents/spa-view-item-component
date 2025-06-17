@@ -33,6 +33,7 @@ type ValueTypeYup =
   | ArraySchema<(number | undefined)[] | undefined, AnyObject, undefined, "">;
 
 const createValidationSchema = <T extends CsView>(instance: T) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const validateFieldMap = new Map<string, any>();
   const validationMap = new Map<string, ValueTypeYup>();
   const keys = Object.keys(instance);
@@ -258,13 +259,15 @@ type YupObject = ObjectSchema<
 export class CsYupValidationEvent extends CsValidationEvent {
   parentView: CsView;
   validationSchemaObj: YupObject;
-  validateFieldMap: Map<string, string | number | string[] | undefined>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  validateFieldMap: Map<string, any>;
   yupError?: ValidationError;
 
   constructor(
     view: CsView,
     validationSchemaObj: YupObject,
-    validateFieldMap: Map<string, string | number | string[] | undefined>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    validateFieldMap: Map<string, any>,
     customValidationRules?: CustomValidationRules,
   ) {
     super(customValidationRules);
@@ -309,7 +312,7 @@ export class CsYupValidationEvent extends CsValidationEvent {
       hasError = true;
       if (error instanceof ValidationError) {
         const yupError = error as ValidationError;
-        let message =
+        const message =
           yupError.path?.split("[")[0] === item.key ? yupError.message : "";
         if (item.setValidationMessage) {
           item.setValidationMessage(message);
@@ -319,7 +322,7 @@ export class CsYupValidationEvent extends CsValidationEvent {
     return hasError;
   };
 
-  validationErrorMessage(item: CsItem<unknown>): string {
+  validationErrorMessage(_item: CsItem<unknown>): string {
     return ""; //this.yupError?.issues?.find(i => (i.path.includes(item.key)))?.message ?? ""
   }
 

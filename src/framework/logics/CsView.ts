@@ -18,6 +18,7 @@ export abstract class CsView {
 
 export abstract class CsValidationEvent {
   private customRules?: { [key: string]: CustomValidationRule<string> };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(customRules?: { [key: string]: CustomValidationRule<any> }) {
     this.customRules = customRules;
   }
@@ -38,6 +39,7 @@ export abstract class CsValidationEvent {
     item: CsItem<T>,
   ): boolean;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   abstract validationErrorMessage(item: CsItem<any>): string;
 
   abstract resetError(name?: string): void;
@@ -73,6 +75,7 @@ export abstract class CsValidationEvent {
       }
       return true;
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const rule: CustomValidationRule<any> | undefined =
       this.customRules[customRuleName];
     if (!rule) {
@@ -150,7 +153,7 @@ export const useCsView = <
     readonly: options.readonly ?? false,
     validateTrigger: options.validationTrigger,
     get isLoading() {
-      for (let value of Object.values(definitions)) {
+      for (const value of Object.values(definitions)) {
         if (value instanceof CsLoadEvent) {
           const event = value as CsLoadEvent;
           if (event.isLoading) {

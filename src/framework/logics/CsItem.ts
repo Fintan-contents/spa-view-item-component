@@ -25,16 +25,19 @@ type CustomValidateMessage<T> =
 export class CustomValidationRule<T> {
   validator: CustomValidator<T>;
   message: CustomValidateMessage<T>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apply: (value: any) => boolean;
   constructor(
     validator: CustomValidator<T>,
     message: CustomValidateMessage<T>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     apply: (value: any) => boolean,
   ) {
     this.validator = validator;
     this.message = message;
     this.apply = apply;
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   canApplyValue(value: any) {
     return this.apply(value);
   }
@@ -52,7 +55,7 @@ export type CustomValidationRules = {
 export const createRegExpValidator = (
   pattern: RegExp,
 ): CustomValidator<string> => {
-  return (newValue: string | undefined, item: CsItem<string>) =>
+  return (newValue: string | undefined, _item: CsItem<string>) =>
     pattern.test(newValue ?? "");
 };
 
@@ -331,10 +334,12 @@ export class CsCheckBoxItem extends CsBooleanItem {
 }
 
 export abstract class CsHasOptionsItem<T> extends CsItem<T> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   options: any[] = [];
   optionValueKey: string = "value";
   optionLabelKey: string = "label";
   setOptions = (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     options: any[],
     optionValueKey: string,
     optionLabelKey: string,
@@ -372,6 +377,7 @@ export class CsMultiCheckBoxItem extends CsStringArrayOptionsItem {
   getCheckedValues(): string[] {
     return this.value ?? [];
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getCheckedOption(): any[] {
     return this.options.filter((o) =>
       this.value?.includes(o[this.optionValueKey]),
