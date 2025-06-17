@@ -203,6 +203,7 @@ export const AxInputText = (props: AxInputTextProps) => {
           value={item.value}
           readOnly={item.isReadonly()}
           placeholder={item.placeholder}
+          data-testid={item.dataTestId}
           {...antdProps}
           onChange={(e) => {
             item.setValue(e.target.value);
@@ -244,13 +245,13 @@ export const AxInputNumber = (props: AxInputNumberProps) => {
           value={item.value}
           readOnly={item.isReadonly()}
           placeholder={item.placeholder}
+          data-testid={item.dataTestId}
           {...antdProps}
           onChange={(value: ValueType | null) => {
-            if (value !== null) {
-              item.setValue(Number(value));
-              if (!item.validateWhenErrorExists(Number(value))) {
-                setRefresh(true);
-              }
+            const newValue = value ?? undefined;
+            item.setValue(newValue as number);
+            if (!item.validateWhenErrorExists(newValue as number)) {
+              setRefresh(true);
             }
             if (antdProps?.onChange) {
               antdProps.onChange(value);
@@ -287,6 +288,7 @@ export const AxInputPassword = (props: AxInputPasswordProps) => {
           value={item.value}
           readOnly={item.isReadonly()}
           placeholder={item.placeholder}
+          data-testid={item.dataTestId}
           {...antdProps}
           onChange={(e) => {
             item.setValue(e.target.value);
@@ -328,6 +330,7 @@ export const AxTextArea = (props: AxTextAreaProps) => {
           value={item.value}
           readOnly={item.isReadonly()}
           placeholder={item.placeholder}
+          data-testid={item.dataTestId}
           {...antdProps}
           onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
             item.setValue(e.target.value);
@@ -376,6 +379,7 @@ const AxSelectBoxCommon = <
           className={getClassName(props, ["fit-content"])}
           value={item.value}
           placeholder={item.placeholder}
+          data-testid={item.dataTestId}
           {...antdProps}
           onChange={(value: V) => {
             item.setValue(value);
@@ -398,13 +402,18 @@ const AxSelectBoxCommon = <
           }}
         >
           {item.options.map((o) => {
+            const value = o[item.optionValueKey];
+            const label = o[item.optionLabelKey];
             return !item.isReadonly() ||
-              (item.isReadonly() && item.value === o[item.optionValueKey]) ? (
+              (item.isReadonly() && item.value === value) ? (
               <Select.Option
-                key={o[item.optionValueKey]}
-                value={o[item.optionValueKey]}
+                key={value}
+                value={value}
+                data-testid={
+                  item.dataTestId ? `${item.dataTestId}-${value}` : undefined
+                }
               >
-                {o[item.optionLabelKey]}
+                {label}
               </Select.Option>
             ) : null;
           })}
@@ -445,6 +454,7 @@ export const AxRadioBox = (props: AxRadioBoxProps) => {
         <Radio.Group
           className={getClassName(props, ["fit-content"])}
           value={item.value}
+          data-testid={item.dataTestId}
           {...antdProps}
           onChange={(e) => {
             if (item.isReadonly()) return;
@@ -468,15 +478,18 @@ export const AxRadioBox = (props: AxRadioBoxProps) => {
           }}
         >
           {item.options.map((o) => {
+            const value = o[item.optionValueKey];
+            const label = o[item.optionLabelKey];
             return (
               <Radio
-                key={o[item.optionValueKey]}
-                value={o[item.optionValueKey]}
-                disabled={
-                  item.isReadonly() && item.value !== o[item.optionValueKey]
+                key={value}
+                value={value}
+                disabled={item.isReadonly() && item.value !== value}
+                data-testid={
+                  item.dataTestId ? `${item.dataTestId}-${value}` : undefined
                 }
               >
-                {o[item.optionLabelKey]}
+                {label}
               </Radio>
             );
           })}
@@ -500,6 +513,7 @@ export const AxCheckBox = (props: AxCheckBoxProps) => {
           className={getClassName(props, ["fit-content", "checkbox"])}
           value={item.value}
           checked={item.value}
+          data-testid={item.dataTestId}
           {...antdProps}
           onChange={(e) => {
             if (item.isReadonly()) return;
@@ -528,6 +542,7 @@ export const AxMultiCheckBox = (props: AxMultiCheckBoxProps) => {
       renderCtrl={(setRefresh) => (
         <div
           className={getClassName(props, ["fit-content", "multi-checkbox"])}
+          data-testid={item.dataTestId}
           onBlur={() => {
             if (item.parentView?.validateTrigger !== "onBlur") {
               return;
@@ -539,7 +554,7 @@ export const AxMultiCheckBox = (props: AxMultiCheckBoxProps) => {
         >
           {item.options.map((o) => {
             const value = o[item.optionValueKey];
-            const text = o[item.optionLabelKey];
+            const label = o[item.optionLabelKey];
             return (
               <Checkbox
                 className="checkbox-item"
@@ -547,6 +562,9 @@ export const AxMultiCheckBox = (props: AxMultiCheckBoxProps) => {
                 value={value}
                 checked={item.value?.includes(value)}
                 disabled={item.isReadonly() && !item.value?.includes(value)}
+                data-testid={
+                  item.dataTestId ? `${item.dataTestId}-${value}` : undefined
+                }
                 {...antdProps}
                 onChange={(e) => {
                   if (item.isReadonly()) return;
@@ -567,7 +585,7 @@ export const AxMultiCheckBox = (props: AxMultiCheckBoxProps) => {
                   }
                 }}
               >
-                {text}
+                {label}
               </Checkbox>
             );
           })}

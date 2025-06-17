@@ -101,6 +101,10 @@ const meta: Meta<typeof AxButton> = {
         type: { summary: "ButtonProps" },
       },
     },
+    dataTestId: {
+      control: false,
+      description: `テストフレームワーク用の識別IDを指定します。`,
+    },
   },
 };
 

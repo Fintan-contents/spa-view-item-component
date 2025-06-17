@@ -1,5 +1,6 @@
 // AxMutateButton の Story ファイル
 import { Meta, StoryObj } from "@storybook/react";
+import { useEffect } from "react";
 import {
   AxCheckBox,
   AxInputText,
@@ -16,7 +17,6 @@ import {
   useInit,
 } from "../../logics";
 import { useTodoPostView } from "./AxMutateButton.view";
-import { useEffect } from "react";
 
 /**
  * Ant DesignのButtonをラップしたコンポーネントであり、API呼び出し(useMutate)、ラベル表示、バリデーション表示、イベントハンドラなどの主要な機能が内部に実装されています。
@@ -81,6 +81,10 @@ const meta: Meta<typeof AxMutateButton> = {
         type: { summary: "ButtonProps" },
       },
     },
+    dataTestId: {
+      control: false,
+      description: `テストフレームワーク用の識別IDを指定します。`,
+    },
     confirmOption: {
       control: false,
       description:
@@ -98,7 +102,8 @@ const meta: Meta<typeof AxMutateButton> = {
     },
     onAfterApiCallSuccess: {
       control: false,
-      description: "API呼び出し成功後(レスポンスのHTTPステータスコード200系の場合)に実行する処理を指定します。",
+      description:
+        "API呼び出し成功後(レスポンスのHTTPステータスコード200系の場合)に実行する処理を指定します。",
       table: {
         type: {
           summary:
@@ -108,7 +113,8 @@ const meta: Meta<typeof AxMutateButton> = {
     },
     onAfterApiCallError: {
       control: false,
-      description: "API呼び出し失敗後(レスポンスのHTTPステータスコード400系/500系の場合)に実行する処理を指定します。",
+      description:
+        "API呼び出し失敗後(レスポンスのHTTPステータスコード400系/500系の場合、もしくはレスポンスが無い場合)に実行する処理を指定します。",
       table: {
         type: {
           summary:

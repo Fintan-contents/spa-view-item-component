@@ -41,8 +41,9 @@ export const AxInputDate = (props: AxInputDateProps) => {
             className={getClassName(props, ["fit-content"])}
             value={item.value ? dayjs(item.value) : undefined}
             format={item.displayFormat}
+            data-testid={item.dataTestId}
             {...antdProps}
-            onChange={(value: Dayjs, dateString: string | string[]) => {
+            onChange={(value: Dayjs, _dateString: string | string[]) => {
               if (item.isReadonly()) return;
               const newValue = value?.format(item.valueFormat);
               item.setValue(newValue);
@@ -84,6 +85,7 @@ export const AxInputDateRange: React.FC<AxInputDateRangeProp> = (
             item.upperPlaceholder ?? "終了日を選択してください",
           ]}
           format={item.format}
+          data-testid={item.dataTestId}
           {...antdProps}
           onCalendarChange={(dates, _, __) => {
             if (item.isReadonly()) {
@@ -155,9 +157,12 @@ export const AxInputNumberRange = (props: AxInputNumberRangeProps) => {
             className={getClassName(props, ["input-number"])}
             value={item.lowerValue}
             readOnly={item.isReadonly()}
+            data-testid={
+              item.dataTestId ? `${item.dataTestId}-lower` : undefined
+            }
             {...antdPropsLower}
             onChange={(value) => {
-              const newValue = value ? value : undefined;
+              const newValue = value ?? undefined;
               item.setLowerValue(newValue as number);
               if (
                 !item.validateWhenErrorExists([
@@ -173,8 +178,8 @@ export const AxInputNumberRange = (props: AxInputNumberRangeProps) => {
             }}
             onBlur={(e) => {
               if (
-                item.lowerValue &&
-                item.upperValue &&
+                item.lowerValue !== undefined &&
+                item.upperValue !== undefined &&
                 item.lowerValue > item.upperValue
               ) {
                 // 下限値が上限値より大きい場合、上限値を下限値に合わせる
@@ -195,9 +200,12 @@ export const AxInputNumberRange = (props: AxInputNumberRangeProps) => {
             className={getClassName(props, ["input-number"])}
             value={item.upperValue}
             readOnly={item.isReadonly()}
+            data-testid={
+              item.dataTestId ? `${item.dataTestId}-upper` : undefined
+            }
             {...antdPropsUpper}
             onChange={(value) => {
-              const newValue = value ? value : undefined;
+              const newValue = value ?? undefined;
               item.setUpperValue(newValue as number);
               if (
                 !item.validateWhenErrorExists([
@@ -213,8 +221,8 @@ export const AxInputNumberRange = (props: AxInputNumberRangeProps) => {
             }}
             onBlur={(e) => {
               if (
-                item.lowerValue &&
-                item.upperValue &&
+                item.lowerValue !== undefined &&
+                item.upperValue !== undefined &&
                 item.upperValue < item.lowerValue
               ) {
                 // 上限値が下限値より小さい場合、下限値を上限値に合わせる

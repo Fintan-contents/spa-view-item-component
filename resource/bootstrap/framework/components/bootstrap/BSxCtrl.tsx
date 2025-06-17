@@ -208,6 +208,7 @@ export const BSxInputText = (props: BSxInputTextProps) => {
           as="input"
           value={item.value}
           readOnly={item.isReadonly()}
+          data-testid={item.dataTestId}
           {...bsProps}
           onChange={(e) => {
             item.setValue(e.target.value);
@@ -251,6 +252,7 @@ export const BSxInputNumber = (props: BSxInputNumberProps) => {
           type="number"
           value={item.value}
           readOnly={item.isReadonly()}
+          data-testid={item.dataTestId}
           {...bsProps}
           onChange={(e) => {
             const newValue = e.target.value ? e.target.value : undefined;
@@ -296,6 +298,7 @@ export const BSxInputPassword = (props: BSxInputPasswordProps) => {
           type="password"
           value={item.value}
           readOnly={item.isReadonly()}
+          data-testid={item.dataTestId}
           {...bsProps}
           onChange={(e) => {
             item.setValue(e.target.value);
@@ -339,6 +342,7 @@ export const BSxTextArea = (props: BSxTextAreaProps) => {
           as="textarea"
           value={item.value}
           readOnly={item.isReadonly()}
+          data-testid={item.dataTestId}
           {...bsProps}
           onChange={(e) => {
             item.setValue(e.target.value);
@@ -389,6 +393,7 @@ const BSxSelectBoxCommon = <
         <Form.Select
           className={getClassName(props, "fit-content")}
           value={item.value}
+          data-testid={item.dataTestId}
           {...bsProps}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
             const newValue = e.target.value;
@@ -472,6 +477,7 @@ export const BSxRadioBox = (props: BSxRadioBoxProps) => {
       renderCtrl={(setRefresh) => (
         <Form.Group
           className={getClassName(props, "fit-content checkbox-area")}
+          data-testid={item.dataTestId}
           {...bsProps}
           defaultValue={item.value}
           onBlur={() => {
@@ -495,6 +501,9 @@ export const BSxRadioBox = (props: BSxRadioBoxProps) => {
                 label={label}
                 disabled={item.isReadonly() && item.value !== value}
                 checked={item.value === value}
+                data-testid={
+                  item.dataTestId ? `${item.dataTestId}-${value}` : undefined
+                }
                 {...bsProps}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   item.setValue(e.target.value);
@@ -542,6 +551,7 @@ export const BSxCheckBox = (props: BSxCheckBoxProps) => {
             label={item.checkBoxText}
             defaultChecked={item.isChecked()}
             disabled={item.isReadonly()}
+            data-testid={item.dataTestId}
             {...bsProps}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               item.setValue(e.target.checked);
@@ -570,6 +580,7 @@ export const BSxMultiCheckBox = (props: BSxMultiCheckBoxProps) => {
       renderCtrl={(setRefresh) => (
         <Form.Group
           className={getClassName(props, "fit-content checkbox-area")}
+          data-testid={item.dataTestId}
           onBlur={() => {
             if (item.parentView?.validateTrigger !== "onBlur") {
               return;
@@ -591,6 +602,9 @@ export const BSxMultiCheckBox = (props: BSxMultiCheckBoxProps) => {
                 defaultChecked={item.value?.includes(value)}
                 label={text}
                 disabled={item.isReadonly() && !item.value?.includes(value)}
+                data-testid={
+                  item.dataTestId ? `${item.dataTestId}-${value}` : undefined
+                }
                 {...bsProps}
                 onChange={(e) => {
                   if (item.isReadonly()) return;

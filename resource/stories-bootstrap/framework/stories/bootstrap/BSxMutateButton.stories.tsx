@@ -99,6 +99,10 @@ const meta: Meta<typeof BSxMutateButton> = {
         type: { summary: "ButtonProps" },
       },
     },
+    dataTestId: {
+      control: false,
+      description: `テストフレームワーク用の識別IDを指定します。`,
+    },
     confirmOption: {
       control: false,
       description:
@@ -126,7 +130,7 @@ const meta: Meta<typeof BSxMutateButton> = {
     },
     onAfterApiCallError: {
       control: false,
-      description: "API呼び出し失敗後(レスポンスのHTTPステータスコード400系/500系の場合)に実行する処理を指定します。",
+      description: "API呼び出し失敗後(レスポンスのHTTPステータスコード400系/500系の場合、もしくはレスポンスが無い場合)に実行する処理を指定します。",
       table: {
         type: {
           summary:

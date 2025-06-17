@@ -83,10 +83,12 @@ export function booleanRule(required: boolean, customRuleName?: string) {
 }
 
 export class SelectOptions {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   options: any[];
   optionValueKey: string = "value";
   optionLabelKey: string = "label";
   constructor(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     options: any[],
     optionValueKey: string = "value",
     optionLabelKey: string = "label",
@@ -98,6 +100,7 @@ export class SelectOptions {
 }
 
 export function selectOptions(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   options: any[],
   optionValueKey: string = "value",
   optionLabelKey: string = "label",
@@ -126,10 +129,12 @@ export function useCsItem<T, I extends CsItem<T>>(
   selOpt?: SelectOptions | undefined,
   readonly: RW = RW.Editable,
   placeholder?: string,
+  dataTestId?: string,
 ): I {
   const item = new type();
   item.label = label;
   item.placeholder = placeholder;
+  item.dataTestId = dataTestId;
   item.setState(state);
   item.setValidation(useState<string>(""));
   if (rule) item.setValidationRule(rule);
@@ -153,6 +158,7 @@ export function useCsInputTextItem(
   rule: StringValidationRule,
   readonly: RW = RW.Editable,
   placeholder?: string,
+  dataTestId?: string,
 ): CsInputTextItem {
   return useCsItem(
     CsInputTextItem,
@@ -162,6 +168,7 @@ export function useCsInputTextItem(
     undefined,
     readonly,
     placeholder,
+    dataTestId,
   );
 }
 
@@ -171,6 +178,7 @@ export function useCsInputNumberItem(
   rule: NumberValidationRule,
   readonly: RW = RW.Editable,
   placeholder?: string,
+  dataTestId?: string,
 ): CsInputNumberItem {
   return useCsItem(
     CsInputNumberItem,
@@ -180,6 +188,7 @@ export function useCsInputNumberItem(
     undefined,
     readonly,
     placeholder,
+    dataTestId,
   );
 }
 
@@ -189,6 +198,7 @@ export function useCsInputPasswordItem(
   rule: StringValidationRule,
   readonly: RW = RW.Editable,
   placeholder?: string,
+  dataTestId?: string,
 ): CsInputPasswordItem {
   return useCsItem(
     CsInputPasswordItem,
@@ -198,6 +208,7 @@ export function useCsInputPasswordItem(
     undefined,
     readonly,
     placeholder,
+    dataTestId,
   );
 }
 
@@ -207,6 +218,7 @@ export function useCsTextAreaItem(
   rule: StringValidationRule,
   readonly: RW = RW.Editable,
   placeholder?: string,
+  dataTestId?: string,
 ): CsTextAreaItem {
   return useCsItem(
     CsTextAreaItem,
@@ -216,6 +228,7 @@ export function useCsTextAreaItem(
     undefined,
     readonly,
     placeholder,
+    dataTestId,
   );
 }
 
@@ -225,6 +238,7 @@ export function useCsCheckBoxItem(
   checkBoxText: string,
   readonly: RW = RW.Editable,
   rule?: BooleanValidationRule,
+  dataTestId?: string,
 ): CsCheckBoxItem {
   const item = useCsItem(
     CsCheckBoxItem,
@@ -233,6 +247,8 @@ export function useCsCheckBoxItem(
     rule,
     undefined,
     readonly,
+    undefined,
+    dataTestId,
   );
   item.setCheckBoxText(checkBoxText);
   return item;
@@ -245,6 +261,7 @@ export function useCsSelectBoxItem(
   selOpt: SelectOptions | undefined,
   readonly: RW = RW.Editable,
   placeholder?: string,
+  dataTestId?: string,
 ): CsSelectBoxItem {
   return useCsItem(
     CsSelectBoxItem,
@@ -254,6 +271,7 @@ export function useCsSelectBoxItem(
     selOpt,
     readonly,
     placeholder,
+    dataTestId,
   );
 }
 
@@ -264,6 +282,7 @@ export function useCsSelectNumberBoxItem(
   selOpt: SelectOptions | undefined,
   readonly: RW = RW.Editable,
   placeholder?: string,
+  dataTestId?: string,
 ): CsSelectNumberBoxItem {
   return useCsItem(
     CsSelectNumberBoxItem,
@@ -273,6 +292,7 @@ export function useCsSelectNumberBoxItem(
     selOpt,
     readonly,
     placeholder,
+    dataTestId,
   );
 }
 
@@ -282,8 +302,18 @@ export function useCsRadioBoxItem(
   rule: StringValidationRule,
   selOpt: SelectOptions | undefined,
   readonly: RW = RW.Editable,
+  dataTestId?: string,
 ): CsRadioBoxItem {
-  return useCsItem(CsRadioBoxItem, label, state, rule, selOpt, readonly);
+  return useCsItem(
+    CsRadioBoxItem,
+    label,
+    state,
+    rule,
+    selOpt,
+    readonly,
+    undefined,
+    dataTestId,
+  );
 }
 
 export function useCsMultiCheckBoxItem(
@@ -292,6 +322,16 @@ export function useCsMultiCheckBoxItem(
   rule: StringArrayValidationRule,
   selOpt: SelectOptions | undefined,
   readonly: RW = RW.Editable,
+  dataTestId?: string,
 ): CsMultiCheckBoxItem {
-  return useCsItem(CsMultiCheckBoxItem, label, state, rule, selOpt, readonly);
+  return useCsItem(
+    CsMultiCheckBoxItem,
+    label,
+    state,
+    rule,
+    selOpt,
+    readonly,
+    undefined,
+    dataTestId,
+  );
 }
