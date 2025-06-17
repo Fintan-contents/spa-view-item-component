@@ -29,6 +29,7 @@ export const BSxInputDate = (props: BSxInputDateProps) => {
           className={getClassName(props, "fit-content")}
           type="date"
           value={displayValue}
+          data-testid={item.dataTestId}
           {...bsProps}
           onChange={(e) => {
             if (item.isReadonly()) return;
@@ -83,6 +84,9 @@ export const BSxInputDateRange = (props: BSxInputDateRangeProps) => {
             type="date"
             value={fromDisplayValue}
             readOnly={item.isReadonly()}
+            data-testid={
+              item.dataTestId ? `${item.dataTestId}-lower` : undefined
+            }
             {...bsPropsLower}
             onChange={(e) => {
               const newValue = e.target.value ? e.target.value : undefined;
@@ -136,6 +140,9 @@ export const BSxInputDateRange = (props: BSxInputDateRangeProps) => {
             type="date"
             value={toDisplayValue}
             readOnly={item.isReadonly()}
+            data-testid={
+              item.dataTestId ? `${item.dataTestId}-upper` : undefined
+            }
             {...bsPropsUpper}
             onChange={(e) => {
               const newValue = e.target.value ? e.target.value : undefined;
@@ -202,6 +209,9 @@ export const BSxInputNumberRange = (props: BSxInputNumberRangeProps) => {
             type="number"
             value={item.lowerValue}
             readOnly={item.isReadonly()}
+            data-testid={
+              item.dataTestId ? `${item.dataTestId}-lower` : undefined
+            }
             {...bsPropsLower}
             onChange={(e) => {
               const newValue = e.target.value ? e.target.value : undefined;
@@ -221,8 +231,8 @@ export const BSxInputNumberRange = (props: BSxInputNumberRangeProps) => {
             }}
             onBlur={(e) => {
               if (
-                item.lowerValue &&
-                item.upperValue &&
+                item.lowerValue !== undefined &&
+                item.upperValue !== undefined &&
                 item.lowerValue > item.upperValue
               ) {
                 // 下限値が上限値より大きい場合、上限値を下限値に合わせる
@@ -253,6 +263,9 @@ export const BSxInputNumberRange = (props: BSxInputNumberRangeProps) => {
             type="number"
             value={item.upperValue}
             readOnly={item.isReadonly()}
+            data-testid={
+              item.dataTestId ? `${item.dataTestId}-upper` : undefined
+            }
             {...bsPropsUpper}
             onChange={(e) => {
               const newValue = e.target.value ? e.target.value : undefined;
@@ -272,8 +285,8 @@ export const BSxInputNumberRange = (props: BSxInputNumberRangeProps) => {
             }}
             onBlur={(e) => {
               if (
-                item.lowerValue &&
-                item.upperValue &&
+                item.lowerValue !== undefined &&
+                item.upperValue !== undefined &&
                 item.upperValue < item.lowerValue
               ) {
                 // 上限値が下限値より小さい場合、下限値を上限値に合わせる

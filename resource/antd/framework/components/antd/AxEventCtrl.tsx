@@ -10,6 +10,7 @@ import "./AxCtrl.css";
 
 export interface AxEventProps {
   addClassNames?: string[];
+  dataTestId?: string;
 }
 
 const getClassName = (props: AxEventProps, base: string): string => {
@@ -21,6 +22,7 @@ const getClassName = (props: AxEventProps, base: string): string => {
 };
 
 // Promise型かどうかを判定する関数
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isPromise = (obj: any): obj is Promise<any> => {
   return (
     !!obj &&
@@ -153,6 +155,7 @@ export const AxButton = (props: AxButtonProps) => {
           onClick={() => {
             onClickWrap();
           }}
+          data-testid={props.dataTestId}
           {...antdProps}
         >
           {props.children}
@@ -359,6 +362,7 @@ export const AxMutateButton = <TApiRequest = unknown, TApiResponse = unknown>(
             onClick();
           }}
           disabled={event.apiRequest === undefined}
+          data-testid={props.dataTestId}
           {...antdProps}
         >
           {props.children}
@@ -530,6 +534,7 @@ export const AxQueryButton = <TApiResponse = unknown,>(
           onClick={() => {
             onClick();
           }}
+          data-testid={props.dataTestId}
           {...antdProps}
         >
           {props.children}

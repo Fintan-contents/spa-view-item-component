@@ -21,6 +21,7 @@ export function useCsInputDateItem(
   rule: StringValidationRule,
   readonly: RW = RW.Editable,
   placeholder?: string,
+  dataTestId?: string,
 ): CsInputDateItem {
   return useCsItem(
     CsInputDateItem,
@@ -30,6 +31,7 @@ export function useCsInputDateItem(
     undefined,
     readonly,
     placeholder,
+    dataTestId,
   );
 }
 
@@ -40,6 +42,7 @@ export function useCsInputNumberRangeItem(
   readonly: RW = RW.Editable,
   lowerPlaceholder?: string,
   upperPlaceholder?: string,
+  dataTestId?: string,
 ): CsInputNumberRangeItem {
   const rangeItem = useCsItem(
     CsInputNumberRangeItem,
@@ -48,6 +51,8 @@ export function useCsInputNumberRangeItem(
     rule,
     undefined,
     readonly,
+    undefined,
+    dataTestId,
   );
   rangeItem.lowerPlaceholder = lowerPlaceholder;
   rangeItem.upperPlaceholder = upperPlaceholder;
@@ -61,6 +66,7 @@ export function useCsInputDateRangeItem(
   readonly: RW = RW.Editable,
   lowerPlaceholder?: string,
   upperPlaceholder?: string,
+  dataTestId?: string,
 ): CsInputDateRangeItem {
   const rangeItem = useCsItem(
     CsInputDateRangeItem,
@@ -69,6 +75,8 @@ export function useCsInputDateRangeItem(
     rule,
     undefined,
     readonly,
+    undefined,
+    dataTestId,
   );
   rangeItem.lowerPlaceholder = lowerPlaceholder;
   rangeItem.upperPlaceholder = upperPlaceholder;

@@ -36,6 +36,7 @@ type ValueTypeZod =
   | ZodArray<ZodOptional<ZodString>, "many">;
 
 const createValidationSchema = <T extends CsView>(instance: T) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const validateFieldMap = new Map<string, any>();
   const validationMap = new Map<string, ValueTypeZod>();
   const keys = Object.keys(instance);
@@ -257,7 +258,8 @@ const createDateRangeConstraint = (
 export class CsZodValidationEvent extends CsValidationEvent {
   parentView: CsView;
   validationSchemaObj: ZodObject<{ [k: string]: ValueTypeZod }>;
-  validateFieldMap: Map<string, string | number | string[] | undefined>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  validateFieldMap: Map<string, any>;
   zodError?: ZodError;
 
   constructor(
@@ -265,7 +267,8 @@ export class CsZodValidationEvent extends CsValidationEvent {
     validationSchemaObj: ZodObject<{
       [k: string]: ValueTypeZod;
     }>,
-    validateFieldMap: Map<string, string | number | string[] | undefined>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    validateFieldMap: Map<string, any>,
     customValidationRules?: CustomValidationRules,
   ) {
     super(customValidationRules);

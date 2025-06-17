@@ -110,7 +110,7 @@ export class CsInputDateRangeItem extends CsStringRangeItem {
   setRangeValue = (lower: string | undefined, upper: string | undefined) => {
     const newLowerValue = lower && dayjs(lower).format(this.getValueFormat());
     const newUpperValue = upper && dayjs(upper).format(this.getValueFormat());
-    this.setValueOpt((prev) => {
+    this.setValueOpt((_prev) => {
       return [
         newLowerValue === "Invalid Date" ? undefined : newLowerValue,
         newUpperValue === "Invalid Date" ? undefined : newUpperValue,
