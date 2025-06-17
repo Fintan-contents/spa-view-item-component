@@ -160,9 +160,7 @@ export const MxInputDateRange = (props: MxInputDateRangeProps) => {
   );
 };
 
-
-export interface MxInputNumberRangeProps
-  extends MxProps<CsInputNumberRangeItem> {
+export interface MxInputNumberRangeProps extends MxProps<CsInputNumberRangeItem> {
   muiPropsLower?: TextFieldProps;
   muiPropsUpper?: TextFieldProps;
 }
@@ -179,6 +177,7 @@ export const MxInputNumberRange = (props: MxInputNumberRangeProps) => {
             value={item.lowerValue}
             inputProps={{
               readOnly: item.isReadonly(),
+              "data-testid": item.dataTestId ? `${item.dataTestId}-lower` : undefined
             }}
             {...muiPropsLower}
             onChange={(
@@ -237,6 +236,7 @@ export const MxInputNumberRange = (props: MxInputNumberRangeProps) => {
             value={item.upperValue}
             inputProps={{
               readOnly: item.isReadonly(),
+              "data-testid": item.dataTestId ? `${item.dataTestId}-upper` : undefined,
             }}
             {...muiPropsUpper}
             onChange={(

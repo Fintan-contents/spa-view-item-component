@@ -29,6 +29,7 @@ export const BSxInputDate = (props: BSxInputDateProps) => {
           className={getClassName(props, "fit-content")}
           type="date"
           value={displayValue}
+          data-testid={item.dataTestId}
           {...bsProps}
           onChange={(e) => {
             if (item.isReadonly()) return;
@@ -83,6 +84,9 @@ export const BSxInputDateRange = (props: BSxInputDateRangeProps) => {
             type="date"
             value={fromDisplayValue}
             readOnly={item.isReadonly()}
+            data-testid={
+              item.dataTestId ? `${item.dataTestId}-lower` : undefined
+            }
             {...bsPropsLower}
             onChange={(e) => {
               const newValue = e.target.value ? e.target.value : undefined;
@@ -136,6 +140,9 @@ export const BSxInputDateRange = (props: BSxInputDateRangeProps) => {
             type="date"
             value={toDisplayValue}
             readOnly={item.isReadonly()}
+            data-testid={
+              item.dataTestId ? `${item.dataTestId}-upper` : undefined
+            }
             {...bsPropsUpper}
             onChange={(e) => {
               const newValue = e.target.value ? e.target.value : undefined;
@@ -202,6 +209,9 @@ export const BSxInputNumberRange = (props: BSxInputNumberRangeProps) => {
             type="number"
             value={item.lowerValue}
             readOnly={item.isReadonly()}
+            data-testid={
+              item.dataTestId ? `${item.dataTestId}-lower` : undefined
+            }
             {...bsPropsLower}
             onChange={(e) => {
               const newValue = e.target.value ? e.target.value : undefined;
@@ -253,6 +263,9 @@ export const BSxInputNumberRange = (props: BSxInputNumberRangeProps) => {
             type="number"
             value={item.upperValue}
             readOnly={item.isReadonly()}
+            data-testid={
+              item.dataTestId ? `${item.dataTestId}-upper` : undefined
+            }
             {...bsPropsUpper}
             onChange={(e) => {
               const newValue = e.target.value ? e.target.value : undefined;

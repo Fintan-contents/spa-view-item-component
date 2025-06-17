@@ -8,6 +8,7 @@ export abstract class CsItemBase {
   private readonly: boolean = false;
   parentView?: CsView;
   placeholder?: string;
+  dataTestId?: string;
   isReadonly() {
     return this.readonly ? this.readonly : this.parentView?.readonly ?? false;
   }

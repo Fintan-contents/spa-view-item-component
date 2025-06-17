@@ -10,6 +10,7 @@ import "./AxCtrl.css";
 
 export interface AxEventProps {
   addClassNames?: string[];
+  dataTestId?: string;
 }
 
 const getClassName = (props: AxEventProps, base: string): string => {
@@ -154,6 +155,7 @@ export const AxButton = (props: AxButtonProps) => {
           onClick={() => {
             onClickWrap();
           }}
+          data-testid={props.dataTestId}
           {...antdProps}
         >
           {props.children}
@@ -360,6 +362,7 @@ export const AxMutateButton = <TApiRequest = unknown, TApiResponse = unknown>(
             onClick();
           }}
           disabled={event.apiRequest === undefined}
+          data-testid={props.dataTestId}
           {...antdProps}
         >
           {props.children}
@@ -531,6 +534,7 @@ export const AxQueryButton = <TApiResponse = unknown,>(
           onClick={() => {
             onClick();
           }}
+          data-testid={props.dataTestId}
           {...antdProps}
         >
           {props.children}
